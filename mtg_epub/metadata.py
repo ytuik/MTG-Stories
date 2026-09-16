@@ -18,14 +18,18 @@ def _load_set_names() -> dict[str, str]:
     global _set_names_cache
     if _set_names_cache is not None:
         return _set_names_cache
-    if not SET_NAMES_FILE.exists():
-        print(f"[AVISO] {SET_NAMES_FILE} não encontrado. Rode sluggyfy.py antes.")
-        _set_names_cache = {}
-        return _set_names_cache
+    if SET_NAMES_FILE.exists():
+        try:
+            _set_names_cache = json.loads(SET_NAMES_FILE.read_text(encoding="utf-8"))
+            return _set_names_cache
+        except (OSError, json.JSONDecodeError):
+            pass
+    # Carrega dinamicamente a partir das pastas do repositório
     try:
-        _set_names_cache = json.loads(SET_NAMES_FILE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        print(f"[AVISO] erro lendo {SET_NAMES_FILE}: {exc}")
+        from .sluggyfy import collect_set_names
+        _set_names_cache = collect_set_names(WORKSPACE_ROOT)
+        SET_NAMES_FILE.write_text(json.dumps(_set_names_cache, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    except Exception:
         _set_names_cache = {}
     return _set_names_cache
 
@@ -34,13 +38,22 @@ def _readable_set_name(slug: str) -> str:
     names = _load_set_names()
     if slug in names:
         return names[slug]
-    print(f"[AVISO] slug sem nome legível: {slug}")
-    return slug.replace("-", " ").title()
+    from .sluggyfy import slugify
+    clean_slug = slugify(slug)
+    if clean_slug in names:
+        return names[clean_slug]
+    for k, v in names.items():
+        if k.casefold() == clean_slug.casefold():
+            return v
+    # Fallback limpo sem poluir o terminal com avisos
+    return slug.replace("-", " ").replace("_", " ").strip().title()
 
 
 def readable_set_name_from_folder(folder_name: str) -> str:
-    slug = _NUMERIC_PREFIX_RE.sub("", folder_name)
-    return _readable_set_name(slug)
+    raw_name = _NUMERIC_PREFIX_RE.sub("", folder_name).strip(" -_")
+    if " " in raw_name and not raw_name.startswith("planeswalkers"):
+        return raw_name
+    return _readable_set_name(raw_name)
 
 
 def _string_value(content: str, key: str) -> str | None:
