@@ -74,17 +74,84 @@ def _apply_typst_polyfills(content: str) -> str:
 """
     return polyfill + "\n" + content
 
+def _resolve_image_path(raw_path: str, source: Path) -> str:
+    from .sluggyfy import slugify
+    clean = raw_path.strip("\"'").replace('\\"', "'").replace('"', "'")
+    
+    if (source.parent / clean).exists():
+        return clean
+    
+    variant1 = clean.replace("'", "")
+    if (source.parent / variant1).exists():
+        return variant1
+
+    slug_parts = "/".join(slugify(part) for part in clean.split("/"))
+    if (source.parent / slug_parts).exists():
+        return slug_parts
+
+    filename = Path(clean).name
+    try:
+        for sub in source.parent.iterdir():
+            if sub.is_dir() and (sub / filename).exists():
+                return f"{sub.name}/{filename}"
+    except OSError:
+        pass
+            
+    return clean
+
+
+def _fix_image_calls(content: str, source: Path) -> str:
+    def fix_img(m):
+        prefix = m.group(1)
+        raw_inside = m.group(2)
+        suffix = m.group(3)
+        resolved = _resolve_image_path(raw_inside, source)
+        return f'{prefix}"{resolved}"{suffix}'
+
+    return re.sub(
+        r'(image\s*\(\s*)(["\'].*?\.(?:jpg|jpeg|png|webp|gif)["\']?)(\s*(?:,|\)))',
+        fix_img,
+        content,
+        flags=re.IGNORECASE
+    )
+
+
 def compile_chapter_html(source: Path, root: Path) -> CompiledChapter:
     """Compila um arquivo .typ e manipula a AST do HTML para aplicar regras de estruturação."""
     
     content = source.read_text(encoding="utf-8", errors="replace")
     clean_content = _apply_typst_polyfills(content)
+    clean_content = _fix_image_calls(clean_content, source)
     
     tmp_path = source.with_name(source.name + ".tmp.typ")
     tmp_path.write_text(clean_content, encoding="utf-8")
         
+    def _strip_broken_images(txt: str) -> str:
+        # Substitui #figure(image(...), caption: [...]) pelo texto da legenda em itálico ou remove se não houver
+        def repl_figure(m):
+            cap = m.group(1)
+            return f"\n// [Imagem omitida]\n#align(center)[#emph[{cap.strip()}]]\n" if cap else ""
+
+        txt = re.sub(
+            r'#figure\s*\(\s*image\s*\([^)]+\)(?:,\s*caption:\s*\[(.*?)\])?[^)]*\)',
+            repl_figure,
+            txt,
+            flags=re.DOTALL
+        )
+        txt = re.sub(r'#image\s*\([^)]+\)', '', txt)
+        return txt
+
     try:
         raw_html = typst.compile(str(tmp_path), format="html", root=str(root))
+    except typst.TypstError as err:
+        err_msg = str(err).lower()
+        if any(keyword in err_msg for keyword in ["image", "png", "jpeg", "decode", "file not found", "cannot find"]):
+            print(f"[typstHtml][Aviso] Erro na imagem ao compilar {source.name}. Compilando sem imagens para preservar a história: {err}")
+            stripped_content = _strip_broken_images(clean_content)
+            tmp_path.write_text(stripped_content, encoding="utf-8")
+            raw_html = typst.compile(str(tmp_path), format="html", root=str(root))
+        else:
+            raise
     finally:
         tmp_path.unlink(missing_ok=True)
 

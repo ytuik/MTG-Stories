@@ -57,14 +57,18 @@ def compress_image(
             if orig_w > max_dim or orig_h > max_dim:
                 img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
 
-            has_alpha = _has_meaningful_alpha(img)
-
+            ext = output_path.suffix.lower()
             buffer = io.BytesIO()
-            if has_alpha and output_path.suffix.lower() == ".png":
-                # PNG com transparência genuína
+
+            if ext == ".png":
+                # Salva estritamente como PNG para garantir assinatura mágica de PNG válida
+                if img.mode not in ("RGB", "RGBA", "L", "LA", "P"):
+                    img = img.convert("RGBA" if _has_meaningful_alpha(img) else "RGB")
                 img.save(buffer, format="PNG", optimize=True)
+            elif ext == ".webp":
+                img.save(buffer, format="WEBP", quality=quality, method=6)
             else:
-                # Converte para RGB e salva como JPEG otimizado
+                # JPEG
                 if img.mode != "RGB":
                     img = img.convert("RGB")
                 img.save(
