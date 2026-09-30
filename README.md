@@ -12,6 +12,30 @@ If you want to download all the PDFs/EPUBs or complete stories in one big file (
 
 ---
 
+## Website
+
+A browsable catalog of all the stories lives in [`site/`](site/) and is published at https://mendevsky.github.io/MTG-Stories-GUI/.
+
+It is a static site built with React, Vite, Tailwind CSS and React Router. The list of sets and stories is generated from the `stories/` folder by `scripts/build_catalog.py`, so new stories show up automatically after the next build.
+
+### Run it locally
+
+Requirements: Python 3.10+ and Node.js (LTS).
+
+```bash
+python scripts/build_catalog.py   # generates site/public/catalog.json
+cd site
+npm install
+npm run dev
+```
+
+### Deployment
+
+Every push to `master` runs `.github/workflows/deploy.yml`, which regenerates the catalog, builds the site and publishes it to GitHub Pages. To enable it on a repository, go to Settings → Pages and set the source to "GitHub Actions".
+
+This is an unofficial fan project. The stories are © Wizards of the Coast.
+
+
 ## Python Tools (Scraper & EPUB Converter)
 
 This repository includes Python scripts to automate downloading new stories and converting Typst files into standard EPUB3 ebooks.
