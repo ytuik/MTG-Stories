@@ -53,6 +53,16 @@ python typ2epub.py --set Bloomburrow --compress-images
 
 Collection-specific EPUB themes and the current coverage matrix are documented in [EPUB_THEMES.md](EPUB_THEMES.md). Themes are selected automatically from the collection name; use `--fonts-dir` to point to optional local font archives.
 
+### Chronological reading order
+
+The in-universe reading order of every story comes from the Timeline/Sourced page of the MTG Wiki and is stored in `data/chronology.json`. Stories are grouped into volumes (eras/arcs). `data/chronology.json` also has `missing_from_archive`, the stories listed in the timeline that are not in this archive.
+
+```bash
+python -m mtg_epub.chronology --update      # download the timeline and rewrite data/chronology.json
+python typ2epub.py --chronological          # one EPUB per volume in <output-dir>/chronological/
+python -m mtg_epub.chronology --wrappers    # one Typst wrapper per volume in stories/chronological/ (for PDF)
+```
+
 ### Scraper
 
 `scraper.py` downloads the stories still missing from the archive and generates `.typ` files under `stories/`, updating `scraped_manifest.json`.
@@ -64,6 +74,27 @@ python scraper.py --force      # overwrite existing .typ files
 ```
 
 By default, stories whose `.typ` file already exists are skipped; pass `--force` to scrape them again and overwrite the files. The `--all` flag is currently a no-op.
+
+With `--rebuild`, every newly scraped story gets its PDF, the PDF of its set book and the EPUBs (story + set omnibus) right away. `--rebuild-only` scrapes nothing and only rebuilds what is missing or out of date. Rebuild failures are listed at the end and return exit code `1`, but the scrape and the manifest are kept.
+
+```bash
+python scraper.py --rf --rebuild
+python scraper.py --rebuild-only
+```
+
+### Archive status
+
+`python -m mtg_epub.status` shows, per set, how many stories have no PDF, an outdated PDF, no EPUB or an outdated EPUB (using `.pdf-cache.json` and `epubs/.epub-cache.json`, falling back to file times). It also lists failed items in `scraped_manifest.json` and the timeline stories missing from the archive, grouped by era and set.
+
+```bash
+python -m mtg_epub.status              # summary per set
+python -m mtg_epub.status --verbose    # every pending item
+python -m mtg_epub.status --json       # write status.json
+python -m mtg_epub.status --write-md   # refresh the automatic block of MISSING_STORIES.md
+python -m mtg_epub.status --strict     # exit 1 if any PDF/EPUB is pending or the manifest has failures
+```
+
+`--write-md` only rewrites the text between `<!-- status:auto:start -->` and `<!-- status:auto:end -->`; the hand-written notes (paid works, audio, card lore) are kept.
 
 ### Tests
 
@@ -147,33 +178,63 @@ I used [Typst](https://typst.app/) as typesetting system (modern version of LaTe
 
 ## Compiling
 
-First you must copy the package directories from `typst_packages/` into the local Typst package directory for your OS (`<packages>/local/<name>/<version>/`). If the directory does not exist, create it. The `.typ` sources import these exact versions:
+You do not have to install the templates in your system Typst directory: the repository already ships them in the layout Typst expects for `--package-path` (`typst_packages/local/<name>/<version>/`). The `.typ` sources import these exact versions:
 
-- `@local/mtgstory:0.2.0` - used by the stories (`typst_packages/mtgstory/0.2.0`)
-- `@local/mtgset:0.1.0` - used by the set wrappers in the root of `stories/` (`typst_packages/mtgset/0.1.0`)
-- `@local/mtgguide:0.1.0` - used by `planeswalkers_guides` (`typst_packages/mtgguide/0.1.0`)
-
-For example, on Linux the story package goes to `~/.local/share/typst/packages/local/mtgstory/0.2.0/`.
-
-Windows: `%APPDATA%\typst\packages\`  
-Linux: `~/.local/share/typst/packages/`  
-MacOS: `~/Library/Application Support/typst/packages/`
+- `@local/mtgstory:0.2.0` - used by the stories (`typst_packages/local/mtgstory/0.2.0`)
+- `@local/mtgset:0.1.0` - used by the set wrappers in the root of `stories/` (`typst_packages/local/mtgset/0.1.0`): cover, table of contents, PDF bookmarks and continuous page numbering
+- `@local/mtgguide:0.1.0` - used by `planeswalkers_guides` (`typst_packages/local/mtgguide/0.1.0`)
 
 Download latest release of Typst https://github.com/typst/typst/releases for your OS. It is command line tool, so you will have to have some knowledge to use it. Also you might want to add Typst executable to your system PATH variable.
 
-After all that you can use `typst` command to compile the source file into PDF. Switch to a directory where `stories` directory is.
+Switch to the repository root (the directory where `stories` is) and compile:
 
-`cd /path/to/MTG-Stories`
+```
+cd /path/to/MTG-Stories
+typst compile --root . --package-path typst_packages --package-cache-path typst_packages/cache --font-path fonts "stories/042 - Strixhaven- School of Mages/001_Episode 1- Class Is in Session.typ"
+```
 
-And to compile:
-
-`typst compile "stories/042 - Strixhaven: School of Mages/001_Episode 1: Class Is in Session.typ"`
-
-This will create compiled PDF beside the Typst source file with a same name.
+This will create compiled PDF beside the Typst source file with a same name. `--font-path fonts` makes the book typography use the per-set fonts (Crimson Text for the body text; titles use the set's font, e.g. Cinzel or Cormorant Garamond). Fonts that ship as `.zip` (Old English Text MT, Planet Kosmos, VCR OSD Mono...) must be extracted to a folder and added with another `--font-path`; without them the titles fall back to Crimson Text, so nothing breaks. `typ2pdf.py` (below) does all of this for you.
 
 To compile stories without images, use command flag `--input with_images=false`. For example:
 
-`typst compile --input with_images=false "stories/042 - Strixhaven: School of Mages/001_Episode 1: Class Is in Session.typ"`
+```
+typst compile --root . --package-path typst_packages --package-cache-path typst_packages/cache --font-path fonts --input with_images=false "stories/042 - Strixhaven- School of Mages/001_Episode 1- Class Is in Session.typ"
+```
+
+### PDF look
+
+Stories are typeset like a book (A4, Crimson Text 10.5 pt, justified and hyphenated, drop cap on the first paragraph, ornament between scenes, page number only in the footer). Each set gets its own title font and accent color, generated from the EPUB themes in `mtg_epub/themes.py`, which is the single source of truth:
+
+```
+python -m mtg_epub.typst_themes             # regenerates typst_packages/local/mtgstory/0.2.0/themes.typ
+python -m mtg_epub.typst_themes --wrappers  # also sets `cover:` (first image of the set's first story) in the set wrappers
+```
+
+Rerun it after editing `mtg_epub/themes.py` or adding a set. The same templates are compiled to HTML by the EPUB converter; everything page-specific is skipped there, so the EPUB is not affected.
+
+A set wrapper compiles to a whole book (cover, table of contents, bookmarks):
+
+```
+typst compile --root . --package-path typst_packages --package-cache-path typst_packages/cache --font-path fonts "stories/057_Bloomburrow.typ"
+```
+
+## Building PDFs
+
+PDFs are build outputs and are no longer versioned (they are in `.gitignore`); after cloning, generate them with `python typ2pdf.py --missing --jobs 4`.
+
+`typ2pdf.py` compiles the stories in bulk using the `typst` Python package (no CLI install or manual package copying needed): it uses `typst_packages/` as the package path, `fonts/` (plus fonts extracted from the `.zip` files in it) and `root` = repository root. The PDF is written beside the `.typ` (`X.pdf`); with `--no-images` it becomes `X - text only.pdf`.
+
+```
+python typ2pdf.py --file "stories/057 - Bloomburrow/001_Episode 1- Calamity Comes to Valley.typ"
+python typ2pdf.py --set bloomburrow --jobs 4      # partial, case-insensitive folder match
+python typ2pdf.py --all --guides --card-lore      # or just --missing for what has no PDF yet
+python typ2pdf.py --set-books --set bloom         # set wrappers stories/NNN_*.typ (--set filters them)
+python typ2pdf.py --chronological --no-images --pdfa --output-dir build/pdf
+```
+
+Targets: `--file`, `--set`, `--all` (excludes `chronological`), `--set-books`, `--chronological`, `--guides`, `--card-lore`, `--missing`. `--pdfa` requests PDF/A-2b (`pdf_standards=["a-2b"]`); if an image makes that fail, the error appears in the item. `--output-dir` mirrors the repository-relative path. Compilation runs in threads (`--jobs N`).
+
+An incremental cache (`.pdf-cache.json`) skips targets whose PDF exists and whose inputs (the `.typ`, its `#include`s, referenced images, `typst_packages/`, fonts, options) did not change; use `--force` to rebuild. A summary is printed at the end and `pdf-report.json` records status, error and duration per item. Exit code is 1 if anything failed and 2 for invalid arguments or no target.
 
 # Contribution
 

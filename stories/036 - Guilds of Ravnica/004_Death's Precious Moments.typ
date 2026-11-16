@@ -19,7 +19,7 @@ Suddenly, the music on the wind changes, gone from the warbling calls for late-n
 
 "What about Mazirek?"
 
-#figure(image("004_Death"s Precious Moments/01.jpg", width: 100%), caption: [Mazirek, Kraul Death Priest | Art by: Mathias Kollros], supplement: none, numbering: none)
+#figure(image("004_Death's Precious Moments/01.jpg", width: 100%), caption: [Mazirek, Kraul Death Priest | Art by: Mathias Kollros], supplement: none, numbering: none)
 
 "What about him? He's one kraul priest out of dozens of gorgons and hundreds of Devkarin elves."
 
@@ -75,7 +75,7 @@ The two elves with us balk, probably unused to finding themselves outnumbered. T
 
 "Bozak," I say, with a strum of my wings.
 
-#figure(image("004_Death"s Precious Moments/02.png", width: 100%), caption: [Art by: Wesley Burt], supplement: none, numbering: none)
+#figure(image("004_Death's Precious Moments/02.png", width: 100%), caption: [Art by: Wesley Burt], supplement: none, numbering: none)
 
 "I'm Limin." He grins. He's got the most amazing gossamer wings, but they barely twitch when he speaks. Without them, his words sound so flat. So elven. He must sense my unease and offers up an explanation. "I grew up in the heart of the Undercity. There, you have to fit in to survive."
 
@@ -157,7 +157,7 @@ She lies there, clutching the staff at the entry wound, coughing up blood. My st
 
 With all of the mushrooms safely tucked away in my satchel, all I need to do is get back to the lich before Limin does. I may not be able to fly, but I don't need to when I've got insects on my side. I brush my wings together and hum deeply, imitating the mating call of the deadbridge goliath. The ground thunders, then I see it, a giant beetle running right toward me. He's confused seeing me and not his potential mate, but I grab onto his leg and hold on for dear life and he trudges forward, making up valuable time. I see Limin ahead, and I'm catching up, but then the beast veers and I'm forced to bail. Still, I'm close enough that I'll have a chance.
 
-#figure(image("004_Death"s Precious Moments/03.jpg", width: 100%), caption: [Deadbridge Goliath | Art by: Chase Stone], supplement: none, numbering: none)
+#figure(image("004_Death's Precious Moments/03.jpg", width: 100%), caption: [Deadbridge Goliath | Art by: Chase Stone], supplement: none, numbering: none)
 
 Then out of the swamp, a moss-covered figure rises, staff held in both hands. He batters Limin as he passes, breaking off two legs and part of a wing. Limin tumbles into the boggy water, screaming as the mossy figure snatches his satchel. The assailant then looks up at me~elven ears and moodmarks showing through the green grit upon his skin. Half his face is covered in splinters, and his gaudy blue robe is shredded to pieces.
 
@@ -201,7 +201,7 @@ Benzi obeys, a little trick I'd taught him in our spare time. He slumps over, he
 
 The lich arches a thin, sickly eyebrow. "I've already planted a neutralized specimen on the gown Vraska will be wearing for her address to the Krunstraz this evening at the Hanging Keep. Exhume the bodies from the massacre and analyze the spores. The evidence will show that the attack came from the same plant. Boros will have no choice but to charge Vraska with murder. It will stick this time, I promise you."
 
-#figure(image("004_Death"s Precious Moments/04.jpg", width: 100%), caption: [Underrealm Lich | Art by: Anna Steinbauer], supplement: none, numbering: none)
+#figure(image("004_Death's Precious Moments/04.jpg", width: 100%), caption: [Underrealm Lich | Art by: Anna Steinbauer], supplement: none, numbering: none)
 
 "Come on, we've got a party to crash," the Boros soldier says.
 
@@ -235,7 +235,7 @@ I expect them to ask for my credentials, or at least explain why I'm here, but t
 
 The crowd is so thick, I'll never be able to reach her in time. The Boros officers may already be on their way, so whatever I do, I have to do it now. I push my way through the swarm until I reach one of the Keep's windows, a handy shortcut to Vraska. I make the mistake of looking down, dizziness clouding my thoughts. All I need to do is scale seven stories, and I know exactly how I can climb them without a lick of fear.
 
-#figure(image("004_Death"s Precious Moments/05.jpg", width: 100%), caption: [Kraul Harpooner | Art by: Kev Walker], supplement: none, numbering: none)
+#figure(image("004_Death's Precious Moments/05.jpg", width: 100%), caption: [Kraul Harpooner | Art by: Kev Walker], supplement: none, numbering: none)
 
 I pull a zombie fungus sample from my satchel and place it on my tongue. The cocoon melts away. Minutes pass, and with it, my fear of heights. I can't think of anything I'd love more than to reach the very top of the Hanging Keep. I squeeze out of the window, sink leg after leg into the outside of the structure. I climb seven stories, and then force my thoughts against those of my fungal invaders. I must stop climbing.
 
@@ -279,7 +279,7 @@ I move my remaining arm, but it is not the automatic movement I am used to. It's
 
 "Take. Time," comes a voice from beside me. There were a lot more words than that spoken, but I'm only able to understand those. In a coordinated effort, I twist my neck. My muscles slither more than move.
 
-#figure(image("004_Death"s Precious Moments/06.jpg", width: 100%), caption: [Art by: Svetlin Velinov], supplement: none, numbering: none)
+#figure(image("004_Death's Precious Moments/06.jpg", width: 100%), caption: [Art by: Svetlin Velinov], supplement: none, numbering: none)
 
 My vision is blurry, pressure from fungal matter taking root behind my eyes. A few of the mushrooms have sprouted through, and they wreck my peripheral vision. I touch them, feeling upturned caps and tiny egg-like spheres within. Bird's nest fungus. Had my samples ruptured from their casings in the fall? They're not the fastest growing mushrooms, and I start to wonder how long I'd been unconscious.
 

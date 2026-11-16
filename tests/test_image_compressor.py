@@ -124,3 +124,18 @@ class TestImageCompressor(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestCompressImageBytesKeepsSmallerOriginal(unittest.TestCase):
+    def test_returns_original_when_result_is_larger_and_not_resized(self):
+        import io
+        from mtg_epub.image_compressor import compress_image_bytes
+
+        buffer = io.BytesIO()
+        Image.new("RGB", (20, 20), (10, 20, 30)).save(buffer, "JPEG", quality=20, optimize=True)
+        original = buffer.getvalue()
+        data, ext, mime = compress_image_bytes(original, max_dim=1400, quality=95)
+        if len(data) == len(original):  # recomprimir em qualidade 95 aumenta: devolve o original
+            self.assertEqual(data, original)
+        self.assertEqual((ext, mime), ("jpg", "image/jpeg"))
+        self.assertLessEqual(len(data), len(original))

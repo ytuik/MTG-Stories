@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Hour of Devastation", doc)
+#show: doc => conf("Hour of Devastation", cover: image("031 - Hour of Devastation/001_The Hour of Revelation/01.jpg"), doc)
 
 #include "./031 - Hour of Devastation/001_The Hour of Revelation.typ"
 #include "./031 - Hour of Devastation/002_Feast.typ"

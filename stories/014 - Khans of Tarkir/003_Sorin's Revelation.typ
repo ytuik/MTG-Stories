@@ -21,7 +21,7 @@ Tarkir.
 
 Sorin winced at the sun's grotesque glare as if someone had stabbed him. He stood on a vast steppe. The scrub grasses made dry sounds in the hot breeze that swirled and scoured the rocks and hills.
 
-#figure(image("003_Sorin"s Revelation/01.jpg", width: 100%), caption: [Plains | Art by Noah Bradley], supplement: none, numbering: none)
+#figure(image("003_Sorin's Revelation/01.jpg", width: 100%), caption: [Plains | Art by Noah Bradley], supplement: none, numbering: none)
 
 Sorin instantly loathed Tarkir's relentless heat, and he could feel his flesh burning. He pulled his hood up over his head to shield his pale skin and headed for the nearest shadow under a high, irregular plateau that rose up from the steppe. His boots broke through the thin crust of dried earth as he walked. A lone buzzard wheeled high overhead, its shadow tracing silent circles on the ground as Sorin moved to cover.
 
@@ -43,7 +43,7 @@ Sorin waited until the agreeable cold of the night set in before he ventured out
 
  
 
-#figure(image("003_Sorin"s Revelation/02.jpg", width: 100%), caption: [Sorin, Solemn Visitor | Art by Cynthia Sheppard], supplement: none, numbering: none)
+#figure(image("003_Sorin's Revelation/02.jpg", width: 100%), caption: [Sorin, Solemn Visitor | Art by Cynthia Sheppard], supplement: none, numbering: none)
 
 It wasn't too long before Sorin could see the heat of a campfire from his vantage point on a ridge. The fire had burned down to cinders long before dark, but Sorin could still sense its heat and the five warriors camped nearby. They looked to be scouts—they were armored for speed—and their small horses were tethered to a strand of tough, desert shrubs. Two of the warriors were on watch, a fair distance from the camp and each other. They would be the first to go.
 
@@ -77,7 +77,7 @@ Sorin followed an old animal trail that led him deep into the mountain wildernes
 
  
 
-#figure(image("003_Sorin"s Revelation/03.jpg", width: 100%), caption: [Rugged Highlands | Art by Eytan Zana], supplement: none, numbering: none)
+#figure(image("003_Sorin's Revelation/03.jpg", width: 100%), caption: [Rugged Highlands | Art by Eytan Zana], supplement: none, numbering: none)
 
 The experience of time as a phenomenon had long since ceased for Sorin. And the long trek through Tarkir was no more than a series of moments. There was no anticipation, no sense of ennui, no unnecessary urgency. He knew what he needed to do and his mind was occupied with the action of the moment. Over the millennia, his human frailties and neurosis had grown, blossomed, and withered away. Now, all that remained was a mind unburdened by the yoke of mortality.
 
@@ -119,7 +119,7 @@ When it was finished, Sorin dismissed the broken vampire and it fell still, its 
 
 The warrior's eyes snapped open. Sorin made sure not to dominate the warrior's will too much, lest he erase all agency from his newest thrall's mind. Sorin needed the man to find Ugin.
 
-#figure(image("003_Sorin"s Revelation/04.jpg", width: 100%), caption: [Vampire token | Art by Cynthia Sheppard], supplement: none, numbering: none)
+#figure(image("003_Sorin's Revelation/04.jpg", width: 100%), caption: [Vampire token | Art by Cynthia Sheppard], supplement: none, numbering: none)
 
 At first mention of the name Ugin, the warrior seemed afraid. But with another mental stab from Sorin, he spoke.
 
@@ -171,7 +171,7 @@ Sorin looked.
 
 Bones.
 
-#figure(image("003_Sorin"s Revelation/05.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("003_Sorin's Revelation/05.jpg", width: 100%), caption: [], supplement: none, numbering: none)
 
 The chasm stretched before him for hundreds of yards and, deep within the huge crack in the earth, Sorin could just make out places where a huge, skeletal rib cage stuck out from the ice like the bare beams of a cathedral.
 
@@ -199,7 +199,7 @@ The warrior turned and took shelter in the lee of a boulder as Sorin moved towar
 
 Blue mists of energy began to swirl around Sorin. He kneeled down to brush the snow from the solid ice below. There, within the darkness of the ice, gleamed Ugin's unmistakable skull. It looked at Sorin through the dead hollows of his eyes. Sorin reached out and felt for any sign of life, any shred of Ugin's spirit, but there was only a palpable void.
 
-#figure(image("003_Sorin"s Revelation/06.jpg", width: 100%), caption: [Bitter Revelation | Art by Viktor Titov], supplement: none, numbering: none)
+#figure(image("003_Sorin's Revelation/06.jpg", width: 100%), caption: [Bitter Revelation | Art by Viktor Titov], supplement: none, numbering: none)
 
 Sorin gazed into Ugin's black sockets. "There's more life in me than in you, dragon."
 

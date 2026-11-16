@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Gatecrash", doc)
+#show: doc => conf("Gatecrash", cover: image("003 - Gatecrash/001_Gruul Ingenuity/01.jpg"), doc)
 
 #include "./003 - Gatecrash/001_Gruul Ingenuity.typ"
 #include "./003 - Gatecrash/002_The Fathom Edict.typ"

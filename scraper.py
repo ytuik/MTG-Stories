@@ -481,20 +481,132 @@ def scrape_single_item(item: dict, force: bool = False) -> dict:
     }
 
 # ==========================================
+# REBUILD (PDF + EPUB) DEPOIS DO SCRAPE
+# ==========================================
+def _pdf_main(argv: list[str]) -> int:
+    from mtg_epub import pdf
+    return pdf.main(argv)
+
+
+def _epub_main(argv: list[str]) -> int:
+    from mtg_epub import cli
+    return cli.main(argv)
+
+
+def _call_build(label: str, fn, argv: list[str], failures: list[str]) -> None:
+    """Roda um build (main com argv) sem deixar a falha desfazer o resto."""
+    print(f"[Rebuild] {label}")
+    try:
+        code = fn(argv)
+    except BaseException as error:  # noqa: BLE001 - SystemExit do argparse também conta
+        if isinstance(error, KeyboardInterrupt):
+            raise
+        failures.append(f"{label}: {type(error).__name__}: {error}")
+        return
+    if code:
+        failures.append(f"{label}: código de saída {code}")
+
+
+def _sync_set_wrappers(set_folders: list[Path]) -> None:
+    """Põe os contos novos no wrapper stories/NNN_*.typ (cria o wrapper se faltar) antes do build."""
+    from mtg_epub.typst_themes import sync_set_wrapper
+    for folder in set_folders:
+        try:
+            sync_set_wrapper(folder, STORIES_DIR)
+        except Exception as error:  # noqa: BLE001 - não impede o resto do rebuild
+            print(f"[Rebuild] aviso: wrapper de {folder.name} não atualizado: {error}")
+
+
+def rebuild_artifacts(pdf_files: list[Path], set_folders: list[Path],
+                      pdfa_files: list[Path] | None = None) -> list[str]:
+    """Gera PDFs (--file), o PDF do livro de cada set e os EPUBs do set (+ omnibus).
+
+    Devolve a lista de falhas (vazia = tudo certo)."""
+    failures: list[str] = []
+    _sync_set_wrappers(set_folders)
+    pdfa_set = {p.resolve() for p in pdfa_files or []}
+    plain = [p for p in pdf_files if p.resolve() not in pdfa_set]
+    archival = [p for p in pdf_files if p.resolve() in pdfa_set]
+    if plain:
+        _call_build(f"PDF de {len(plain)} arquivo(s)", _pdf_main,
+                    ["--file", *[str(p) for p in plain]], failures)
+    if archival:
+        _call_build(f"PDF/A de {len(archival)} arquivo(s)", _pdf_main,
+                    ["--pdfa", "--file", *[str(p) for p in archival]], failures)
+    for folder in set_folders:
+        number = folder.name.split(" - ", 1)[0].strip()
+        if number.isdigit() and _set_book_exists(number):
+            _call_build(f"PDF do livro do set {folder.name}", _pdf_main,
+                        ["--set-books", "--set", f"{number}_"], failures)
+        _call_build(f"EPUB do set {folder.name} (+ omnibus)", _epub_main,
+                    ["--set", folder.name, "--combine"], failures)
+    return failures
+
+
+def _set_book_exists(number: str) -> bool:
+    try:
+        return any(p.name.startswith(f"{number}_") for p in STORIES_DIR.glob("*.typ"))
+    except OSError:
+        return False
+
+
+def rebuild_after_scrape(results: list[dict]) -> list[str]:
+    new_files = [ROOT_DIR / r["output_file"] for r in results
+                 if r.get("status") == "scraped" and r.get("output_file")]
+    new_files = [p for p in new_files if p.is_file()]
+    if not new_files:
+        print("[Rebuild] Nenhum conto novo; nada a reconstruir.")
+        return []
+    folders = list(dict.fromkeys(p.parent for p in new_files))
+    return rebuild_artifacts(new_files, folders)
+
+
+def rebuild_pending() -> list[str]:
+    """--rebuild-only: reconstrói só o que o status acusa como ausente/desatualizado."""
+    from mtg_epub import status
+    report = status.collect()
+    pending = status.sets_needing_rebuild(report)
+    if not pending:
+        print("[Rebuild] Nada pendente.")
+        return []
+    pdf_files = [ROOT_DIR / rel for entry in pending.values() for rel in entry["pdf"]]
+    pdfa_files = [ROOT_DIR / rel for entry in pending.values() for rel in entry.get("pdfa", [])]
+    set_folders = [STORIES_DIR / name for name, entry in pending.items()
+                   if entry["kind"] == "set" and (entry["pdf"] or entry["epub"])]
+    return rebuild_artifacts(pdf_files, set_folders, pdfa_files)
+
+
+def _report_rebuild_failures(failures: list[str]) -> None:
+    if failures:
+        print("\n[Rebuild][Falhas]")
+        for failure in failures:
+            print(f"  - {failure}")
+
+
+# ==========================================
 # MAIN E ATUALIZAÇÃO DO MANIFESTO
 # ==========================================
-def main():
+def main(argv=None):
     import argparse
     parser = argparse.ArgumentParser(description="MTG Stories Scraper")
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--rf", action="store_true", help="Scrapea somente Reality Fracture")
     parser.add_argument("--force", action="store_true", help="Sobrescreve .typ já existentes")
-    args = parser.parse_args()
+    parser.add_argument("--rebuild", action="store_true",
+                        help="Depois do scrape, gera PDF/EPUB dos contos novos e dos livros dos sets afetados")
+    parser.add_argument("--rebuild-only", action="store_true",
+                        help="Não raspa: reconstrói PDFs/EPUBs ausentes ou desatualizados (usa os caches)")
+    args = parser.parse_args(argv)
+
+    if args.rebuild_only:
+        failures = rebuild_pending()
+        _report_rebuild_failures(failures)
+        sys.exit(1 if failures else 0)
 
     targets = [item for item in CATALOG_MISSING if not args.rf or item.get("set_name") == "Reality Fracture"]
     manifest = load_manifest()
     results = []
-    
+
     for item in targets:
         if item.get("type") == "story":
             result = scrape_single_item(item, force=args.force)
@@ -502,7 +614,9 @@ def main():
             update_manifest(manifest, result)
 
     print(f"\n[Concluído] {len(results)} item(ns) processado(s). Manifesto atualizado: {MANIFEST_FILE}")
-    if any(result.get("status") == "failed" for result in results):
+    rebuild_failures = rebuild_after_scrape(results) if args.rebuild else []
+    _report_rebuild_failures(rebuild_failures)
+    if rebuild_failures or any(result.get("status") == "failed" for result in results):
         sys.exit(1)
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Ravnica Allegiance", doc)
+#show: doc => conf("Ravnica Allegiance", cover: image("037 - Ravnica Allegiance/001_The Illusions of Child's Play/01.jpg"), doc)
 
-#include "./037 - Ravnica Allegiance/001_The Illusions of Child"s Play.typ"
+#include "./037 - Ravnica Allegiance/001_The Illusions of Child's Play.typ"
 #include "./037 - Ravnica Allegiance/002_Rage of the Unsung.typ"
 #include "./037 - Ravnica Allegiance/003_The Principles of Unnatural Selection.typ"
 #include "./037 - Ravnica Allegiance/004_The Ledger of Hidden Fortunes.typ"

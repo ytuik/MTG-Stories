@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Kamigawa: Neon Dynasty", doc)
+#show: doc => conf("Kamigawa: Neon Dynasty", cover: image("045 - Kamigawa- Neon Dynasty/001_Kaito Origin Stories- A Test of Loyalty & The Path Forward/01.jpg"), doc)
 
 #include "./045 - Kamigawa- Neon Dynasty/001_Kaito Origin Stories- A Test of Loyalty & The Path Forward.typ"
 #include "./045 - Kamigawa- Neon Dynasty/002_Episode 1- A Stranger in Eiganjo.typ"

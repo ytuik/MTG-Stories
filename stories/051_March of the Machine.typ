@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("March of the Machine", doc)
+#show: doc => conf("March of the Machine", cover: image("051 - March of the Machine/001_Episode 1- Triumph of the Fleshless/01.jpg"), doc)
 
 #include "./051 - March of the Machine/001_Episode 1- Triumph of the Fleshless.typ"
 #include "./051 - March of the Machine/002_Episode 2- Holding Your Breath.typ"

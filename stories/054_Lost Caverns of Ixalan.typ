@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Lost Caverns of Ixalan", doc)
+#show: doc => conf("Lost Caverns of Ixalan", cover: image("054 - Lost Caverns of Ixalan/001_Episode 1/01.png"), doc)
 
 #include "./054 - Lost Caverns of Ixalan/001_Episode 1.typ"
 #include "./054 - Lost Caverns of Ixalan/002_Episode 2.typ"

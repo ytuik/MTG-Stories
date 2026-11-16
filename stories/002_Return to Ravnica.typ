@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Return to Ravnica", doc)
+#show: doc => conf("Return to Ravnica", cover: image("002 - Return to Ravnica/001_The Shadows of Prahv, Part 1/01.jpg"), doc)
 
 #include "./002 - Return to Ravnica/001_The Shadows of Prahv, Part 1.typ"
 #include "./002 - Return to Ravnica/002_The Shadows of Prahv, Part 2.typ"

@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Tarkir: Dragonstorm", doc)
+#show: doc => conf("Tarkir: Dragonstorm", cover: image("060 - Tarkir- Dragonstorm/001_Episode 1- Stories and Their Bones/01.png"), doc)
 
 #include "060 - Tarkir- Dragonstorm/001_Episode 1- Stories and Their Bones.typ"
 #include "060 - Tarkir- Dragonstorm/002_Abzan- Siege Blossoms.typ"

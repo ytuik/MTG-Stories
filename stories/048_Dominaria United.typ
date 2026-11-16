@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Dominaria United", doc)
+#show: doc => conf("Dominaria United", cover: image("048 - Dominaria United/001_Episode 1- Echoes In The Dark/01.jpg"), doc)
 
 #include "./048 - Dominaria United/001_Episode 1- Echoes In The Dark.typ"
 #include "./048 - Dominaria United/002_Episode 2- Sand in the Hourglass.typ"

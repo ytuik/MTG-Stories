@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Zendikar Rising", doc)
+#show: doc => conf("Zendikar Rising", cover: image("040 - Zendikar Rising/001_Episode 1- In the Heart of the Skyclave/01.jpg"), doc)
 
 #include "./040 - Zendikar Rising/001_Episode 1- In the Heart of the Skyclave.typ"
 #include "./040 - Zendikar Rising/002_Red Route.typ"

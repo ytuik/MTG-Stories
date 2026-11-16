@@ -19,7 +19,7 @@ Not in the way Gideon meant it, not like the battle cry, but for the deepest par
 
 In her rush to planeswalk here to Bala Ged, Nissa hadn't thought about what she would find when she arrived—aside from Khalni Heart, where she was convinced the soul of Zendikar would be waiting for her.
 
-#figure(image("009_Nissa"s Resolve/01.jpg", width: 100%), caption: [Blighted Woodland | Art by Jason Felix], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/01.jpg", width: 100%), caption: [Blighted Woodland | Art by Jason Felix], supplement: none, numbering: none)
 
 But the sight that greeted her, endlessly white, endlessly corrupted, had driven her to snap her eyes shut on her home continent.
 
@@ -35,7 +35,7 @@ Yet somehow it was real.
 
 The land wasn't ruined—it had been entirely consumed.
 
-#figure(image("009_Nissa"s Resolve/02.jpg", width: 100%), caption: [Crumble to Dust | Art by James Paick], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/02.jpg", width: 100%), caption: [Crumble to Dust | Art by James Paick], supplement: none, numbering: none)
 
 There were no dead trees. There were not even vestiges of dead trees; the white landscape was completely flat, the trees had all disintegrated. Everything had disintegrated. And there weren't swaths of corruption; swaths of one thing by definition meant that there also had to be swaths, or at least rivulets, of another thing. And here there wasn't anything but corruption. Aside from Khalni Heart, Nissa reminded herself; there wasn't anything here but Khalni Heart.
 
@@ -55,7 +55,7 @@ Nissa could see it all, she could hear it, she could even smell her mother's ste
 
 Nissa could see herself slipping off into the shadows. She turned away from the sight, from the elf she had been. She hadn't thought of that elf in a long while. In fact, she had done all she could to forget that elf. That elf had made so many mistakes—horrible mistakes—after leaving this village. Mistakes that still haunted Nissa, mistakes that would haunt her forever.
 
-#figure(image("009_Nissa"s Resolve/03.jpg", width: 100%), caption: [Art by Izzy], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/03.jpg", width: 100%), caption: [Art by Izzy], supplement: none, numbering: none)
 
 But she wasn't that elf anymore. And the only reason she wasn't was because of Zendikar's soul. It was her connection with the land that had changed her, saved her. It was Zendikar that kept her focused, balanced, and sure. It was Zendikar that guided her. She needed Zendikar.
 
@@ -71,7 +71,7 @@ All the distance Nissa put between herself and her village didn't seem to matter
 
 Everything was suddenly familiar. Even though the land was a solid mass of monotonous white corruption, she knew exactly what path she was cutting through the Tangled Vales; she had hunted here countless times. She knew where to step to avoid the traps the packs of humans set for the gnarlids—and she skirted them even though they weren't there, even though she tried to stop her feet from responding to the unwelcome reminiscence. Her knees instinctively braced themselves to climb a hill that didn't exist. And when she had taken enough steps to have reached the hilltop, her mouth watered and her stomach growled, anticipating she would make a snack of the thick-growing mushrooms at the summit as she always did. Then, when she heard the shrill chatter of a gomazoa, she ducked to avoid it—the ghost of a memory of a deadly hunter.
 
-#figure(image("009_Nissa"s Resolve/04.jpg", width: 100%), caption: [Guard Gomazoa | Art by Rob Alexander], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/04.jpg", width: 100%), caption: [Guard Gomazoa | Art by Rob Alexander], supplement: none, numbering: none)
 
 She pushed it from her mind, but the call followed her, mocking her inability to separate reality from unwanted memory. Her hand moved to her sword on instinct. Foolish elf. There was nothing there—Nissa came up short.
 
@@ -85,7 +85,7 @@ There was more force inside her. More power that she could—#emph[no] . Nissa s
 
 She was not that elf. This was not that Bala Ged. And the thing in front of her wasn't a gomazoa. It was an Eldrazi.
 
-#figure(image("009_Nissa"s Resolve/05.jpg", width: 100%), caption: [Rush of Ice | Art by Deruchenko Alexander], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/05.jpg", width: 100%), caption: [Rush of Ice | Art by Deruchenko Alexander], supplement: none, numbering: none)
 
 It was an Eldrazi!
 
@@ -107,7 +107,7 @@ This kind of tracking was effortless for Nissa—the ranger elf she used to be h
 
 When she realized that's where she was headed, Nissa slowed just slightly. A shiver ran down her spine at the thought of the territorial, reptilian beasts.
 
-#figure(image("009_Nissa"s Resolve/06.jpg", width: 100%), caption: [Surrakar Marauder | Art by Kev Walker], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/06.jpg", width: 100%), caption: [Surrakar Marauder | Art by Kev Walker], supplement: none, numbering: none)
 
 Her mind was on their deep tunnel system that ran under Bala Ged. Had that been corrupted, too? Had the Eldrazi gone beneath the surface? Or had they neglected the tunnels, leaving those things that were hidden below to survive?
 
@@ -133,7 +133,7 @@ The narrow tunnel opened to reveal a cavern washed in a bluish glow. That was od
 
 Her breath caught and her mind reeled, trying to assemble the pieces of what she was seeing. The blue light was coming from a tight circle of hedrons linked together with a network of crisscrossing, glowing leylines of power. The leylines were arranged in a pattern she had never seen before—it was unnatural.
 
-#figure(image("009_Nissa"s Resolve/07.jpg", width: 100%), caption: [Reclaiming Vines | Art by Bastien L. Deharme], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/07.jpg", width: 100%), caption: [Reclaiming Vines | Art by Bastien L. Deharme], supplement: none, numbering: none)
 
 Why was this here? What—who—had done this?
 
@@ -167,7 +167,7 @@ Gasping to reclaim the breath that had been knocked out of her, Nissa pushed her
 
 She tumbled and rolled across the cave floor, landing on her back—looking straight up at a demon.
 
-#figure(image("009_Nissa"s Resolve/08.jpg", width: 100%), caption: [Ob Nixilis Reignited | Art by Chris Rahn], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/08.jpg", width: 100%), caption: [Ob Nixilis Reignited | Art by Chris Rahn], supplement: none, numbering: none)
 
 "Why are you here?" The demon's deep voice was somehow both resonant and empty. He loomed over her; his wings, only half spread, filled the width of the cave, blocking her view of the hedron prison and the flower. Long, sharp barbs lined his arms and legs, and five thick horns framed his head. "Who sent you?"
 
@@ -181,7 +181,7 @@ As her blade clattered onto the rock, the demon threw the weight of his body at 
 
 Nissa struggled against his weight. He was nearly three times her size, so he would have the advantage—or at least he would believe he had the advantage. Elves were among the lightest of the races on Zendikar, but a well-practiced elf could take down any of the heavier races—or creatures—of the world. And Nissa was a well-practiced elf, or at least she had been. The elf she was before, the one who had lived here on Bala Ged, had once grappled with a spiked baloth and come out victorious.
 
-#figure(image("009_Nissa"s Resolve/09.jpg", width: 100%), caption: [Spiked Baloth | Art by Daarken], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/09.jpg", width: 100%), caption: [Spiked Baloth | Art by Daarken], supplement: none, numbering: none)
 
 This demon was no different from the baloth. He was one creature, one animal, and she could take him down. Nissa gauged his movements as they wrestled, and it didn't take her long to identify his center of gravity. Once she found it, she played against it, gaining more of an advantage with each move she made. When she had enough leverage, she tucked her feet up and kicked his chest in just the right place to knock him off balance, launching him away from her.
 
@@ -221,7 +221,7 @@ Nissa tensed. Was he a Planeswalker, too? He must be. She focused her senses on 
 
 "Perhaps it was because Nahiri was afraid to face me, worried that once this is done, I will wield more power than any single Planeswalker has controlled in a very long time." The demon glanced back at the flower, and Nissa followed his gaze, her heart beating for Zendikar. "The power of an entire world will all be mine."
 
-#figure(image("009_Nissa"s Resolve/10.jpg", width: 100%), caption: [Ob Nixilis, Unshackled | Art by Karl Kopinski], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/10.jpg", width: 100%), caption: [Ob Nixilis, Unshackled | Art by Karl Kopinski], supplement: none, numbering: none)
 
 "That power isn't for you." Nissa's words came out strong and sure, buoyed by the surging force in her veins. "Khalni Heart belongs to the land."
 
@@ -253,7 +253,7 @@ Nissa nodded past him to Khalni Heart, an excuse to survey the ring of hedrons. 
 
 "Yes," Nissa said. "Me." She charged.
 
-#figure(image("009_Nissa"s Resolve/11.jpg", width: 100%), caption: [Nissa Revane | Art by Jaime Jones], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/11.jpg", width: 100%), caption: [Nissa Revane | Art by Jaime Jones], supplement: none, numbering: none)
 
 The demon moved to block the entrance to the prison, but that was not where she was headed.
 
@@ -275,7 +275,7 @@ Now was Nissa's only chance. She saw what she had to do, and she tapped into her
 
 He lunged after her, but he hesitated between Nissa and the precariously teetering hedrons. She saw the doubt in his eyes and then the flash of decision as he launched himself at the nearest angular stone, wrapping his thick arms around it, straining to hold it up.
 
-#figure(image("009_Nissa"s Resolve/12.jpg", width: 100%), caption: [Khalni Heart Expedition | Art by Jason Chan], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/12.jpg", width: 100%), caption: [Khalni Heart Expedition | Art by Jason Chan], supplement: none, numbering: none)
 
 Nissa leapt past him and reached for Khalni Heart.
 
@@ -313,7 +313,7 @@ But now she did.
 
 She had learned from Zendikar. She could see the patterns and connections, she could feel the bigger picture. This cave, these hedrons, the power of Khalni Heart, the draining essence of the demon. She could also see the whole of Zendikar, the Eldrazi, the other Planeswalkers, the camp of survivors. And she could see the Multiverse, all of the myriad worlds.
 
-#figure(image("009_Nissa"s Resolve/13.jpg", width: 100%), caption: [Blinkmoth Nexus | Art by Sam Burley], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/13.jpg", width: 100%), caption: [Blinkmoth Nexus | Art by Sam Burley], supplement: none, numbering: none)
 
 She had a place in it all. She had a power that belonged. One that she was meant to use—today, right now, to save Zendikar.
 
@@ -351,7 +351,7 @@ When she reached the surface, Nissa's feet touched down on a soft, lush carpet o
 
 Nissa looked up at her friend. Ashaya sent a surge of fervor down to Nissa, and Nissa sent her own essence back. They were one, and also they were each their own, stronger for the power they shared. Now it was time to use that power to save Zendikar.
 
-#figure(image("009_Nissa"s Resolve/14.jpg", width: 100%), caption: [Ashaya, the Awoken World | Art by Raymond Swanland], supplement: none, numbering: none)
+#figure(image("009_Nissa's Resolve/14.jpg", width: 100%), caption: [Ashaya, the Awoken World | Art by Raymond Swanland], supplement: none, numbering: none)
 
 Nissa and Ashaya would return to Sea Gate, they would meet Gideon's army, and they would join in his battle cry, for the words had meaning once more.
 

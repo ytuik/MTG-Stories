@@ -19,7 +19,7 @@ Tarkir.
 
 Sorin winced at the sun's grotesque glare as if someone had stabbed him. A merciful shadow swept across him as a four-winged dragon sailed over the dry steppe, its outline rimmed in gold sunlight. But then the heat of the steppe closed in on him again. He pulled a hood up over his head. This world was nothing like his chilly Innistrad, but there was a task at hand. He needed to find someone—someone who was very possibly dead.
 
-#figure(image("003_Sorin"s Restoration/01.jpg", width: 100%), caption: [Plains | Art by Sam Burley], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/01.jpg", width: 100%), caption: [Plains | Art by Sam Burley], supplement: none, numbering: none)
 
 He had never come here before. In all the time he had known Ugin, he had never visited the spirit dragon's home world, nor even asked after it. His only guide now was a cluster of vague impressions given to him by an oracle. This place, with its arid winds and flights of wild dragons filling the skies, was a mystery to him.
 
@@ -33,7 +33,7 @@ Distant, snow-capped peaks stretched along the northern horizon. A single peak s
 
 The trek toward the spiraling rock led Sorin into cooler air. After a number of days, the land under his boots became ice and snow. An old animal trail led him deep into the mountain wilderness, and the shaggy dragons above breathed gouts of green-tinged fire rather than thunderbolts.
 
-#figure(image("003_Sorin"s Restoration/02.jpg", width: 100%), caption: [Savage Ventmaw | Art by Slawomir Maniak], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/02.jpg", width: 100%), caption: [Savage Ventmaw | Art by Slawomir Maniak], supplement: none, numbering: none)
 
 Granite peaks, capped in snow and ice, rose up far above Sorin's head as he traversed the crags and passes. He lost eye contact with the spiraling rock for an entire day, and he longed for a sense of certainty that he wasn't wasting his time. The mad scatter of images from the dark oracle still burned in his mind's eye, and they spelled out a kind of story: a great battle of dragons, a chasm of ice, Ugin's swirling form. But the images were vague, blurred, and chaotic. He needed a guide.
 
@@ -45,7 +45,7 @@ A party of warriors encircled Sorin, wielding spears and sharpened bone-clubs. T
 
 The lead warrior spoke again. "Your head will decorate a spear tonight."
 
-#figure(image("003_Sorin"s Restoration/03.jpg", width: 100%), caption: [Atarka Beastbreaker | Art by Johannes Voss], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/03.jpg", width: 100%), caption: [Atarka Beastbreaker | Art by Johannes Voss], supplement: none, numbering: none)
 
 #v(0.35em)
 #line(length: 100%, stroke: rgb(90%, 90%, 90%))
@@ -73,7 +73,7 @@ Sorin and his enthralled guide trekked along the narrow trails and icy crags in 
 
 The thrall nodded. "Dragonlord of my clan."
 
-#figure(image("003_Sorin"s Restoration/04.jpg", width: 100%), caption: [Dragonlord Atarka | Art by Karl Kopinski], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/04.jpg", width: 100%), caption: [Dragonlord Atarka | Art by Karl Kopinski], supplement: none, numbering: none)
 
 Sorin asked, "And this spirit of Atarka—you believe that came from Ugin?"
 
@@ -95,7 +95,7 @@ Sorin looked down.
 
 Hedrons.
 
-#figure(image("003_Sorin"s Restoration/05.jpg", width: 100%), caption: [Crucible of the Spirit Dragon | Art by Jung Park], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/05.jpg", width: 100%), caption: [Crucible of the Spirit Dragon | Art by Jung Park], supplement: none, numbering: none)
 
 Dozens, perhaps hundreds, of stone hedrons were piled at the bottom of the chasm. They did not float free, but interlocked with each other, forming a protective sheath.
 
@@ -119,7 +119,7 @@ Sorin unsheathed his sword and pointed it down at the dragon's resting-place. He
 
 Sorin thrust his sword into the air and shouted an ancient word of unmaking. The hedron shard crumbled to dust, and the cocoon began to crack. Stone surfaces broke and slid, and the structure fell in on itself.
 
-#figure(image("003_Sorin"s Restoration/06.jpg", width: 100%), caption: [Haven of the Spirit Dragon | Art by Raymond Swanland], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/06.jpg", width: 100%), caption: [Haven of the Spirit Dragon | Art by Raymond Swanland], supplement: none, numbering: none)
 
 Ugin exploded from the hedron cocoon, rocketing into the air. The whoosh of air blew Sorin's hair back as Ugin shot upward in a flurry of wings. Soon, Ugin was only a bright speck against the sky, trailing spirals of shimmering mist through the air, tracing a jubilant path. The air crackled around him. Sorin noted that the clouds seemed to roll and curl in concert with Ugin's flight, as if the dragon obeyed the clouds' laws—or the clouds obeyed his.
 
@@ -135,7 +135,7 @@ He turned his head toward Sorin. There was a strange twist to his neck—it was 
 
 Sorin didn't know what to make of the question. A battle between dragons had been part of the oracle's visions—perhaps it was the ancient Planeswalker Nicol Bolas that Ugin had faced. Not Nahiri, then. "Did he do this to you?"
 
-#figure(image("003_Sorin"s Restoration/07.jpg", width: 100%), caption: [Ugin, the Spirit Dragon | Art by Chris Rahn], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/07.jpg", width: 100%), caption: [Ugin, the Spirit Dragon | Art by Chris Rahn], supplement: none, numbering: none)
 
 "He thought me his rival for power, and attacked me. Used my own dragons against me. But someone intervened on my behalf." The dragon examined the hedron ruins below him, and inspected the landscape again. Dragons wheeled in the sky, spitting bright flashes of fire. "It seems I took some time to recuperate. How long?"
 
@@ -155,7 +155,7 @@ Sorin looked at the horizon. "Planeswalkers. And a series of childish errors at 
 
 Sorin had traveled to Zendikar to meet the young elf Planeswalker Nissa, a native of the world of Zendikar. He and Nissa had struggled over whether to free the Eldrazi. Nissa chose to release them, thinking it would spare her world—and it hadn't.
 
-#figure(image("003_Sorin"s Restoration/08.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/08.jpg", width: 100%), caption: [], supplement: none, numbering: none)
 
 "What would have led Planeswalkers to do this?" Ugin seemed to be asking himself more than Sorin.
 
@@ -169,7 +169,7 @@ Sorin saw Ugin's eyes wander to the ground, searching for his next thought. Sori
 
 Ugin's eyes swiveled back to Sorin. "Where is the hedron mage? Where is Nahiri?"
 
-#figure(image("003_Sorin"s Restoration/09.jpg", width: 100%), caption: [Nahiri, the Lithomancer | Art by Eric Deschamps], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/09.jpg", width: 100%), caption: [Nahiri, the Lithomancer | Art by Eric Deschamps], supplement: none, numbering: none)
 
 The notion of shame had long since evaporated from Sorin. Over the millennia, Sorin's human frailties and neurosis had grown, blossomed, and withered away—he was as immune to regret as he was to old age. And yet, for the first time in years, an uncomfortable feeling grew within him, an unpleasant itch, the sense that he was responsible—solely—for something important going awry. It wasn't remorse exactly, just a dull, discordant echo ringing in the space where remorse had once resided.
 
@@ -189,7 +189,7 @@ Ugin's neck pleats fanned in irritation. "Speak facts, you vague thing. She's de
 
 "Of course it's crucial," Ugin said. "Your blood magic is great, as is my knowledge of the dwellers of void. But none of our efforts can be made permanent without the lithomancer." Ugin curved his body, bringing his head down close to Sorin's, like a bird regarding a worm with its great eye. "Let me be clear. It must be the three of us. Whatever petty tiff you've had with her, or whatever matter it is you're hiding from me, resolve it. I do not wish to see your face without hers."
 
-#figure(image("003_Sorin"s Restoration/10.jpg", width: 100%), caption: [Soul Summons | Art by Johann Bodin], supplement: none, numbering: none)
+#figure(image("003_Sorin's Restoration/10.jpg", width: 100%), caption: [Soul Summons | Art by Johann Bodin], supplement: none, numbering: none)
 
 Sorin snapped his head away with his teeth clenched, suddenly gripped by an urge to destroy something. He clasped his own arms, holding his own body in check. He nodded with what looked like bored nonchalance.
 

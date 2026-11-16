@@ -19,7 +19,7 @@ Two demons still needed to die. But she had to make sure she wouldn't die hersel
 
 "Are we ready?" Liliana asked.
 
-#figure(image("004_Innistrad"s Last Hope/01.jpg", width: 100%), caption: [The Chain Veil | Art by Volkan Baga], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/01.jpg", width: 100%), caption: [The Chain Veil | Art by Volkan Baga], supplement: none, numbering: none)
 
 The others in the tower with her had not displayed a fraction of the smarts of Cloak Boy, but they would have to suffice. The geistmage, Dierk, listed items to himself in a micro-whisper as he adjusted a series of nozzles and tightened clamps on the orb. Dierk's assistant, Gared, stood at the window, his one big eye switching back and forth between the equipment and the lightning storm outside the tower. Gared held his hand on an appropriately sizable lever.
 
@@ -53,7 +53,7 @@ Dierk glanced at Gared and tapped his mouth with gloved fingertips. "That is the
 
 Gared grinned. His larger eye shuttered for a moment like a reptile's. Dierk nodded to him, and he slammed down the big lever.
 
-#figure(image("004_Innistrad"s Last Hope/02.jpg", width: 100%), caption: [Art by Adam Paquette], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/02.jpg", width: 100%), caption: [Art by Adam Paquette], supplement: none, numbering: none)
 
 The witchbane orb hummed and dials flexed. Liliana could feel the links of the Veil touching the curves of her face.
 
@@ -109,7 +109,7 @@ Liliana tossed her crimson-dotted handkerchief aside and spiraled down the stair
 
 She heard and smelled them before she saw them—their guttural snarls and their slobbering, hungry whines. The reek of damp fur over the reek of blood.
 
-#figure(image("004_Innistrad"s Last Hope/03.jpg", width: 100%), caption: [Art by Joseph Meehan], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/03.jpg", width: 100%), caption: [Art by Joseph Meehan], supplement: none, numbering: none)
 
 Werewolves. Liliana's entire throne room was overrun.
 
@@ -149,7 +149,7 @@ The door opened, and an imposing woman in an ornate gown—or possibly an ornate
 
 "She is not receiving human visitors," said the woman, flashing her fangs as she spoke. Her irises were black pits that seemed to smolder.
 
-#figure(image("004_Innistrad"s Last Hope/04.jpg", width: 100%), caption: [Bloodhall Priest | Art by Mark Winters], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/04.jpg", width: 100%), caption: [Bloodhall Priest | Art by Mark Winters], supplement: none, numbering: none)
 
 "I'm returning something that belongs to her," said Liliana.
 
@@ -161,7 +161,7 @@ Gared made a movement to confront the vampiric priest, but Liliana stopped him w
 
 "Mortals!" Liliana laughed. "Bless your bloodless heart."
 
-#figure(image("004_Innistrad"s Last Hope/05.png", height: 40%), caption: [], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/05.png", height: 40%), caption: [], supplement: none, numbering: none)
 
 The vampire priest held her staff high, the jagged symbol at the tip warping the air with heat.
 
@@ -175,7 +175,7 @@ Olivia took Liliana's arm, floating next to her and drawing her deeper into the 
 
 They entered a broad gallery where elegant vampires stood or hovered at every staircase, every landing. Hundreds of eyes watched Liliana and her attendants as Olivia led them through the lower halls of the fortress. Every vampire that had ever held the name Voldaren seemed to be in the building, glowering in unison.
 
-#figure(image("004_Innistrad"s Last Hope/06.jpg", width: 100%), caption: [Indulgent Aristocrat | Art by Anna Steinbauer], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/06.jpg", width: 100%), caption: [Indulgent Aristocrat | Art by Anna Steinbauer], supplement: none, numbering: none)
 
 Liliana made a furtive motion with one hand. The corpse of Dierk the geistmage dragged itself over to an antique gilded chair, slumped into it, and went limp with the orb in its lap. The coat around his middle squished, holding its contents as best it could.
 
@@ -191,7 +191,7 @@ Liliana raised her eyebrows a millimeter.
 
 Liliana kept up with Olivia. "And now you're raising an army."
 
-#figure(image("004_Innistrad"s Last Hope/07.jpg", width: 100%), caption: [Call the Bloodline | Art by Lake Hurwitz], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/07.jpg", width: 100%), caption: [Call the Bloodline | Art by Lake Hurwitz], supplement: none, numbering: none)
 
 "Well, my dear, it turns out that whoever opened the Helvault—"
 
@@ -215,7 +215,7 @@ Liliana felt claws dig into her arm. "We know it was you," Olivia hissed, sudden
 
 Sorin Markov turned around to face them. He wore hatred like a flamboyant suit.
 
-#figure(image("004_Innistrad"s Last Hope/08.jpg", width: 100%), caption: [Sorin's Thirst | Art by Karl Kopinski], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/08.jpg", width: 100%), caption: [Sorin's Thirst | Art by Karl Kopinski], supplement: none, numbering: none)
 
 "#emph[You] ," he said.
 
@@ -293,7 +293,7 @@ But she found herself walking down the hill, on a different path from the vampir
 
 She found herself passing another cemetery, and another. A little roadside shrine, a cursed iron-fenced diregraf, a mausoleum of honored cathar dead. Each time, she reached out. Each time, the dead obeyed her, wriggling themselves free from their rest and lurching along behind her.
 
-#figure(image("004_Innistrad"s Last Hope/09.jpg", width: 100%), caption: [Art by Joseph Meehan], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/09.jpg", width: 100%), caption: [Art by Joseph Meehan], supplement: none, numbering: none)
 
 As she walked in the direction of Thraben, she reached down to her waist. She could almost hear the scores of spectral essences sneering at her, #emph[chanting]  at her from within the Chain Veil—over the sound of the zombies dutifully lurching and foot-dragging their way down the road behind her.
 
@@ -315,4 +315,4 @@ The corpses did not seem warped—at least, no more warped than their disheveled
 
 "...last hope."
 
-#figure(image("004_Innistrad"s Last Hope/10.jpg", width: 100%), caption: [Art by Anna Steinbauer], supplement: none, numbering: none)
+#figure(image("004_Innistrad's Last Hope/10.jpg", width: 100%), caption: [Art by Anna Steinbauer], supplement: none, numbering: none)

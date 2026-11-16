@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Lorwyn Eclipsed", doc)
+#show: doc => conf("Lorwyn Eclipsed", cover: image("062 - Lorwyn Eclipsed/001_Episode 1- Out of This Wood/01.jpg"), doc)
 
 #include "062 - Lorwyn Eclipsed/001_Episode 1- Out of This Wood.typ"
 #include "062 - Lorwyn Eclipsed/002_Episode 2- Shake Off Slumber.typ"

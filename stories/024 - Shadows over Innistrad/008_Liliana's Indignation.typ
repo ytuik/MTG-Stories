@@ -27,7 +27,7 @@ Her breath no longer steamed, even on cold nights like this one.
 
 But demons are harsh masters, and soon she found herself working to subvert her pacts, to kill her demons—to have immortality and freedom both. And so...the Chain Veil.
 
-#figure(image("008_Liliana"s Indignation/01.jpg", width: 100%), caption: [Swamp | Art by Jonas De Ro], supplement: none, numbering: none)
+#figure(image("008_Liliana's Indignation/01.jpg", width: 100%), caption: [Swamp | Art by Jonas De Ro], supplement: none, numbering: none)
 
 It whispered to her, even now, from the hidden pocket where she kept it. With it, she had killed two demons, lords among their kind. With it, she had commanded armies of the undead even she had never dreamt of, had besieged and taken Thraben itself, the greatest city on Innistrad, just to get her hands on one of those demons.
 
@@ -55,7 +55,7 @@ She turned. There he was beside her, with his white hair, golden eyes, and elega
 
 He could rot in in the nearest available hell, as far as she was concerned.
 
-#figure(image("008_Liliana"s Indignation/02.jpg", width: 100%), caption: [Art by Chris Rahn], supplement: none, numbering: none)
+#figure(image("008_Liliana's Indignation/02.jpg", width: 100%), caption: [Art by Chris Rahn], supplement: none, numbering: none)
 
 "I'm not in the mood for wordplay," said Liliana.
 
@@ -161,7 +161,7 @@ She let loose a bolt of magic at Jace, the real Jace, that left him doubled over
 
 She raked another blast of necromantic energy over him. He cried out, fell to the floor—and lifted his head, eyes glowing, face contorted.
 
-#figure(image("008_Liliana"s Indignation/03.jpg", width: 100%), caption: [Liliana's Indignation | Art by Daarken], supplement: none, numbering: none)
+#figure(image("008_Liliana's Indignation/03.jpg", width: 100%), caption: [Liliana's Indignation | Art by Daarken], supplement: none, numbering: none)
 
 "Tell me what I need to know," he said, rising. "Tell me about the drownyard."
 
@@ -235,7 +235,7 @@ Zombies grabbed his arms and legs. He didn't struggle.
 
 Lightning flashed, and Liliana saw the book on his belt. It was a large, ornate thing with an unusual binding. She wouldn't mind perusing it herself—unless it was the reason Jace was so out of sorts.
 
-#figure(image("008_Liliana"s Indignation/04.jpg", width: 100%), caption: [Tamiyo's Journal | Art by Chase Stone], supplement: none, numbering: none)
+#figure(image("008_Liliana's Indignation/04.jpg", width: 100%), caption: [Tamiyo's Journal | Art by Chase Stone], supplement: none, numbering: none)
 
 "The moonfolk! She's been—you know moonfolk? #emph[Fascinating]  book. She's been studying the moon—the moon, and what it causes. The tides, the werewolves, the angels. It's all connected! Those weird stones in the countryside—you haven't touched them, have you? Don't touch them. Just...don't. They all point the same way, so there was a, um...a...they all point #emph[toward]  something, is what I'm saying. Not a compass point. A place."
 
@@ -281,7 +281,7 @@ Jace was a very powerful telepath. If he went mad, he'd take her with him. Among
 
 "Tell me you won't experiment with the Veil."
 
-#figure(image("008_Liliana"s Indignation/05.jpg", width: 100%), caption: [The Chain Veil | Art by Volkan Baga], supplement: none, numbering: none)
+#figure(image("008_Liliana's Indignation/05.jpg", width: 100%), caption: [The Chain Veil | Art by Volkan Baga], supplement: none, numbering: none)
 
 She knelt down next to him and tried to hold his attention. She didn't want to touch him. She was, in fact, afraid of him. Nonetheless, she cupped his chin, made him look at her. He blinked and flinched.
 
@@ -401,7 +401,7 @@ She watched him go, then peered out the rain-streaked window as his hooded shape
 
 "Mistress," said a rasping voice from the stairwell. Gared, his name was. With his hunched back and different-sized eyes, he did a fair impression of a homunculus.
 
-#figure(image("008_Liliana"s Indignation/06.jpg", width: 100%), caption: [Behind the Scenes | Art by David Gaillet], supplement: none, numbering: none)
+#figure(image("008_Liliana's Indignation/06.jpg", width: 100%), caption: [Behind the Scenes | Art by David Gaillet], supplement: none, numbering: none)
 
 She turned, trying not to look startled.
 
@@ -433,4 +433,4 @@ Liliana followed the lurching figure to the stairwell of the high tower. She pul
 
 On a branch, in silhouette, a raven croaked its reproach. Then lightning flashed, thunder boomed, and the raven was gone. Liliana walked upward, into darkness.
 
-#figure(image("008_Liliana"s Indignation/07.jpg", width: 100%), caption: [Crow of Dark Tidings | Art by Tianhua X], supplement: none, numbering: none)
+#figure(image("008_Liliana's Indignation/07.jpg", width: 100%), caption: [Crow of Dark Tidings | Art by Tianhua X], supplement: none, numbering: none)

@@ -10,7 +10,9 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from . import REPO_ROOT
+import dataclasses
+
+from . import REPO_ROOT, chronology
 from .manifest import load_manifest, manifest_item_for
 from .metadata import collection_metadata, extract_metadata, omnibus_metadata, readable_set_name
 from .models import StoryMetadata
@@ -84,8 +86,11 @@ def build_parser() -> argparse.ArgumentParser:
     source.add_argument("--file", type=Path, help="Arquivo Typst específico")
     source.add_argument("--set", dest="set_name", help="Nome exato ou parcial da coleção")
     source.add_argument("--all", action="store_true", help="Converte todas as coleções")
+    source.add_argument("--chronological", action="store_true", help="Gera um EPUB por volume na ordem cronológica (data/chronology.json)")
     source.add_argument("--collection", action="store_true", help="Gera a coleção Magic Stories, um EPUB por set")
     parser.add_argument("--compress-images", action="store_true", help="Comprime imagens do acervo com Pillow para otimizar tamanho em e-readers")
+    parser.add_argument("--max-image-size", type=int, default=1400, help="Maior lado, em px, das imagens do EPUB (padrão: 1400)")
+    parser.add_argument("--no-images", action="store_true", help="Gera o EPUB sem imagens (remove as figuras)")
     parser.add_argument("--combine", action="store_true", help="Gera também um EPUB omnibus")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--stories-dir", type=Path, default=DEFAULT_STORIES_DIR)
@@ -109,12 +114,14 @@ def _target_sets(args: argparse.Namespace) -> list[Path]:
         needle = slugify(args.set_name)
         candidates = [
             path for path in args.stories_dir.iterdir()
-            if path.is_dir() and needle in slugify(path.name)
+            if path.is_dir() and path.name != chronology.WRAPPERS_DIRNAME and needle in slugify(path.name)
         ]
         if len(candidates) != 1:
             raise ValueError(f"Coleção ambígua ou inexistente: {args.set_name}")
         return candidates
-    return sorted(path for path in args.stories_dir.iterdir() if path.is_dir())
+    return sorted(
+        path for path in args.stories_dir.iterdir() if path.is_dir() and path.name != chronology.WRAPPERS_DIRNAME
+    )
 
 
 def _metadata(path: Path, manifest: dict) -> StoryMetadata:
@@ -203,7 +210,9 @@ def _collection_tasks(
     manifest: dict,
     output_dir: Path,
 ) -> list[Task]:
-    story_folders = sorted((p for p in stories_dir.iterdir() if p.is_dir()), key=_sort_key)
+    story_folders = sorted(
+        (p for p in stories_dir.iterdir() if p.is_dir() and p.name != chronology.WRAPPERS_DIRNAME), key=_sort_key
+    )
     story_slugs = [_set_slug(f) for f in story_folders]
     appendices = _collect_appendices(guides_dir, card_lore_dir, story_slugs)
 
@@ -227,6 +236,34 @@ def _collection_tasks(
         if task is not None:
             tasks.append(task)
 
+    return tasks
+
+
+def _chronological_tasks(items: list, manifest: dict, output_dir: Path) -> list[Task]:
+    """Uma tarefa por volume cronológico, reaproveitando collection_metadata."""
+    tasks: list[Task] = []
+    for vol in chronology.volumes(items):
+        sources: list[Path] = []
+        story_metadata: list[StoryMetadata] = []
+        chapter_titles: list[str] = []
+        for item in vol.items:
+            source = REPO_ROOT / item.path
+            if not source.is_file():
+                print(f"[AVISO] {item.path} não existe; pulado no volume {vol.number:02d} - {vol.name}", file=sys.stderr)
+                continue
+            sources.append(source)
+            story_metadata.append(_metadata(source, manifest))
+            chapter_titles.append(f"{item.title} ({item.set_name})")
+        if not sources:
+            continue
+        base = collection_metadata("Chronological", story_metadata, sources, vol.number, story_metadata[0])
+        metadata = dataclasses.replace(
+            base,
+            title=f"MTG Story Chronological {vol.number:02d}: {vol.name}",
+            series="MTG Story — Chronological",
+        )
+        name = f"{vol.number:02d} - {chronology._safe_filename(vol.name)}.epub"
+        tasks.append((sources, output_dir / name, metadata, chapter_titles))
     return tasks
 
 
@@ -262,6 +299,11 @@ def _build_tasks(args: argparse.Namespace, manifest: dict) -> tuple[list[Task], 
             args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR, manifest, collection_dir,
         )
         return tasks, args.report or collection_dir / "collection-report.json"
+
+    if args.chronological:
+        chrono_dir = args.output_dir / "chronological"
+        tasks = _chronological_tasks(chronology.load_chronology(chronology.CHRONOLOGY_FILE), manifest, chrono_dir)
+        return tasks, args.report or chrono_dir / "chronological-report.json"
 
     report = args.report or args.output_dir / "conversion-report.json"
     tasks: list[Task] = []
@@ -358,14 +400,21 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[OK] EPUB válido: {args.validate}")
         return 0
 
-    if args.compress_images and not (args.file or args.set_name or args.all or args.collection):
+    if args.compress_images and not (args.file or args.set_name or args.all or args.collection or args.chronological):
         from .image_compressor import batch_compress_directories
         print("[Otimização] Iniciando compressão de imagens do acervo...")
         batch_compress_directories([args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR])
         return 0
 
-    if not (args.file or args.set_name or args.all or args.collection):
-        build_parser().error("forneça --file, --set, --all, --collection ou --compress-images")
+    if not (args.file or args.set_name or args.all or args.collection or args.chronological):
+        build_parser().error("forneça --file, --set, --all, --collection, --chronological ou --compress-images")
+
+    if args.chronological and not chronology.CHRONOLOGY_FILE.exists():
+        print(
+            f"[ERRO] {chronology.CHRONOLOGY_FILE} não existe; rode: python -m mtg_epub.chronology --update",
+            file=sys.stderr,
+        )
+        return 2
 
     # --no-validate desliga validate_epub e o epubcheck; sem validação não há o que checar.
     epubcheck = None if args.no_validate else _resolve_epubcheck(args.epubcheck)
@@ -387,6 +436,8 @@ def main(argv: list[str] | None = None) -> int:
             epubcheck=epubcheck,
             fonts_dir=args.fonts_dir,
             validate=not args.no_validate,
+            max_image_size=args.max_image_size,
+            with_images=not args.no_images,
         )
         max_system_workers = os.cpu_count() or 1
         jobs = args.jobs if args.jobs > 0 else max_system_workers

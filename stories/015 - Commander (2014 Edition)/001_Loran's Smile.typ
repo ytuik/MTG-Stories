@@ -375,4 +375,4 @@ Sometimes the aspiring mage would listen politely, sometimes intently. Occasiona
 
 And Feldon, the ancient wizard, seemed to be content.
 
-#figure(image("001_Loran"s Smile/01.jpg", width: 100%), caption: [Feldon of the Third Path | Art by Chase Stone], supplement: none, numbering: none)
+#figure(image("001_Loran's Smile/01.jpg", width: 100%), caption: [Feldon of the Third Path | Art by Chase Stone], supplement: none, numbering: none)

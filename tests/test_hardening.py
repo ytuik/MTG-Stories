@@ -26,7 +26,7 @@ def fake_build(monkeypatch):
     """Substitui build_epub (que exige Typst) por um que só grava um arquivo."""
     calls = []
 
-    def _build(metadata, chapters, root, output_path, css_content, fonts=None):
+    def _build(metadata, chapters, root, output_path, css_content, fonts=None, **_):
         calls.append(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_bytes(b"epub")

@@ -17,11 +17,11 @@
 
 Party planning takes time. Why, the last time we held an event at the embassy, I spent a week doing nothing but negotiating with interior designers and patissiers to ensure that our decorative emblems were correct and complementary shades of blue. The queen claims that Brago left a will naming her his heir, which is laughable enough (I don't mean to disparage the spectrally advanced, but #emph[estate planning]  rarely enters into their concerns), but let's talk about the true proof of her deception—on the #emph[very day]  that she announces her ascension, the throne room is immediately decorated in Black Rose tapestries, the guards all have Black Rose emblems on their shields, there are Black Rose flags flying over the capital. The citizens are openly wondering how she managed to convince the Custodi to legitimize her crowning, but I just want to know how she managed to commission this much embroidery from every seamstress and tailor in the city without anyone noticing.
 
-#figure(image("006_Leovold"s Dossiers/01.jpg", width: 100%), caption: [Art by Titus Lunter], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/01.jpg", width: 100%), caption: [Art by Titus Lunter], supplement: none, numbering: none)
 
 Now to the matter of Brago's death. (Second death? Additional death? I didn't know we needed a term for this, but apparently we do.) My access to the new queen's court has been limited, but the best picture I can piece together from rumor and innuendo is as follows: an assassin infiltrated the palace, by some accounts walking through stone walls, in order to reach Brago's chambers. Exactly how you kill (permanently kill? Extra kill? I'm going to task a writer to come up with a term for this, or it will drive me mad) a ghost remains unknown, but visitors to court say that the new queen's crown seems to glow with the same spectral energy that used to be associated with the visage of Brago himself.
 
-#figure(image("006_Leovold"s Dossiers/02.jpg", width: 100%), caption: [Art by Kieran Yanner], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/02.jpg", width: 100%), caption: [Art by Kieran Yanner], supplement: none, numbering: none)
 
 More information will be forthcoming once my associate can re-establish lines of communication with this new monarch. Forgive the cliché, but we must reach out carefully, as this rose is defined not by her petals but by her thorns.
 
@@ -37,7 +37,7 @@ A delightful young woman whose taste in hats is beyond compare, Selvala has twic
 
 I spoke to Selvala at a riverside cafe and extended our hand in friendship—did you know that she still has cousins in Trest with whom she corresponds regularly? (A summary of those correspondences has been made available through the State Security Act, and are available for review.) We spoke at length of her current predicament—the newly minted queen will not entertain Selvala's presence in court, and she has little interest in allying with Captain Adriana, due to the latter's indifference to issues that she holds dear.
 
-#figure(image("006_Leovold"s Dossiers/03.jpg", width: 100%), caption: [Art by Tyler Jacobson], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/03.jpg", width: 100%), caption: [Art by Tyler Jacobson], supplement: none, numbering: none)
 
 I suggested that perhaps Paliano had been ruled by humans and their ghosts for too long, and that it might be time for someone capable who truly cared about harmonious rule to assume a caretaker role. She replied with a look that I know well: ambition, not for its own sake, but to right a greater wrong...with just a touch of anger to fan the flames. Before we parted, I made it clear that her cousins back in Trest would be extremely interested in supporting her in any of her future endeavors, whatever they might be.
 
@@ -55,7 +55,7 @@ Alas, poor Adriana. Her love for the city is firm and unyielding, yet when Brago
 
 Before that end comes, however, she seems to have her heart set on causing as much unrest in the name of righteousness as possible. I reached out to her via messenger, but the messenger returned with a broken nose and a completely ruined shirt. The nose will heal, but alas, I believe there is nothing to be done for the shirt.
 
-#figure(image("006_Leovold"s Dossiers/04.jpg", width: 100%), caption: [Art by Chris Rallis], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/04.jpg", width: 100%), caption: [Art by Chris Rallis], supplement: none, numbering: none)
 
 It remains to be seen precisely what sort of stage production this will be. Will our noble heroine win over the object of her affections and usher in a new age of peace, equality, and prosperity? Or will her hopeless egalitarian utopia prove as ephemeral as the king she once served? Were I a betting elf (and I assure you, I am not), I would wager on the latter. Regardless, we have a front-row seat to this dramatic production, and further missives will be available at the intermission.
 
@@ -81,7 +81,7 @@ In the streets, some call her usurper. I've heard scoffing references to her "po
 
 She intends to rule.
 
-#figure(image("006_Leovold"s Dossiers/05.jpg", width: 100%), caption: [Art by Daniel Ljunggren], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/05.jpg", width: 100%), caption: [Art by Daniel Ljunggren], supplement: none, numbering: none)
 
 Within hours of taking the throne, there have been proclamations and policies, clearly drafted weeks and months before. All are aimed to consolidate her power, gain the nervous acceptance of the populace, and legitimize her rule—if her edicts are obeyed, then how can she not be queen?
 
@@ -97,13 +97,13 @@ Leovold
 
 I love goblins. I know what you're thinking, but it's true! A goblin, by his nature, helps us understand ourselves. A goblin is everything we are not: aggressive, savage, uncouth, and loud. When a goblin truly embraces his nature, and becomes the pinnacle of what he is capable of, I cannot help but find him endearing. This would be the case with Grenzo, if I were not somewhat concerned that he and his rabble will murder me in the night alongside everyone I hold dear.
 
-#figure(image("006_Leovold"s Dossiers/06.jpg", width: 100%), caption: [Art by Svetlin Velinov], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/06.jpg", width: 100%), caption: [Art by Svetlin Velinov], supplement: none, numbering: none)
 
 Grenzo was content to be part of the machinery of Paliano; he had maneuvered himself into a position by which he could control vast swaths of the underworld. By serving as warden for Brago's prisons and commanding the unwavering loyalty of a network of bondsmen, bounty hunters, and criminal gangs, he was a powerful force in the city who never needed to dirty his hands. (This is a figure of speech only; his hands were, I assume, filthy all of the time.)
 
 In the absence of Brago's patronage (and it is entirely unclear what the inciting event was that led the former king to tolerate and encourage Grenzo's operations), Grenzo has adopted a different tactic, one that simultaneously surprises me more and less than the ones he has employed before—open rebellion. He incites mobs to violence, not directed at the new queen per se, but at the idea of the city itself. He has twice now taken advantage of large gatherings assembled by Captain Adriana, infiltrating them, turning a peaceful demonstration into a violent mob. His goals are now completely opaque to me—he is certainly not establishing himself in a position of power, unless you consider attempting to bring about the downfall of #emph[all ] positions of power a means to that end.
 
-#figure(image("006_Leovold"s Dossiers/07.jpg", width: 100%), caption: [Art by Steve Prescott], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/07.jpg", width: 100%), caption: [Art by Steve Prescott], supplement: none, numbering: none)
 
 Is this anarchy an actual political philosophy? I would like to give Grenzo the benefit of the doubt on this, as I have become fond of him over the years. Perhaps he actually mourns the loss of his king, and expresses it through rage? Doubtful, but I can't rule it out. Perhaps this chaos is at the new queen's behest? It seems out of character with her favorite sort of games. Or perhaps he is simply reverting to his baser instincts. Smashing and burning for the sheer glory of the sounds of broken glass, the dancing lights of the flames. Regardless, I have instructed my diplomatic staff to stay clear of any large gatherings, as the streets are more volatile than I have ever seen.
 
@@ -121,13 +121,13 @@ To Her Majesty Queen Marchesa, the Black Rose, first of her name, head of the co
 
 Per your instruction, I have gathered the following information regarding the recently appointed ambassador from the city-state of Trest. He has been making his presence known in the city by hosting elaborate parties, banquets, and other displays with the express intent of "cultural exchange."
 
-#figure(image("006_Leovold"s Dossiers/08.jpg", width: 100%), caption: [Art by Howard Lyon], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/08.jpg", width: 100%), caption: [Art by Howard Lyon], supplement: none, numbering: none)
 
 The Trestians seem to struggle with our cultural norms, and opt for a display of wealth and supposed refinement, but attendees to these events describe them as gaudy and gauche. As the elves of Trest tend toward the primitive and backward, this is no surprise. Leovold himself seems content to play the part of obsequious host and court jester, with his grand gestures and bold proclamations of friendship. It seems clear that he is trying to ingratiate himself with the nobility and commonfolk alike, with some success—the Trestian delegation is generally welcome in polite society as well as among the lower classes.
 
 The embassy does retain a small armed contingent of guards; given the size of the embassy staff, this is unsurprising, and while the guards seem well-trained, they are certainly not on any sort of aggressive footing, seemingly happy to wonder at the sights and sounds of the greatest city in Fiora.
 
-#figure(image("006_Leovold"s Dossiers/09.jpg", width: 100%), caption: [Art by Anthony Palumbo], supplement: none, numbering: none)
+#figure(image("006_Leovold's Dossiers/09.jpg", width: 100%), caption: [Art by Anthony Palumbo], supplement: none, numbering: none)
 
 Now, there have been some rumors of members of the Trestian delegation being associated with minor diplomatic incidents—suspicion of being involved in espionage and the like. There are two potential explanations for these reports. Either Leovold and his attaches are engaged in highly sophisticated spying efforts against the state, or members of his delegation are simply prone to nosing around and occasional petty theft.
 

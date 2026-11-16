@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Fate Reforged", doc)
+#show: doc => conf("Fate Reforged", cover: image("016 - Fate Reforged/001_A New Tarkir of Old/01.jpg"), doc)
 
 #include "./016 - Fate Reforged/001_A New Tarkir of Old.typ"
 #include "./016 - Fate Reforged/002_Unwritten.typ"

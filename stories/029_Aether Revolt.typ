@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Aether Revolt", doc)
+#show: doc => conf("Aether Revolt", cover: image("029 - Aether Revolt/001_In the Dead of Night/01.jpg"), doc)
 
 #include "./029 - Aether Revolt/001_In the Dead of Night.typ"
 #include "./029 - Aether Revolt/002_Quiet Moments.typ"

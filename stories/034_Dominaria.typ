@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Dominaria", doc)
+#show: doc => conf("Dominaria", cover: image("034 - Dominaria/001_Return to Dominaria- Episode 1/01.jpg"), doc)
 
 #include "./034 - Dominaria/001_Return to Dominaria- Episode 1.typ"
 #include "./034 - Dominaria/002_Return to Dominaria- Episode 2.typ"

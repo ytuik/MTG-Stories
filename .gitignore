@@ -23,3 +23,15 @@ tools/
 
 # Cache local do compressor de imagens
 .image-compress-cache.json
+
+# Cache e relatório da compilação de PDF
+.pdf-cache.json
+.pdf-cache.json.lock
+pdf-report.json
+status.json
+
+# PDFs são saídas de build (gere com: python typ2pdf.py --missing)
+stories/**/*.pdf
+planeswalkers_guides/**/*.pdf
+card_lore/**/*.pdf
+build/

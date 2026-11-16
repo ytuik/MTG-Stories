@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Amonkhet", doc)
+#show: doc => conf("Amonkhet", cover: image("030 - Amonkhet/001_Impact/01.png"), doc)
 
 #include "./030 - Amonkhet/001_Impact.typ"
 #include "./030 - Amonkhet/002_Trust.typ"

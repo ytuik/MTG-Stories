@@ -94,6 +94,53 @@ def _has_meaningful_alpha(image: Image.Image) -> bool:
     return extrema[0] < 255
 
 
+_ORIGINAL_FORMATS = {
+    "JPEG": ("jpg", "image/jpeg"),
+    "PNG": ("png", "image/png"),
+    "WEBP": ("webp", "image/webp"),
+    "GIF": ("gif", "image/gif"),
+}
+
+
+def compress_image_bytes(
+    data: bytes,
+    max_dim: int = DEFAULT_MAX_DIM,
+    quality: int = DEFAULT_QUALITY,
+) -> tuple[bytes, str, str]:
+    """Versão pura de `_compress`: recebe bytes e devolve (bytes, extensão, mime).
+
+    Reduz para no máximo `max_dim` no maior lado. Mantém PNG quando há alpha
+    relevante (`_has_meaningful_alpha`); o resto vira JPEG. Levanta exceção se a
+    imagem não puder ser decodificada.
+    """
+    with Image.open(io.BytesIO(data)) as opened:
+        original_format = (opened.format or "").upper()
+        img = ImageOps.exif_transpose(opened)
+        img.load()
+        if img.mode in ("P", "PA") and "transparency" in img.info:
+            img = img.convert("RGBA")
+        elif img.mode not in ("RGB", "RGBA", "L", "LA"):
+            img = img.convert("RGBA" if "A" in img.getbands() else "RGB")
+        resized = img.width > max_dim or img.height > max_dim
+        if resized:
+            img = img.copy()
+            img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
+        buffer = io.BytesIO()
+        if _has_meaningful_alpha(img):
+            img.save(buffer, format="PNG", optimize=True)
+            result = (buffer.getvalue(), "png", "image/png")
+        else:
+            if img.mode != "RGB":
+                img = img.convert("RGB")
+            img.save(buffer, format="JPEG", quality=quality, optimize=True, progressive=False)
+            result = (buffer.getvalue(), "jpg", "image/jpeg")
+        # Sem resize e maior que o original: mantém os bytes originais.
+        original = _ORIGINAL_FORMATS.get(original_format)
+        if not resized and original is not None and len(result[0]) > len(data):
+            return data, original[0], original[1]
+        return result
+
+
 def compress_image(
     input_path: Path,
     output_path: Path | None = None,

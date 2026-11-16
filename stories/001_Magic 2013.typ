@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Magic 2013", doc)
+#show: doc => conf("Magic 2013", cover: image("001 - Magic 2013/001_Odric, Master Tactician/01.jpg"), doc)
 
 #include "./001 - Magic 2013/001_Odric, Master Tactician.typ"
 #include "./001 - Magic 2013/002_Xathrid Gorgon.typ"

@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Murders at Karlov Manor", doc)
+#show: doc => conf("Murders at Karlov Manor", cover: image("055 - Murders at Karlov Manor/001_Episode 1- Ghosts of Our Past/01.png.jpg"), doc)
 
 #include "./055 - Murders at Karlov Manor/001_Episode 1- Ghosts of Our Past.typ"
 #include "./055 - Murders at Karlov Manor/002_Episode 2- Monsters We Became.typ"

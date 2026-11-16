@@ -47,7 +47,7 @@ Jace's consciousness toured Jori's mind, swimming through imagery of goblins str
 
 Unfortunately, Jace also saw the memory of Jori putting her hand on Kendrin's forehead as the dead woman's body crumbled into brittle ribs of gray dust. She had died to the Eldrazi slaughter before she could pass on enough of what she knew.
 
-#figure(image("003_The Believers" Pilgrimage/01.jpg", width: 100%), caption: [Art by Cynthia Sheppard], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/01.jpg", width: 100%), caption: [Art by Cynthia Sheppard], supplement: none, numbering: none)
 
 Jace opened his eyes and sucked in a breath, emerging from Jori En's mind as if he were breaching the surface of an ocean.
 
@@ -83,7 +83,7 @@ Gideon was aghast. "What? Why?"
 
 "I #emph[am]  focusing on life and death," said Gideon stonily. "This place is life and death, every minute. I can't—we can't afford another refugee death. I'm not leaving to protect you on a cross-country mission." Gideon nodded at the merfolk. "You have Jori's account. Can't you solve it here, together?"
 
-#figure(image("003_The Believers" Pilgrimage/02.jpg", width: 100%), caption: [Art by Eric Deschamps], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/02.jpg", width: 100%), caption: [Art by Eric Deschamps], supplement: none, numbering: none)
 
 "I only have what they accomplished, not why it worked," Jace said. "Look. You're not seeing the bigger picture here. This was what I came here to do. Let me do it."
 
@@ -119,7 +119,7 @@ He had thought about it, yes. One quick spell, and he could have "convinced" Gid
 
 "Not sure I'd have the same restraint you do," she said. "Seems like there'd always be possibilities #emph[he]  would never consider."
 
-#figure(image("003_The Believers" Pilgrimage/03.jpg", width: 100%), caption: [Mind Sculpt | Art by Michael C. Hayes], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/03.jpg", width: 100%), caption: [Mind Sculpt | Art by Michael C. Hayes], supplement: none, numbering: none)
 
 "He's hard to budge, in more ways than one. A difference between us, I suppose."
 
@@ -141,7 +141,7 @@ It was days until they encountered any Eldrazi. They rambled past hedron-studded
 
 When the swarm of Eldrazi spawn crested the hill and scrambled toward the two travelers, the sun was behind them, and light glinted off all the angular elbows and framed the blank cranial faces.
 
-#figure(image("003_The Believers" Pilgrimage/04.jpg", width: 100%), caption: [Art by Todd Lockwood], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/04.jpg", width: 100%), caption: [Art by Todd Lockwood], supplement: none, numbering: none)
 
 "Drive!" said Jace.
 
@@ -177,7 +177,7 @@ Jace and Jori leapt down from the coach and ran after her, Jori grabbing a halbe
 
 The kor woman had already deployed her lines and was rappelling down into the fissure. "Down here! Quickly!"
 
-#figure(image("003_The Believers" Pilgrimage/05.jpg", width: 100%), caption: [Art by Eric Deschamps], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/05.jpg", width: 100%), caption: [Art by Eric Deschamps], supplement: none, numbering: none)
 
 Jace looked back. Sure enough, the hurda was already being overwhelmed and torn to shreds by the Eldrazi creatures.
 
@@ -195,7 +195,7 @@ Jace's gaze arced up from Jori, who had stopped dead in her tracks—to the kor 
 
 Ulamog.
 
-#figure(image("003_The Believers" Pilgrimage/06.jpg", width: 100%), caption: [Art by Michael Komarck], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/06.jpg", width: 100%), caption: [Art by Michael Komarck], supplement: none, numbering: none)
 
 Jace could barely move. The air felt wrong. He felt drawn forward somehow, as if gravity had shifted away from the earth and toward this thing. He felt like krill drawn toward a whale's maw, sucked inevitably toward its consuming bristles.
 
@@ -223,7 +223,7 @@ In a flash, Jace perceived the pattern that would develop. The peoples of Zendik
 
 That's why Sea Gate was being attacked by the scions of the Eldrazi. They were the farthest tendrils of Ulamog's spread, reaching out, sensing for the concentrations of population, sensing concentrations of energy.
 
-#figure(image("003_The Believers" Pilgrimage/07.jpg", width: 100%), caption: [Art by Slawomir Maniak], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/07.jpg", width: 100%), caption: [Art by Slawomir Maniak], supplement: none, numbering: none)
 
 No, not sensing, he thought. #emph[Tasting] .
 
@@ -333,7 +333,7 @@ She stopped hiking. What had she just been saying to herself?
 
 #emph["Wait, Jace, no?"]
 
-#figure(image("003_The Believers" Pilgrimage/08.jpg", width: 100%), caption: [Art by Adam Paquette], supplement: none, numbering: none)
+#figure(image("003_The Believers' Pilgrimage/08.jpg", width: 100%), caption: [Art by Adam Paquette], supplement: none, numbering: none)
 
 She scanned around, feeling like she needed to get her bearings. The sky above her was much as it had been for the past several days—broad and blue, and peppered with clouds and the occasional floating hedron, limitless and familiar and yet somehow odd. She felt an unsettling sensation, as if the dome of sky had just somehow bent into a new shape, suddenly and just outside her field of vision. She swiveled her head around. The grass and stones and distant trees all looked as they should. She looked at a stone on the ground. She kicked it.
 

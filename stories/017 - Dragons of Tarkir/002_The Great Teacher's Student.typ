@@ -21,7 +21,7 @@ She wanted to take the next step more than she had ever wanted anything.
 
 There was so much out there. So many new things. So much to learn. So much to see.
 
-#figure(image("002_The Great Teacher"s Student/01.png", height: 30%), caption: [], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/01.png", height: 30%), caption: [], supplement: none, numbering: none)
 
 Then why didn't she go? What was holding her back?
 
@@ -59,7 +59,7 @@ Her mother hemmed and hawed, her fingers alighting first on one apple and then a
 
 She was trapped.
 
-#figure(image("002_The Great Teacher"s Student/02.jpg", width: 100%), caption: [Art by Daniel Ljunggren], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/02.jpg", width: 100%), caption: [Art by Daniel Ljunggren], supplement: none, numbering: none)
 
 She struggled to draw the thick, cloying air into her lungs, but she couldn't get enough. Her body tingled and itched. It felt like her skin was warning her that it wasn't going to stay put much longer; if she didn't move, it would move without her and she wouldn't have skin anymore. She had to go. She had to get out of there.
 
@@ -113,7 +113,7 @@ Her mother's hand on Narset's wrist cut her off. "Please," her mother said. "You
 
 Narset didn't bother to say that that's what she had been trying to do: make it right. She didn't want to argue any further because her mother had uttered the words she had been waiting desperately to hear. She was finally allowed to escape the too-tight marketplace; she was permitted to go outside.
 
-#figure(image("002_The Great Teacher"s Student/03.jpg", width: 100%), caption: [Art by Florian de Gesincourt], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/03.jpg", width: 100%), caption: [Art by Florian de Gesincourt], supplement: none, numbering: none)
 
 She made a break for it, pushing past the hard stares of the other merchants and shoppers who had seen the debacle. She ducked under the melon booth, jumped over three baskets of bread, and flew through the parted curtain before anyone could stop her.
 
@@ -141,7 +141,7 @@ She could see nothing but the low bushes that lined the water, the grassy field 
 
 Narset staggered back, floundering to find her balance. It was. She knew exactly what she was looking at although she had never seen it before. There in the distance was the grandest of all the sanctuaries: Dragon's Eye. And perched atop it at the highest point was Dragonlord Ojutai, the Great Teacher. She knew him the moment she saw him, although he was a distant figure. She could make out his sleek, strong body silhouetted against the sun.
 
-#figure(image("002_The Great Teacher"s Student/04.jpg", width: 100%), caption: [Art by Filip Burburan], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/04.jpg", width: 100%), caption: [Art by Filip Burburan], supplement: none, numbering: none)
 
 "Gather knowledge."
 
@@ -189,7 +189,7 @@ Over the next three years, Narset studied, trained, and practiced under the Grea
 
 With her dragon as her guide she studied the draconic aspect of cunning and sharpened her mind, working through puzzles and solving riddles. She exercised her body, too, learning what to do by watching Ojutai's silhouette and mimicking his movements. She practiced in every spare moment she could find, and quickly increased her strength, stamina, balance, and dexterity. The bags she carried back from the marketplace soon felt as light as bags of cotton. And if she had wanted them to be lighter, she could have cast a spell to make it so. Her curious mind adored the complexities of spellcasting. There were so many moving parts, so much to keep track of, so many concepts and layers to become intimately familiar with. And she threw herself into the task of it. She learned how to wield the magic of the plane like the dragons of Tarkir had done for ages.
 
-#figure(image("002_The Great Teacher"s Student/05.jpg", width: 100%), caption: [Art by Lake Hurwitz], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/05.jpg", width: 100%), caption: [Art by Lake Hurwitz], supplement: none, numbering: none)
 
 Much of the restlessness she felt subsided, but not all of it. Narset's insides still fidgeted and stirred when she thought of how far away Dragon's Eye Sanctuary was. Although she knew that in many ways she was close to Ojutai, the physical distance that separated them was great. She longed to one day train alongside the Great Teacher on his perch, and she sent quiet pleas out to him every day.
 
@@ -211,7 +211,7 @@ Narset gaped. The aven wore a robe, which she recognized—a dragonspeaker's rob
 
 "Ojutai." Narset said the dragon's name without thinking, but as she said it certainty set in. The dragonspeaker's robe was not just any dragonspeaker's robe—the lines of the fabric, the decoration, it was unmistakable. Blood rushing away from her head, Narset lowered herself into a bow. "Dragonspeaker Ishai."
 
-#figure(image("002_The Great Teacher"s Student/06.jpg", width: 100%), caption: [Art by Zack Stella], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/06.jpg", width: 100%), caption: [Art by Zack Stella], supplement: none, numbering: none)
 
 "Ah, so you know who I am." Narset glanced up to see the aven cock her head. "Impressive, again."
 
@@ -247,7 +247,7 @@ Their first meeting had been everything she had hoped, everything she had dreame
 
 Often, she felt his words too were meant for her alone to hear. It was as though the two of them were engaged in a private conversation and others were merely eavesdropping. No one else could hope to understand the true depth of meaning in what passed between them, for no one else had a mind like hers and Ojutai's—not even the skywise. Narset did not mean to be arrogant, those were just the facts. Her mind was more like a dragon's mind than a human's. She learned more and faster than any other student at the Sanctuary, and the more she learned the closer she felt to her teacher.
 
-#figure(image("002_The Great Teacher"s Student/07.jpg", width: 100%), caption: [Art by Chase Stone], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/07.jpg", width: 100%), caption: [Art by Chase Stone], supplement: none, numbering: none)
 
 As she looked back now, she recognized her time at the sanctuary as the best years of her life. She was happier than she had ever been; she was challenged, recognized, fulfilled. Her restlessness had ceased haunting her; she had felt a sense of peace. And while she wasn't physically moving, she knew she was on a path, going where she was meant to go, becoming who she was meant to be. Ojutai was leading her. And not a day went by that she didn't thank her dragon for the gift.
 
@@ -265,7 +265,7 @@ It felt strange.
 
 The students below her cheered—or at least most of them. The skywise soared around her in a display of celebration. And Ojutai's bright bursts of magic danced and cavorted in the sky.
 
-#figure(image("002_The Great Teacher"s Student/08.jpg", width: 100%), caption: [Art by Willian Murai], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/08.jpg", width: 100%), caption: [Art by Willian Murai], supplement: none, numbering: none)
 
 This was it then. She had done it. She had reached the end…
 
@@ -301,7 +301,7 @@ At first, her restlessness reared, but before it could sink its claws into her, 
 
 As she raced to the nearest scroll, desperate, she was vaguely aware of where she must be. It had to be an ancient archive, a place that she had only heard of in legend, a place that Ojutai had all but forbidden. She did not care, could not care—all she could feel was the need to search, to seek, to know.
 
-#figure(image("002_The Great Teacher"s Student/09.jpg", width: 100%), caption: [Art by Chase Stone], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/09.jpg", width: 100%), caption: [Art by Chase Stone], supplement: none, numbering: none)
 
 With as much care as she could muster in her mind's ravenous state she unfurled the longest of the scrolls. It was brittle, but intact. And it was filled with words—glorious words that conveyed history, knowledge, and wisdom. She knelt on the dusty, brick ground spreading the words out before her, and she began to read. She felt like she was moving again.
 
@@ -321,7 +321,7 @@ When she ran out of scrolls to read in the archives under Dragon's Eye, she deci
 
 "Taigam, please, out of my way. I must go." The restlessness was buzzing inside Narset, the burning need to know the truth was a force of its own pushing her from within. She would not be able to resist it much longer.
 
-#figure(image("002_The Great Teacher"s Student/10.jpg", width: 100%), caption: [Art by Jason A. Engle], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/10.jpg", width: 100%), caption: [Art by Jason A. Engle], supplement: none, numbering: none)
 
 "I have no choice but to report you for blasphemy. You have betrayed Ojutai. You have chosen to follow a dark path, and for that the Great Teacher will punish you."
 
@@ -355,7 +355,7 @@ The writing was rushed and smudged, as though whoever had written it knew there 
 
 The scroll was an account of a meeting between the khans of long ago.
 
-#figure(image("002_The Great Teacher"s Student/11.jpg", width: 100%), caption: [Art by Yeong-Hao Han], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/11.jpg", width: 100%), caption: [Art by Yeong-Hao Han], supplement: none, numbering: none)
 
 She learned of the khans' hope to end the dragons in order to save their clans. She learned of their disagreements and their plans. And she learned of a name: Sarkhan—a man, a dragon, a khan—one who had saved the Spirit Dragon and thereby saved the dragons of Tarkir. And then she learned one last thing, one final truth. The meeting had been brought to an abrupt end as two dragons and their broods swooped in to attack the gathered khans. One of those dragons had been Ojutai.
 
@@ -387,7 +387,7 @@ Ojutai.
 
 Her dragon, her teacher, silhouetted against the first rays of the rising sun. He had come out on his perch to teach the morning's lesson.
 
-#figure(image("002_The Great Teacher"s Student/12.jpg", width: 100%), caption: [Art by Steve Prescott], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/12.jpg", width: 100%), caption: [Art by Steve Prescott], supplement: none, numbering: none)
 
 "So, what have you learned?" He turned his head toward her.
 
@@ -413,4 +413,4 @@ Ojutai nodded. And Narset knew that while she could not see it he was smiling to
 
 "Thank you," Narset said. Her words were carried away on the winds of Tarkir as she let go.
 
-#figure(image("002_The Great Teacher"s Student/13.jpg", width: 100%), caption: [Narset Transcendent | Art by Magali Villeneuve], supplement: none, numbering: none)
+#figure(image("002_The Great Teacher's Student/13.jpg", width: 100%), caption: [Narset Transcendent | Art by Magali Villeneuve], supplement: none, numbering: none)

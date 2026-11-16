@@ -157,3 +157,112 @@ def test_paragraph_start_markers_are_escaped():
     assert _convert("<p>/ term: x</p>") == r"\/ term: x"
     assert _convert("<p>1. not numbered</p>") == r"1\. not numbered"
     assert _convert("<p>-5 degrees, 2.5 apples</p>") == "-5 degrees, 2.5 apples"
+
+
+
+# ---------------------------------------------------------------- rebuild
+
+@pytest.fixture
+def rebuild_env(tmp_path, monkeypatch):
+    monkeypatch.setattr(scraper, "ROOT_DIR", tmp_path)
+    monkeypatch.setattr(scraper, "STORIES_DIR", tmp_path / "stories")
+    monkeypatch.setattr(scraper, "MANIFEST_FILE", tmp_path / "manifest.json")
+    calls = {"pdf": [], "epub": [], "codes": {"pdf": 0, "epub": 0}}
+    monkeypatch.setattr(scraper, "_pdf_main", lambda argv: calls["pdf"].append(argv) or calls["codes"]["pdf"])
+    monkeypatch.setattr(scraper, "_epub_main", lambda argv: calls["epub"].append(argv) or calls["codes"]["epub"])
+    return calls
+
+
+def _make_typ(tmp_path, folder, name):
+    p = tmp_path / "stories" / folder / name
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text("x", encoding="utf-8")
+    return p
+
+
+def _fake_scrape(tmp_path, monkeypatch, statuses):
+    """statuses: {item_id: (pasta, arquivo, status)}"""
+    monkeypatch.setattr(scraper, "CATALOG_MISSING", [{"id": i, "type": "story"} for i in statuses])
+
+    def fake(item, force=False):
+        folder, name, st = statuses[item["id"]]
+        typ = _make_typ(tmp_path, folder, name)
+        return {"id": item["id"], "status": st, "output_file": typ.relative_to(tmp_path).as_posix()}
+
+    monkeypatch.setattr(scraper, "scrape_single_item", fake)
+
+
+def test_rebuild_runs_only_for_sets_with_new_stories(tmp_path, monkeypatch, rebuild_env):
+    (tmp_path / "stories").mkdir()
+    (tmp_path / "stories" / "064_Reality Fracture.typ").write_text("book", encoding="utf-8")
+    _fake_scrape(tmp_path, monkeypatch, {
+        "new": ("064 - Reality Fracture", "011_New.typ", "scraped"),
+        "old": ("058 - Duskmourn", "012_Old.typ", "skipped"),
+    })
+    scraper.main(["--rebuild"])
+    new_typ = str(tmp_path / "stories" / "064 - Reality Fracture" / "011_New.typ")
+    assert rebuild_env["pdf"] == [["--file", new_typ], ["--set-books", "--set", "064_"]]
+    assert rebuild_env["epub"] == [["--set", "064 - Reality Fracture", "--combine"]]
+
+
+def test_no_rebuild_without_flag_or_new_stories(tmp_path, monkeypatch, rebuild_env):
+    _fake_scrape(tmp_path, monkeypatch, {"new": ("064 - RF", "011_New.typ", "scraped")})
+    scraper.main([])
+    assert rebuild_env["pdf"] == [] and rebuild_env["epub"] == []
+    _fake_scrape(tmp_path, monkeypatch, {"old": ("064 - RF", "012_Old.typ", "skipped")})
+    scraper.main(["--rebuild"])
+    assert rebuild_env["pdf"] == [] and rebuild_env["epub"] == []
+
+
+def test_rebuild_failure_sets_exit_code_but_keeps_scrape(tmp_path, monkeypatch, rebuild_env, capsys):
+    rebuild_env["codes"]["epub"] = 1
+    _fake_scrape(tmp_path, monkeypatch, {"new": ("064 - RF", "011_New.typ", "scraped")})
+    with pytest.raises(SystemExit) as exc:
+        scraper.main(["--rebuild"])
+    assert exc.value.code == 1
+    assert "[Rebuild][Falhas]" in capsys.readouterr().out
+    manifest = json.loads((tmp_path / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["scraped_items"]["new"]["status"] == "scraped"
+
+
+def _fake_status(monkeypatch, sets):
+    from mtg_epub import status
+    monkeypatch.setattr(status, "collect", lambda: {"sets": sets, "failed": [], "missing_timeline": {}})
+    monkeypatch.setattr(scraper, "scrape_single_item", lambda *a, **k: pytest.fail("não deve raspar"))
+
+
+def test_rebuild_only_without_pending_calls_nothing(monkeypatch, rebuild_env):
+    _fake_status(monkeypatch, {"001 - A": {
+        "kind": "set", "total": 1, "no_pdf": [], "stale_pdf": [], "no_epub": [], "stale_epub": []}})
+    with pytest.raises(SystemExit) as exc:
+        scraper.main(["--rebuild-only"])
+    assert exc.value.code == 0
+    assert rebuild_env["pdf"] == [] and rebuild_env["epub"] == []
+
+
+def test_rebuild_only_rebuilds_pending_sets_only(tmp_path, monkeypatch, rebuild_env):
+    _fake_status(monkeypatch, {
+        "001 - A": {"kind": "set", "total": 2, "no_pdf": [], "stale_pdf": ["stories/001 - A/001_X.typ"],
+                    "no_epub": [], "stale_epub": []},
+        "002 - B": {"kind": "set", "total": 1, "no_pdf": [], "stale_pdf": [], "no_epub": [], "stale_epub": []},
+    })
+    with pytest.raises(SystemExit) as exc:
+        scraper.main(["--rebuild-only"])
+    assert exc.value.code == 0
+    assert rebuild_env["pdf"] == [["--file", str(tmp_path / "stories/001 - A/001_X.typ")]]
+    assert rebuild_env["epub"] == [["--set", "001 - A", "--combine"]]
+
+
+def test_rebuild_adds_new_story_to_set_wrapper_before_building(tmp_path, monkeypatch, rebuild_env):
+    stories = tmp_path / "stories"
+    old = _make_typ(tmp_path, "064 - Reality Fracture", "001_Old.typ")
+    wrapper = stories / "064_Reality Fracture.typ"
+    wrapper.write_text(
+        '#import "@local/mtgset:0.1.0": conf\n#show: doc => conf("Reality Fracture", doc)\n\n'
+        f'#include "./064 - Reality Fracture/{old.name}"\n', encoding="utf-8")
+    _fake_scrape(tmp_path, monkeypatch, {"new": ("064 - Reality Fracture", "011_New.typ", "scraped")})
+    seen = []
+    monkeypatch.setattr(scraper, "_pdf_main", lambda argv: seen.append(wrapper.read_text(encoding="utf-8")) or 0)
+    scraper.main(["--rebuild"])
+    assert '#include "./064 - Reality Fracture/011_New.typ"' in seen[0]
+    assert seen[0].index("001_Old") < seen[0].index("011_New")
