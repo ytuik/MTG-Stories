@@ -2,20 +2,24 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import subprocess
 import tempfile
+import threading
+import sys
 import time
+import uuid
 from pathlib import Path
-from xml.sax.saxutils import escape as xml_escape
 from zipfile import ZIP_STORED, ZipFile
 
+from . import PIPELINE_VERSION, REPO_ROOT
+from .epub_builder import BookMetadata, ChapterSource, build_epub
 from .metadata import extract_metadata
 from .models import ConversionResult, StoryMetadata
-from .themes import DEFAULT_FONTS_DIR, load_theme_css, prepare_theme_fonts, theme_for_set
-from .epubBuilder import build_epub, BookMetadata, ChapterSource
-
-from .epubBuilder import build_epub, BookMetadata, ChapterSource
+from .slugs import slugify
+from .typst_html import TMP_TYP_SUFFIX, referenced_images
+from .themes import DEFAULT_FONTS_DIR, load_theme_css, prepare_theme_fonts, theme_font_sources, theme_for_set
 
 try:
     from PIL import Image
@@ -43,28 +47,50 @@ figure { margin: 1.5em 0; text-align: center; page-break-inside: avoid; }
 figure img { max-width: 100%; height: auto; border-radius: 4px; }
 figcaption { font-family: Georgia, serif; font-size: .85em; color: #555; margin: .5em 0 0 auto; max-width: 92%; text-align: right; font-style: italic; }
 """
-"""Monta um EPUB3 a partir de capítulos HTML já compilados pelo Typst real."""
-
 class EpubPipeline:
-    def __init__(self, output_dir: Path, cache_path: Path | None = None, timeout: int = 300, epubcheck: Path | None = None, fonts_dir: Path | None = DEFAULT_FONTS_DIR):
+    """Monta um EPUB3 a partir de capítulos HTML já compilados pelo Typst real."""
+
+    def __init__(
+        self,
+        output_dir: Path,
+        cache_path: Path | None = None,
+        timeout: int = 300,
+        epubcheck: Path | None = None,
+        fonts_dir: Path | None = DEFAULT_FONTS_DIR,
+        validate: bool = True,
+    ):
         self.output_dir = output_dir
         self.cache_path = cache_path or output_dir / ".epub-cache.json"
         self.timeout = timeout
         self.epubcheck = epubcheck
         self.fonts_dir = fonts_dir
+        self.validate = validate
+        self._cache_lock = threading.Lock()
         self.cache = self._load_cache()
 
     def _load_cache(self) -> dict:
         if not self.cache_path.exists():
             return {}
         try:
-            return json.loads(self.cache_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
+            data = json.loads(self.cache_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
             return {}
+        return data if isinstance(data, dict) else {}
 
     def _save_cache(self) -> None:
+        """Grava o cache de forma atômica (tmp + replace). O chamador segura _cache_lock."""
         self.cache_path.parent.mkdir(parents=True, exist_ok=True)
-        self.cache_path.write_text(json.dumps(self.cache, indent=2), encoding="utf-8")
+        with tempfile.NamedTemporaryFile(
+            "w", encoding="utf-8", delete=False, dir=self.cache_path.parent,
+            prefix=self.cache_path.name + ".", suffix=".tmp",
+        ) as handle:
+            tmp_path = Path(handle.name)
+            handle.write(json.dumps(self.cache, indent=2))
+        try:
+            os.replace(tmp_path, self.cache_path)
+        except OSError:
+            tmp_path.unlink(missing_ok=True)
+            raise
 
     @staticmethod
     def _fingerprint(files: list[Path], options: str) -> str:
@@ -73,6 +99,60 @@ class EpubPipeline:
             digest.update(str(path.resolve()).encode("utf-8"))
             digest.update(path.read_bytes())
         return digest.hexdigest()
+
+    @staticmethod
+    def _file_signature(path: Path | None) -> str:
+        if path is None:
+            return "-"
+        try:
+            stat = path.stat()
+        except OSError:
+            return f"{path.name}:missing"
+        return f"{path.name}:{stat.st_size}:{stat.st_mtime_ns}"
+
+    @classmethod
+    def _images_signature(cls, input_files: list[Path]) -> list[str]:
+        """Caminho relativo + tamanho + mtime_ns de cada imagem referenciada pelos .typ."""
+        images: dict[Path, None] = {}
+        for typ_path in input_files:
+            try:
+                images.update(dict.fromkeys(referenced_images(typ_path)))
+            except OSError:
+                continue
+        signature = []
+        for image in sorted(images):
+            try:
+                rel = image.resolve().relative_to(REPO_ROOT.resolve()).as_posix()
+            except (ValueError, OSError):
+                rel = image.as_posix()
+            try:
+                stat = image.stat()
+            except OSError:
+                signature.append(f"{rel}:missing")
+            else:
+                signature.append(f"{rel}:{stat.st_size}:{stat.st_mtime_ns}")
+        return signature
+
+    def _options_signature(
+        self,
+        input_files: list[Path],
+        theme,
+        css_content: str,
+        metadata: StoryMetadata,
+        chapter_titles: list[str] | None,
+    ) -> str:
+        """Tudo que, além dos .typ, influencia o conteúdo do EPUB gerado."""
+        payload = {
+            "pipeline": PIPELINE_VERSION,
+            "theme": theme.name if theme else None,
+            "css": hashlib.sha256(css_content.encode("utf-8")).hexdigest(),
+            "fonts": [self._file_signature(path) for path in theme_font_sources(theme, self.fonts_dir)],
+            "metadata": metadata.as_json(),
+            "cover": self._file_signature(metadata.cover_image),
+            "chapter_titles": chapter_titles,
+            "images": self._images_signature(input_files),
+        }
+        return "typst-html|" + json.dumps(payload, sort_keys=True, ensure_ascii=False)
 
     def convert(
         self,
@@ -85,15 +165,19 @@ class EpubPipeline:
         started = time.perf_counter()
         source = input_files[0]
 
-        theme = theme_for_set(metadata.set_name)
-        css_content = EPUB_CSS + "\n" + load_theme_css(theme)
-
-        fingerprint = self._fingerprint(input_files, f"typst-html|{theme}|1.3.1")
-        cache_key = str(output.resolve())
-        if not force and output.exists() and self.cache.get(cache_key) == fingerprint:
-            return ConversionResult(source, output, True, "skipped", time.perf_counter() - started, skipped=True)
-
         try:
+            theme = theme_for_set(metadata.set_name)
+            css_content = EPUB_CSS + "\n" + load_theme_css(theme)
+
+            fingerprint = self._fingerprint(
+                input_files, self._options_signature(input_files, theme, css_content, metadata, chapter_titles)
+            )
+            cache_key = str(output.resolve())
+            with self._cache_lock:
+                cached = self.cache.get(cache_key)
+            if not force and output.exists() and cached == fingerprint:
+                return ConversionResult(source, output, True, "skipped", time.perf_counter() - started, skipped=True)
+
             with tempfile.TemporaryDirectory(prefix="mtg-epub-") as temp_name:
                 temp_dir = Path(temp_name)
                 embedded_fonts = prepare_theme_fonts(theme, self.fonts_dir, temp_dir)
@@ -108,7 +192,6 @@ class EpubPipeline:
                     cover_path = _prepare_cover(cover_path, temp_dir)
 
                 # Identificador estável por slug (#20)
-                from .sluggyfy import slugify
                 slug = slugify(metadata.set_name) or "unknown"
                 identifier = metadata.story_id or f"mtg-{metadata.series_index}-{slug}"
 
@@ -122,32 +205,63 @@ class EpubPipeline:
                     date=metadata.date if metadata.date else None,
                 )
 
-                root_dir = Path.cwd()
-                build_epub(
-                    metadata=book_meta,
-                    chapters=chapters,
-                    root=root_dir,
-                    output_path=output,
-                    css_content=css_content,
-                    fonts=embedded_fonts,
-                )
-            
+                # Escreve em temporário e só substitui o destino após a validação
+                output.parent.mkdir(parents=True, exist_ok=True)
+                tmp_output = output.with_name(f"{output.stem}.{uuid.uuid4().hex[:8]}.tmp.epub")
+                try:
+                    build_warnings = list(build_epub(
+                        metadata=book_meta,
+                        chapters=chapters,
+                        root=typst_root(input_files),
+                        output_path=tmp_output,
+                        css_content=css_content,
+                        fonts=embedded_fonts,
+                    ) or [])
 
-            problems = validate_epub(output)
-            if problems:
-                raise ValueError("; ".join(problems))
-            if self.epubcheck:
-                problems = run_epubcheck(output, self.epubcheck, self.timeout)
-                if problems:
-                    raise ValueError("; ".join(problems))
-                    
-            self.cache[cache_key] = fingerprint
-            self._save_cache()
-            return ConversionResult(source, output, True, "generated", time.perf_counter() - started)
-            
+                    if self.validate:
+                        problems = validate_epub(tmp_output)
+                        if problems:
+                            raise ValueError("; ".join(problems))
+                        if self.epubcheck:
+                            problems = run_epubcheck(tmp_output, self.epubcheck, self.timeout)
+                            if problems:
+                                raise ValueError("; ".join(problems))
+                    os.replace(tmp_output, output)
+                finally:
+                    tmp_output.unlink(missing_ok=True)
+
+            warnings = list(build_warnings)
+            # Com avisos (ex.: fallback sem imagens) não gravamos o fingerprint:
+            # a próxima execução tenta de novo.
+            if not warnings:
+                with self._cache_lock:
+                    self.cache[cache_key] = fingerprint
+                    try:
+                        self._save_cache()
+                    except OSError as error:
+                        message = f"não foi possível gravar o cache {self.cache_path}: {error}"
+                        print(f"[pipeline][Aviso] {message}", file=sys.stderr)
+                        warnings.append(message)
+            return ConversionResult(
+                source, output, True, "generated", time.perf_counter() - started,
+                warnings=warnings,
+            )
+
         except Exception as error:
             return ConversionResult(source, output, False, "failed", time.perf_counter() - started, str(error))
-        
+
+
+def typst_root(input_files: list[Path]) -> Path:
+    """Root do Typst: ancestral comum entre REPO_ROOT e os arquivos de entrada.
+
+    Sem ancestral comum (drives diferentes no Windows), usa o diretório pai do primeiro arquivo."""
+    paths = [os.path.abspath(REPO_ROOT)] + [os.path.abspath(Path(f).parent) for f in input_files]
+    try:
+        return Path(os.path.commonpath(paths))
+    except ValueError:
+        return Path(os.path.abspath(Path(input_files[0]).parent))
+
+
 # Mantemos a conversão de WebP para evitar erros de validação no EpubCheck
 def _prepare_cover(path: Path, temp_dir: Path) -> Path:
     if path.suffix.lower() != ".webp" or Image is None:
@@ -208,10 +322,10 @@ def run_epubcheck(path: Path, epubcheck_jar: Path, timeout: int = 300) -> list[s
 def collect_typst_files(set_folder: Path) -> list[Path]:
     return sorted(
         path for path in set_folder.glob("*.typ")
-        if re.match(r"^\d+[-_]", path.name)
+        if re.match(r"^\d+[-_]", path.name) and not path.name.endswith(TMP_TYP_SUFFIX)
     )
 
 
-def copy_report(path: Path, results: list[ConversionResult]) -> None:
+def write_report(path: Path, results: list[ConversionResult]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps([result.as_json() for result in results], ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

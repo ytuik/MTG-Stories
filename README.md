@@ -8,7 +8,9 @@ Stories are sorted into the `stories` folder by set name and in published order.
 * Stories from Magic Origins to March of the Machine: The Aftermath are sorted with [MTGLore](https://mtglore.com/chronological/).
 * Stories from Wilds of Eldraine going forward are sorted with [MTG Story](https://mtgstory.com).
 
-If you want to download all the PDFs/EPUBs or complete stories in one big file (with or without images), check the [Releases](https://github.com/polarkac/MTG-Stories/releases) page.
+If you want to download all the PDFs/EPUBs or complete stories in one big file (with or without images), check the [Releases](https://github.com/ytuik/MTG-Stories/releases) page.
+
+This repository is a fork of [polarkac/MTG-Stories](https://github.com/polarkac/MTG-Stories); credit for the original archive goes to its author.
 
 ---
 
@@ -19,16 +21,13 @@ This repository includes Python scripts to automate downloading new stories and 
 ### Requirements & Installation
 
 1. **Python 3.10+**
-2. **Pandoc** (Required for EPUB conversion): Download and install from [pandoc.org](https://pandoc.org/). Ensure it is added to your system's PATH.
-3. **Python Dependencies:** Install the required libraries via `pip`:
+2. **Python dependencies** (scraper and EPUB converter; the converter uses the `typst` Python package and `ebooklib`, no Pandoc needed):
 
 ```bash
-pip install requests beautifulsoup4 tenacity python-dateutil Pillow
+pip install -r requirements.txt
 ```
 
-The EPUB converter also requires Pandoc and Java in the system `PATH`.
-
-EpubCheck 5.4.0 is installed locally under `tools/epubcheck-5.4.0/`. To install it again on another machine, download the official archive from the [W3C EpubCheck releases](https://github.com/w3c/epubcheck/releases) and extract it into that directory.
+3. **Optional - Java**, only needed to run [EpubCheck](https://github.com/w3c/epubcheck) validation (`--epubcheck`). The `tools/` directory is not versioned: download EpubCheck 5.4.0 from the [W3C EpubCheck releases](https://github.com/w3c/epubcheck/releases) and extract it into `tools/epubcheck-5.4.0/` to use `--epubcheck` without an argument, or pass the path to the jar explicitly (`--epubcheck path/to/epubcheck.jar`).
 
 ### EPUB conversion
 
@@ -44,9 +43,34 @@ python typ2epub.py --validate "epubs/Bloomburrow.epub"
 
 The converter writes a JSON report and an incremental cache in the output directory. Failed conversions are reported at the end and return exit code `1`. EPUBs also receive structural validation for the `mimetype`, container, OPF, navigation and absolute paths.
 
-The implementation is split into `mtg_epub/`: metadata and manifest handling, balanced Typst sanitization, Pandoc execution, image handling, cache and EPUB validation.
+The implementation is split into `mtg_epub/`: metadata and manifest handling, balanced Typst sanitization, Typst-to-HTML conversion, image handling, cache and EPUB validation.
+
+Image compression: `--compress-images` (with Pillow) shrinks the images for e-readers. **Warning:** it rewrites the images of the archive in place (under `stories/`, `planeswalkers_guides/` and `card_lore/`), not just the EPUB copies. A cache records already-compressed files so they are not recompressed on later runs. Commit or back up first if you want to keep the originals.
+
+```bash
+python typ2epub.py --set Bloomburrow --compress-images
+```
 
 Collection-specific EPUB themes and the current coverage matrix are documented in [EPUB_THEMES.md](EPUB_THEMES.md). Themes are selected automatically from the collection name; use `--fonts-dir` to point to optional local font archives.
+
+### Scraper
+
+`scraper.py` downloads the stories still missing from the archive and generates `.typ` files under `stories/`, updating `scraped_manifest.json`.
+
+```bash
+python scraper.py              # scrape all missing stories
+python scraper.py --rf         # only Reality Fracture
+python scraper.py --force      # overwrite existing .typ files
+```
+
+By default, stories whose `.typ` file already exists are skipped; pass `--force` to scrape them again and overwrite the files. The `--all` flag is currently a no-op.
+
+### Tests
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest -q
+```
 
 # List of sets (in published order)
 
@@ -60,7 +84,7 @@ Collection-specific EPUB themes and the current coverage matrix are documented i
 - Commander (2013 Edition)
 - Born of the Gods
 - Duel Decks: Jace vs. Vraska
-- Journey info Nyx
+- Journey into Nyx
 - Conspiracy
 - Magic 2015
 - Khans of Tarkir
@@ -123,9 +147,15 @@ I used [Typst](https://typst.app/) as typesetting system (modern version of LaTe
 
 ## Compiling
 
-First you must move the directories inside `typst_packages` into package directory based on OS. If the directory does not exist, create it.
+First you must copy the package directories from `typst_packages/` into the local Typst package directory for your OS (`<packages>/local/<name>/<version>/`). If the directory does not exist, create it. The `.typ` sources import these exact versions:
 
-Windows: `%APPDATA/typst/packages/`  
+- `@local/mtgstory:0.2.0` - used by the stories (`typst_packages/mtgstory/0.2.0`)
+- `@local/mtgset:0.1.0` - used by the set wrappers in the root of `stories/` (`typst_packages/mtgset/0.1.0`)
+- `@local/mtgguide:0.1.0` - used by `planeswalkers_guides` (`typst_packages/mtgguide/0.1.0`)
+
+For example, on Linux the story package goes to `~/.local/share/typst/packages/local/mtgstory/0.2.0/`.
+
+Windows: `%APPDATA%\typst\packages\`  
 Linux: `~/.local/share/typst/packages/`  
 MacOS: `~/Library/Application Support/typst/packages/`
 
@@ -133,7 +163,7 @@ Download latest release of Typst https://github.com/typst/typst/releases for you
 
 After all that you can use `typst` command to compile the source file into PDF. Switch to a directory where `stories` directory is.
 
-`cd /home/polarkac/mtgstory`
+`cd /path/to/MTG-Stories`
 
 And to compile:
 
@@ -147,4 +177,4 @@ To compile stories without images, use command flag `--input with_images=false`.
 
 # Contribution
 
-If you find any mistake or you want to contribute, feel free to send a pull request. You can also contact me at mtg@pohlreichlukas.eu.
+If you find any mistake or you want to contribute, feel free to send a pull request. You can also open an issue on GitHub.

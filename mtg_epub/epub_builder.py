@@ -2,7 +2,8 @@
 
 Substitui o antigo fluxo Typst -> pandoc: aqui o Typst já fez a conversão
 para HTML de verdade, então esta camada só precisa saber empacotar HTML em
-EPUB — o que o ebooklib já faz de forma madura e sem regex nenhum.
+EPUB — o que o ebooklib já faz de forma madura. Este módulo não manipula o
+HTML com regex; só monta a estrutura do livro (capítulos, capa, navegação).
 """
 from __future__ import annotations
 
@@ -12,7 +13,7 @@ from xml.sax.saxutils import escape as xml_escape
 
 from ebooklib import epub
 
-from .typstHtml import CompiledChapter, compile_chapter_html
+from .typst_html import CompiledChapter, compile_chapter_html
 
 
 @dataclass
@@ -49,7 +50,8 @@ def build_epub(
     output_path: Path,
     css_content: str,
     fonts: list[Path] | None = None
-) -> None:
+) -> list[str]:
+    """Monta o EPUB e devolve os avisos (ex.: capítulos compilados sem imagens)."""
     book = epub.EpubBook()
     book.set_identifier(metadata.identifier)
     book.set_title(metadata.title)
@@ -93,8 +95,10 @@ def build_epub(
 
     # 3. Processar e adicionar os Capítulos
     epub_chapters = []
+    build_warnings: list[str] = []
     for index, chapter in enumerate(chapters, start=1):
         compiled: CompiledChapter = compile_chapter_html(chapter.typ_path, root)
+        build_warnings.extend(compiled.warnings)
 
         item = epub.EpubHtml(
             title=chapter.chapter_title,
@@ -120,3 +124,4 @@ def build_epub(
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     epub.write_epub(str(output_path), book)
+    return build_warnings

@@ -3,36 +3,37 @@ from __future__ import annotations
 import argparse
 import os
 import re
+import shutil
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from tqdm import tqdm
 
+from . import REPO_ROOT
 from .manifest import load_manifest, manifest_item_for
-from .metadata import extract_metadata, _readable_set_name
+from .metadata import collection_metadata, extract_metadata, omnibus_metadata, readable_set_name
 from .models import StoryMetadata
-from .pipeline import EpubPipeline, collect_typst_files, copy_report, run_epubcheck, validate_epub
-from .sluggyfy import slugify
+from .pipeline import EpubPipeline, collect_typst_files, write_report, run_epubcheck, validate_epub
+from .slugs import slugify
+from .typst_html import TMP_TYP_SUFFIX
+
+DEFAULT_STORIES_DIR = REPO_ROOT / "stories"
+DEFAULT_GUIDES_DIR = REPO_ROOT / "planeswalkers_guides"
+DEFAULT_CARD_LORE_DIR = REPO_ROOT / "card_lore"
+DEFAULT_FONTS_DIR = REPO_ROOT / "fonts"
+DEFAULT_MANIFEST = REPO_ROOT / "scraped_manifest.json"
+DEFAULT_OUTPUT_DIR = REPO_ROOT / "epubs"
+DEFAULT_EPUBCHECK_JAR = REPO_ROOT / "tools" / "epubcheck-5.4.0" / "epubcheck.jar"
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
 
-def _set_name_from_slug(slug: str) -> str:
-    return _readable_set_name(slug)
-
-
 def _set_slug(path: Path) -> str:
     """Slug do set a partir do nome da pasta (ex.: '058-duskmourn-...' -> 'duskmourn-...')."""
     return re.sub(r"^\d+[-_\s]*", "", path.name)
-
-
-def _set_name(path: Path) -> str:
-    """Nome legível do set (usa set-names.json)."""
-    from .metadata import readable_set_name_from_folder
-    return readable_set_name_from_folder(path.name)
 
 
 def _collection_key(value: str) -> str:
@@ -86,15 +87,15 @@ def build_parser() -> argparse.ArgumentParser:
     source.add_argument("--collection", action="store_true", help="Gera a coleção Magic Stories, um EPUB por set")
     parser.add_argument("--compress-images", action="store_true", help="Comprime imagens do acervo com Pillow para otimizar tamanho em e-readers")
     parser.add_argument("--combine", action="store_true", help="Gera também um EPUB omnibus")
-    parser.add_argument("--output-dir", type=Path, default=Path("epubs"))
-    parser.add_argument("--stories-dir", type=Path, default=Path("stories"))
-    parser.add_argument("--manifest", type=Path, default=Path("scraped_manifest.json"))
-    parser.add_argument("--fonts-dir", type=Path, default=Path("fonts"))
+    parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument("--stories-dir", type=Path, default=DEFAULT_STORIES_DIR)
+    parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--fonts-dir", type=Path, default=DEFAULT_FONTS_DIR)
     parser.add_argument("--report", type=Path)
     parser.add_argument("--jobs", type=int, default=0)
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--no-validate", action="store_true")
-    parser.add_argument("--epubcheck", type=Path, nargs="?", const=Path("tools/epubcheck-5.4.0/epubcheck.jar"))
+    parser.add_argument("--epubcheck", type=Path, nargs="?", const=DEFAULT_EPUBCHECK_JAR)
     parser.add_argument("--validate", type=Path)
     return parser
 
@@ -124,124 +125,107 @@ def _metadata(path: Path, manifest: dict) -> StoryMetadata:
 # Tarefas de coleção
 # ---------------------------------------------------------------------------
 
+Task = tuple[list[Path], Path, StoryMetadata, "list[str] | None"]
+
+
+def _sort_key(path: Path) -> int:
+    m = re.match(r"^(\d+)", path.name)
+    return int(m.group(1)) if m else 999
+
+
+def _collect_appendices(
+    guides_dir: Path,
+    card_lore_dir: Path,
+    story_slugs: list[str],
+) -> dict[str, list[tuple[Path, str]]]:
+    """Agrupa guias e card lore por slug do set alvo: {slug: [(fonte, tipo)]}."""
+    appendices: dict[str, list[tuple[Path, str]]] = {}
+    for root_dir, kind in ((guides_dir, "Guide"), (card_lore_dir, "Card Lore")):
+        if not root_dir.exists():
+            continue
+        for folder in sorted(p for p in root_dir.iterdir() if p.is_dir()):
+            typ_sources = sorted(p for p in folder.glob("*.typ") if not p.name.endswith(TMP_TYP_SUFFIX))
+            if not typ_sources:
+                continue
+            target_slug = _appendix_target(folder.name, story_slugs)
+            if target_slug is None:
+                target_slug = _set_slug(folder)
+            appendices.setdefault(target_slug, []).extend((source, kind) for source in typ_sources)
+    return appendices
+
+
+def _episode_set_task(
+    folder: Path,
+    appendix_sources: list[tuple[Path, str]],
+    manifest: dict,
+    output_dir: Path,
+) -> Task | None:
+    """Tarefa de um set com episódios (mais seus apêndices)."""
+    set_name = readable_set_name(folder.name)
+    sources = collect_typst_files(folder)
+    story_metadata = [_metadata(source, manifest) for source in sources]
+    chapter_titles = [m.title for m in story_metadata]
+    first_episode = story_metadata[0] if story_metadata else None
+
+    for source, kind in appendix_sources:
+        item = _metadata(source, manifest)
+        sources.append(source)
+        chapter_titles.append(f"[{kind}] {item.title}")
+        story_metadata.append(item)
+
+    if not sources:
+        return None
+    metadata = collection_metadata(set_name, story_metadata, sources, _sort_key(folder), first_episode)
+    return sources, output_dir / f"{set_name}.epub", metadata, chapter_titles
+
+
+def _orphan_appendix_task(
+    set_slug: str,
+    appendix_sources: list[tuple[Path, str]],
+    manifest: dict,
+    output_dir: Path,
+) -> Task | None:
+    """Tarefa de apêndices sem set com episódios (ex.: Ulgrotha)."""
+    sources = [source for source, _ in appendix_sources]
+    if not sources:
+        return None
+    items = [_metadata(source, manifest) for source in sources]
+    chapter_titles = [f"[{kind}] {item.title}" for (_, kind), item in zip(appendix_sources, items)]
+    set_name = readable_set_name(set_slug)
+    metadata = collection_metadata(set_name, items, sources, 999)
+    return sources, output_dir / f"{set_name}.epub", metadata, chapter_titles
+
+
 def _collection_tasks(
     stories_dir: Path,
     guides_dir: Path,
     card_lore_dir: Path,
     manifest: dict,
     output_dir: Path,
-) -> list[tuple[list[Path], Path, StoryMetadata, list[str]]]:
-    def _sort_key(path: Path) -> int:
-        m = re.match(r"^(\d+)", path.name)
-        return int(m.group(1)) if m else 999
-
-    story_folders = sorted(
-        (p for p in stories_dir.iterdir() if p.is_dir()),
-        key=_sort_key,
-    )
+) -> list[Task]:
+    story_folders = sorted((p for p in stories_dir.iterdir() if p.is_dir()), key=_sort_key)
     story_slugs = [_set_slug(f) for f in story_folders]
+    appendices = _collect_appendices(guides_dir, card_lore_dir, story_slugs)
 
-    appendices: dict[str, list[tuple[Path, str]]] = {}
-
-    for root_dir, kind in ((guides_dir, "Guide"), (card_lore_dir, "Card Lore")):
-        if not root_dir.exists():
-            continue
-        for folder in sorted(p for p in root_dir.iterdir() if p.is_dir()):
-            typ_sources = sorted(folder.glob("*.typ"))
-            if not typ_sources:
-                continue
-
-            target_slug = _appendix_target(folder.name, story_slugs)
-            if target_slug is None:
-                target_slug = _set_slug(folder)
-
-            appendices.setdefault(target_slug, []).extend(
-                (source, kind) for source in typ_sources
-            )
-
-    tasks: list[tuple[list[Path], Path, StoryMetadata, list[str]]] = []
+    tasks: list[Task] = []
     seen_targets: set[str] = set()
 
     # Fluxo 1: sets COM episódios
     for folder in story_folders:
         set_slug = _set_slug(folder)
-        set_name = _set_name(folder)
-
-        sources = collect_typst_files(folder)
-        chapter_titles = [
-            extract_metadata(source, manifest_item_for(source, manifest)).title
-            for source in sources
-        ]
-        story_metadata = [_metadata(source, manifest) for source in sources]
-        first_episode = story_metadata[0] if story_metadata else None
-
-        for source, kind in appendices.get(set_slug, []):
-            sources.append(source)
-            item = manifest_item_for(source, manifest)
-            chapter_titles.append(f"[{kind}] {extract_metadata(source, item).title}")
-            story_metadata.append(_metadata(source, manifest))
-
-        if not sources:
+        task = _episode_set_task(folder, appendices.get(set_slug, []), manifest, output_dir)
+        if task is None:
             continue
-
-        authors: list[str] = []
-        for item in story_metadata:
-            if item.author not in authors:
-                authors.append(item.author)
-
-        if first_episode is not None:
-            cover_image = first_episode.cover_image
-        elif story_metadata:
-            cover_image = next((m.cover_image for m in story_metadata if m.cover_image), None)
-        else:
-            cover_image = None
-
-        metadata = StoryMetadata(
-            title=set_name,
-            set_name=set_name,
-            author=", ".join(authors),
-            date=first_episode.date if first_episode else "",
-            series="Magic Stories Collection",
-            series_index=_sort_key(folder),
-            source_file=sources[0],
-            cover_image=cover_image,
-        )
-        tasks.append((sources, output_dir / f"{set_name}.epub", metadata, chapter_titles))
+        tasks.append(task)
         seen_targets.add(set_slug)
 
     # Fluxo 2: apêndices órfãos
     for set_slug, appendix_sources in appendices.items():
         if set_slug in seen_targets:
             continue
-
-        sources = [source for source, _ in appendix_sources]
-        if not sources:
-            continue
-
-        chapter_titles = [
-            f"[{kind}] {extract_metadata(source, manifest_item_for(source, manifest)).title}"
-            for source, kind in appendix_sources
-        ]
-        metadata_items = [_metadata(source, manifest) for source in sources]
-
-        authors: list[str] = []
-        for item in metadata_items:
-            if item.author not in authors:
-                authors.append(item.author)
-
-        set_name = _set_name_from_slug(set_slug)
-
-        metadata = StoryMetadata(
-            title=set_name,
-            set_name=set_name,
-            author=", ".join(authors),
-            date="",
-            series="Magic Stories Collection",
-            series_index=999,
-            source_file=sources[0],
-            cover_image=next((m.cover_image for m in metadata_items if m.cover_image), None),
-        )
-        tasks.append((sources, output_dir / f"{set_name}.epub", metadata, chapter_titles))
+        task = _orphan_appendix_task(set_slug, appendix_sources, manifest, output_dir)
+        if task is not None:
+            tasks.append(task)
 
     return tasks
 
@@ -250,14 +234,123 @@ def _collection_tasks(
 # main
 # ---------------------------------------------------------------------------
 
+def _resolve_epubcheck(value: Path | None) -> Path | None:
+    """Caminho absoluto do jar. O default já é absoluto (raiz do repo); caminhos dados pelo usuário são relativos ao cwd."""
+    if value is None:
+        return None
+    return value if value.is_absolute() else (Path.cwd() / value).resolve()
+
+
+def _epubcheck_unavailable(jar: Path) -> str | None:
+    """Mensagem de erro se o epubcheck não puder rodar (jar ou java ausentes); None se estiver pronto."""
+    if not jar.is_file():
+        return (
+            f"EpubCheck não encontrado: {jar}. Baixe o EpubCheck em "
+            "https://github.com/w3c/epubcheck/releases, extraia em tools/epubcheck-5.4.0/ "
+            "ou informe o caminho com --epubcheck <epubcheck.jar>; use --no-validate para pular a validação."
+        )
+    if shutil.which("java") is None:
+        return "Java não encontrado no PATH; ele é necessário para executar o EpubCheck (ou use --no-validate)."
+    return None
+
+
+def _build_tasks(args: argparse.Namespace, manifest: dict) -> tuple[list[Task], Path]:
+    """Monta as tarefas de conversão e o caminho do relatório para o modo escolhido."""
+    if args.collection:
+        collection_dir = args.output_dir / "Magic Stories Collection"
+        tasks = _collection_tasks(
+            args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR, manifest, collection_dir,
+        )
+        return tasks, args.report or collection_dir / "collection-report.json"
+
+    report = args.report or args.output_dir / "conversion-report.json"
+    tasks: list[Task] = []
+    if args.file:
+        source = args.file.resolve()
+        tasks.append(([source], args.output_dir / source.with_suffix(".epub").name, _metadata(source, manifest), None))
+        return tasks, report
+
+    for set_folder in _target_sets(args):
+        sources = collect_typst_files(set_folder)
+        for source in sources:
+            output = args.output_dir / set_folder.name / source.with_suffix(".epub").name
+            tasks.append(([source], output, _metadata(source, manifest), None))
+        if args.combine and sources:
+            metadata = omnibus_metadata(_metadata(sources[0], manifest), sources[0])
+            tasks.append((sources, args.output_dir / set_folder.name / f"{set_folder.name} - Omnibus.epub", metadata, None))
+    return tasks, report
+
+
+def _run_tasks(pipeline: EpubPipeline, tasks: list[Task], jobs: int, force: bool) -> list:
+    """Executa as tarefas em paralelo com barras de progresso; devolve os ConversionResult na ordem."""
+    import queue
+
+    slots: "queue.Queue[int]" = queue.Queue()
+    for i in range(jobs):
+        slots.put(i)
+
+    print(f"Iniciando compilação com {jobs} worker(s)...\n")
+
+    main_pbar = tqdm(total=len(tasks), position=0, desc="Progresso Geral", unit="EPUB")
+    worker_bars = []
+    for i in range(jobs):
+        b = tqdm(total=0, position=i + 1, bar_format="{desc}", leave=False)
+        b.set_description_str(f"Worker {i+1}: ⏳ Aguardando...".ljust(70))
+        worker_bars.append(b)
+
+    def execute_task(task_info):
+        sources, output, metadata, chapter_titles = task_info
+        name = output.stem
+
+        # O worker pega uma linha disponível
+        slot = slots.get()
+        try:
+            # O ljust(70) preenche com espaços para apagar o nome do arquivo anterior caso fosse maior
+            display_name = name[:45] + ("..." if len(name) > 45 else "")
+            worker_bars[slot].set_description_str(f"Worker {slot+1}: ⚙️ {display_name}".ljust(70))
+
+            # Compila (convert transforma qualquer falha em ConversionResult de erro)
+            return pipeline.convert(sources, output, metadata, force=force, chapter_titles=chapter_titles)
+        finally:
+            # Sempre devolve a linha e atualiza o progresso, mesmo se algo escapar
+            worker_bars[slot].set_description_str(f"Worker {slot+1}: ⏳ Aguardando...".ljust(70))
+            main_pbar.update(1)
+            slots.put(slot)
+
+    with ThreadPoolExecutor(max_workers=jobs) as executor:
+        futures = [executor.submit(execute_task, t) for t in tasks]
+        results = [f.result() for f in futures]
+
+    # Finaliza e limpa as barras de interface
+    main_pbar.close()
+    for b in worker_bars:
+        b.close()
+
+    # Pula as linhas que os workers usaram para evitar sobrepor texto no terminal
+    print("\n" * jobs)
+    return results
+
+
+def _report_results(report: Path, results: list) -> int:
+    """Grava o relatório, imprime erros e resumo; devolve o código de saída."""
+    write_report(report, results)
+    for result in results:
+        if not result.success:
+            print(f"[ERRO] {result.status}: {result.output} - {result.error}")
+
+    failures = sum(not result.success for result in results)
+    print(f"\nResumo: {len(results) - failures} sucesso(s), {failures} falha(s)")
+    print(f"Relatório detalhado: {report}")
+    return 1 if failures else 0
+
+
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
 
     if args.validate:
         problems = validate_epub(args.validate)
         if args.epubcheck:
-            checker = args.epubcheck if args.epubcheck.is_absolute() else (Path.cwd() / args.epubcheck).resolve()
-            problems.extend(run_epubcheck(args.validate, checker))
+            problems.extend(run_epubcheck(args.validate, _resolve_epubcheck(args.epubcheck)))
         if problems:
             for problem in problems:
                 print(f"[ERRO] {problem}", file=sys.stderr)
@@ -268,138 +361,39 @@ def main(argv: list[str] | None = None) -> int:
     if args.compress_images and not (args.file or args.set_name or args.all or args.collection):
         from .image_compressor import batch_compress_directories
         print("[Otimização] Iniciando compressão de imagens do acervo...")
-        batch_compress_directories([args.stories_dir, Path("planeswalkers_guides"), Path("card_lore")])
+        batch_compress_directories([args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR])
         return 0
 
     if not (args.file or args.set_name or args.all or args.collection):
         build_parser().error("forneça --file, --set, --all, --collection ou --compress-images")
 
+    # --no-validate desliga validate_epub e o epubcheck; sem validação não há o que checar.
+    epubcheck = None if args.no_validate else _resolve_epubcheck(args.epubcheck)
+    if epubcheck is not None:
+        problem = _epubcheck_unavailable(epubcheck)
+        if problem:
+            print(f"[ERRO] {problem}", file=sys.stderr)
+            return 2
+
     if args.compress_images:
         from .image_compressor import batch_compress_directories
         print("[Otimização] Iniciando compressão de imagens do acervo...")
-        batch_compress_directories([args.stories_dir, Path("planeswalkers_guides"), Path("card_lore")])
+        batch_compress_directories([args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR])
 
     try:
         manifest = load_manifest(args.manifest)
-        epubcheck = args.epubcheck
-        if epubcheck and not epubcheck.is_absolute():
-            epubcheck = (Path.cwd() / epubcheck).resolve()
         pipeline = EpubPipeline(
             args.output_dir,
-            epubcheck=epubcheck if not args.no_validate else None,
+            epubcheck=epubcheck,
             fonts_dir=args.fonts_dir,
+            validate=not args.no_validate,
         )
         max_system_workers = os.cpu_count() or 1
         jobs = args.jobs if args.jobs > 0 else max_system_workers
 
-        tasks: list[tuple[list[Path], Path, object, list[str] | None]] = []
-
-        if args.collection:
-            collection_dir = args.output_dir / "Magic Stories Collection"
-            tasks_data = _collection_tasks(
-                args.stories_dir,
-                Path("planeswalkers_guides"),
-                Path("card_lore"),
-                manifest,
-                collection_dir,
-            )
-            tasks = [(t[0], t[1], t[2], t[3]) for t in tasks_data]
-            report = args.report or collection_dir / "collection-report.json"
-        else:
-            report = args.report or args.output_dir / "conversion-report.json"
-            if args.file:
-                source = args.file.resolve()
-                tasks.append(([source], args.output_dir / source.with_suffix(".epub").name, _metadata(source, manifest), None))
-            else:
-                for set_folder in _target_sets(args):
-                    for source in collect_typst_files(set_folder):
-                        metadata = _metadata(source, manifest)
-                        output = args.output_dir / set_folder.name / source.with_suffix(".epub").name
-                        tasks.append(([source], output, metadata, None))
-                    if args.combine:
-                        sources = collect_typst_files(set_folder)
-                        if sources:
-                            metadata = _metadata(sources[0], manifest)
-                            metadata = metadata.__class__(
-                                title=f"{metadata.set_name} (Complete Stories)",
-                                set_name=metadata.set_name,
-                                author="Wizards of the Coast",
-                                date=metadata.date,
-                                series=metadata.series,
-                                series_index=1,
-                                source_file=sources[0],
-                                cover_image=metadata.cover_image,
-                            )
-                            tasks.append((sources, args.output_dir / set_folder.name / f"{set_folder.name} - Omnibus.epub", metadata, None))
-
-        import queue
-
-        slots: "queue.Queue[int]" = queue.Queue()
-        for i in range(jobs):
-            slots.put(i)
-
-        print(f"Iniciando compilação com {jobs} worker(s)...\n")
-
-        main_pbar = tqdm(total=len(tasks), position=0, desc="Progresso Geral", unit="EPUB")
-        worker_bars = []
-        for i in range(jobs):
-            b = tqdm(total=0, position=i + 1, bar_format="{desc}", leave=False)
-            b.set_description_str(f"Worker {i+1}: ⏳ Aguardando...".ljust(70))
-            worker_bars.append(b)
-
-        def execute_task(task_info):
-            if len(task_info) == 4:
-                sources, output, metadata, chapter_titles = task_info
-            else:
-                sources, output, metadata, _, chapter_titles = task_info
-            name = output.stem
-            
-            # O worker pega uma linha disponível
-            slot = slots.get()
-            
-            # O ljust(70) preenche com espaços para apagar o nome do arquivo anterior caso fosse maior
-            display_name = name[:45] + ("..." if len(name) > 45 else "")
-            worker_bars[slot].set_description_str(f"Worker {slot+1}: ⚙️ {display_name}".ljust(70))
-            
-            # Compila
-            result = pipeline.convert(sources, output, metadata, force=args.force, chapter_titles=chapter_titles)
-            
-            # Atualiza o total, devolve a linha e volta pro estado aguardando
-            worker_bars[slot].set_description_str(f"Worker {slot+1}: ⏳ Aguardando...".ljust(70))
-            main_pbar.update(1)
-            slots.put(slot)
-            
-            return result
-
-        with ThreadPoolExecutor(max_workers=jobs) as executor:
-            futures = [executor.submit(execute_task, t) for t in tasks]
-            results = [f.result() for f in futures]
-
-        # Finaliza e limpa as barras de interface
-        main_pbar.close()
-        for b in worker_bars:
-            b.close()
-            
-        # Pula as linhas que os workers usaram para evitar sobrepor texto no terminal
-        print("\n" * jobs)
-
-        # Validação estrutural de EPUBs isolados (opcional, como estava no seu código)
-        if not args.no_validate and not args.collection:
-            for result in results:
-                if result.success and validate_epub(result.output):
-                    result.success = False
-                    result.status = "failed"
-                    result.error = "falha na validação EPUB"
-
-        copy_report(report, results)
-        for result in results:
-            if not result.success:
-                print(f"[ERRO] {result.status}: {result.output} - {result.error}")
-                
-        failures = sum(not result.success for result in results)
-        print(f"\nResumo: {len(results) - failures} sucesso(s), {failures} falha(s)")
-        print(f"Relatório detalhado: {report}")
-        return 1 if failures else 0
+        tasks, report = _build_tasks(args, manifest)
+        results = _run_tasks(pipeline, tasks, jobs, args.force)
+        return _report_results(report, results)
 
     except (OSError, RuntimeError, ValueError) as error:
         print(f"[ERRO] {error}", file=sys.stderr)

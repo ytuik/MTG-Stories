@@ -1,19 +1,25 @@
-# Its just so big file that Github wont accept it (300+ MB)
+# Arquivos compilados completos são grandes demais para o GitHub (300+ MB)
 COMPLETE_STORIES.pdf
 COMPLETE_STORIES_WITHOUT_IMAGES.pdf
+# PDFs de set inteiro gerados a partir dos wrappers na raiz de stories/
 stories/*.pdf
 
-# Ignore binary files
-target/
+# Python
 __pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
 
-# EPUB conversion reports and local cache
-epubs/.epub-cache.json
-epubs/conversion-report.json
+# Typst
+target/
 
-# Local EpubCheck installation
-tools/
+# Saída e cache da conversão EPUB
 epubs/
-stories/
-card_lore/
-planeswalkers-guides/
+*.tmp.typ
+
+# Instalação local do EpubCheck
+tools/
+
+# Cache local do compressor de imagens
+.image-compress-cache.json

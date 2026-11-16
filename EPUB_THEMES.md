@@ -12,53 +12,54 @@ The EPUB converter selects a CSS theme from the collection `set_name`. The base 
 | Horror gotico | Shadows over Innistrad, Eldritch Moon, Innistrad: Midnight Hunt, Innistrad: Crimson Vow |
 | Terror analogico | Duskmourn: House of Horror |
 | Aventura e expedicoes | Prologue to Battle for Zendikar, Battle for Zendikar, Oath of the Gatewatch, Zendikar Rising, Ixalan, Rivals of Ixalan, Lost Caverns of Ixalan |
+| Intriga urbana | Return to Ravnica, Gatecrash, Dragon's Maze, Guilds of Ravnica, Ravnica Allegiance, War of the Spark, Murders at Karlov Manor |
+| Clans e dragões | Khans of Tarkir, Fate Reforged, Dragons of Tarkir, Tarkir: Dragonstorm |
+| Horror biomecanico | Phyrexia: All Will Be One, March of the Machine, March of the Machine: The Aftermath |
+| Historia de Dominaria | Dominaria, Dominaria United, The Brothers' War |
+| Revolucao de Kaladesh | Kaladesh, Aether Revolt |
+| Intriga de Fiora | Conspiracy, Conspiracy: Take the Crown |
+| Academia de Arcavios | Strixhaven: School of Mages, Secrets of Strixhaven |
+| Ruptura da realidade | Reality Fracture |
+| Art deco de New Capenna | Streets of New Capenna |
+| Western de Thunder Junction | Outlaws of Thunder Junction |
+| Corrida de Aetherdrift | Aetherdrift |
+| Ficcao de Edge | Edge of Eternities |
+| Origens dos planeswalkers | Magic Origins |
+| Pride multiversal | Pride Across the Multiverse |
+| Antologia | Magic 2013, Modern Masters, Magic 2014, Commander (2013 Edition), Duel Decks: Jace vs. Vraska, Magic 2015, Commander (2014 Edition), Modern Masters 2015, Commander (2015 Edition), Eternal Masters, Core 2019 |
 
-Cinzel, EB Garamond, Crimson Text, Unifraktur Maguntia and Merriweather are sourced from Google Fonts and embedded when their TTF files are available under `fonts/`. Old English Text MT, Planet Kosmos, Stranger Back in the Night and VCR OSD Mono are embedded when their ZIP archives are available there. Check each included license or copyright file before redistribution.
+Fonts are embedded from `fonts/` when available: the TTF files listed in the table below (Google Fonts) and, for the Cyber-tradicao, Horror gotico and Terror analogico themes, fonts extracted from the ZIP archives named in `mtg_epub/themes.py`. Check each included license or copyright file before redistribution.
 
 ## Without A Theme
 
-The following collections currently use only the base EPUB stylesheet:
+Only `Unknown Set` (the `999 - Unknown Set` folder) uses just the base EPUB stylesheet. Every other collection matches a theme via `theme_for_set` in `mtg_epub/themes.py`.
 
-- Magic 2013
-- Return to Ravnica
-- Gatecrash
-- Dragon's Maze
-- Modern Masters
-- Magic 2014
-- Commander (2013 Edition)
-- Born of the Gods
-- Duel Decks: Jace vs. Vraska
 ## Coverage And Font Research
 
-The 64 identified collections now have a thematic stylesheet. Only `Unknown Set` remains intentionally unthemed.
+The 64 identified collections now have a thematic stylesheet. Only `Unknown Set` remains intentionally unthemed (see above).
 
-| Theme | Five keywords | Font research and recommendation |
+| Theme | Five keywords | Fonts used (per `mtg_epub/themes.py` and theme CSS) |
 | --- | --- | --- |
-| Panteons e epicos | mitologia, marmore, ouro, deuses, epopeia | Cinzel from Google Fonts; EB Garamond as body fallback. |
-| Fabulas e folclore | floresta, manuscrito, magia, aldeia, conto | EB Garamond from Google Fonts; Luminari-style fonts from DaFont only after license review. |
-| Cyber-tradicao | neon, tecnologia, samurai, assimetria, contraste | Planet Kosmos local; Stranger Back in the Night local; use Google Fonts Orbitron as a redistributable fallback. |
-| Horror gotico | corvo, sangue, lua, igreja, necromancia | Old English Text MT local; Crimson Text and Unifraktur Maguntia from Google Fonts. |
-| Terror analogico | VHS, estatica, fita, glitch, transcricao | VCR OSD Mono local; Google Fonts Share Tech Mono or IBM Plex Mono as open fallbacks. |
-| Aventura e expedicoes | mapa, ruina, deserto, diario, descoberta | Merriweather from Google Fonts; Roboto Slab is a good open alternative. |
-| Intriga urbana | guildas, burocracia, arquitetura, investigacao, lei | EB Garamond from Google Fonts; Libre Baskerville for a more official tone. |
-| Clans e dragões | clãs, dragões, honra, guerra, caligrafia | Noto Serif from Google Fonts; Noto Serif TC can support an East Asian brush-adjacent fallback. |
-| Horror biomecanico | oleo, metal, invasao, compleacao, assimetria | Cinzel from Google Fonts; Rajdhani or Space Grotesk for a colder technical fallback. |
-| Historia de Dominaria | imperio, artefato, mapa, cronica, bronze | Cinzel and Merriweather from Google Fonts. |
-| Revolucao de Kaladesh | eter, engrenagem, cobre, invenção, rebeliao | Merriweather for body; Google Fonts Rajdhani or Josefin Sans for headings. |
-| Intriga de Fiora | corte, assassinato, cartas, luxo, conspiracao | Berkshire Swash from Google Fonts; a decorative courtly display face. |
-| Academia de Arcavios | academia, faculdades, pesquisa, tinta, magia | EB Garamond from Google Fonts; Libre Baskerville for institutional text. |
-| Ruptura da realidade | brutalismo, fratura, eco, multiverso, instabilidade | Space Grotesk or IBM Plex Sans from Google Fonts; avoid decorative fonts. |
-| Art deco de New Capenna | art deco, mafioso, jazz, diamante, luxo | Montserrat from Google Fonts; Riesling on DaFont is a visual reference, not a default embed. |
-| Western de Thunder Junction | western, fronteira, duelo, madeira, procurado | Roboto Slab from Google Fonts; Rye is available in Google Fonts; display fonts from DaFont require license review. |
-| Corrida de Aetherdrift | velocidade, metal, pista, equipe, combustao | Rajdhani and Audiowide from Google Fonts. |
-| Ficcao de Edge | espaco, estrelas, nave, vazio, tecnologia | Space Grotesk and Orbitron from Google Fonts. |
-| Origens dos planeswalkers | memoria, biografia, despertar, trauma, identidade | Libre Baskerville and Cinzel from Google Fonts. |
-| Pride multiversal | comunidade, cor, celebracao, identidade, afeto | Quicksand and Nunito Sans from Google Fonts; use color in accents, not as the only contrast cue. |
-| Antologia | variedade, editorial, arquivo, personagens, colecao | Cinzel for headings and EB Garamond for body, both already downloaded from Google Fonts. |
+| Panteons e epicos | mitologia, marmore, ouro, deuses, epopeia | Headings: Cinzel (`Cinzel.ttf`). Body: base stylesheet. |
+| Fabulas e folclore | floresta, manuscrito, magia, aldeia, conto | Headings and drop cap: Cormorant Garamond (`CormorantGaramond.ttf`). Body: base stylesheet. |
+| Cyber-tradicao | neon, tecnologia, samurai, assimetria, contraste | h1: Planet Kosmos (`PlanetKosmos.ttf`, from ZIP); h2: Stranger Back in the Night (`StrangerBackInTheNight.ttf`, from ZIP). Body: base stylesheet. |
+| Horror gotico | corvo, sangue, lua, igreja, necromancia | Headings and drop cap: Old English Text MT (from ZIP), falling back to UnifrakturMaguntia, then Crimson Text. Crimson Text is also embedded. Body: base stylesheet. |
+| Terror analogico | VHS, estatica, fita, glitch, transcricao | Headings, quotes and drop cap: VCR OSD Mono (`VCROSDMono.ttf`, from ZIP). Body: base stylesheet. |
+| Aventura e expedicoes | mapa, ruina, deserto, diario, descoberta | Headings and drop cap: Merriweather (`Merriweather.ttf`). Body: base stylesheet. |
+| Intriga urbana | guildas, burocracia, arquitetura, investigacao, lei | Headings: Libre Baskerville (`LibreBaskerville.ttf`). Body: base stylesheet. |
+| Clans e dragões | clãs, dragões, honra, guerra, caligrafia | Headings: Noto Serif (`NotoSerif.ttf`). Body: base stylesheet. |
+| Horror biomecanico | oleo, metal, invasao, compleacao, assimetria | Headings: Space Grotesk (`SpaceGrotesk.ttf`). Body: base stylesheet. |
+| Historia de Dominaria | imperio, artefato, mapa, cronica, bronze | Headings: Abril Fatface (`AbrilFatface.ttf`). Body: base stylesheet. |
+| Revolucao de Kaladesh | eter, engrenagem, cobre, invenção, rebeliao | Headings: Rajdhani (`Rajdhani.ttf`). Body: base stylesheet. |
+| Intriga de Fiora | corte, assassinato, cartas, luxo, conspiracao | Headings: Berkshire Swash (`BerkshireSwash.ttf`). Body: base stylesheet. |
+| Academia de Arcavios | academia, faculdades, pesquisa, tinta, magia | Headings: EB Garamond (`EBGaramond.ttf`). Body: base stylesheet. |
+| Ruptura da realidade | brutalismo, fratura, eco, multiverso, instabilidade | Body and h1: IBM Plex Sans (`IBMPlexSans.ttf`). |
+| Art deco de New Capenna | art deco, mafioso, jazz, diamante, luxo | Headings: Montserrat (`Montserrat.ttf`). Body: base stylesheet. |
+| Western de Thunder Junction | western, fronteira, duelo, madeira, procurado | Headings: Rye (`Rye.ttf`). Body: base stylesheet. |
+| Corrida de Aetherdrift | velocidade, metal, pista, equipe, combustao | Headings: Audiowide (`Audiowide.ttf`). Body: base stylesheet. |
+| Ficcao de Edge | espaco, estrelas, nave, vazio, tecnologia | Headings: Orbitron (`Orbitron.ttf`). Body: base stylesheet. |
+| Origens dos planeswalkers | memoria, biografia, despertar, trauma, identidade | Headings: Bitter (`Bitter.ttf`). Body: base stylesheet. |
+| Pride multiversal | comunidade, cor, celebracao, identidade, afeto | Headings: Quicksand (`Quicksand.ttf`). Body: base stylesheet. |
+| Antologia | variedade, editorial, arquivo, personagens, colecao | Body and headings: Crimson Text (`CrimsonText.ttf`). |
 
-Google Fonts pages were used as the primary source because the catalog is open-source and provides license information. DaFont is useful for discovering display styles, but its license varies by author; those fonts should not be embedded without checking the individual license.
-
-### Remaining Unstyled Collection
-
-- Unknown Set
-- Edge of Eternities
+Fonts that are not in `fonts/` fall back to the generic stacks declared in each theme CSS. DaFont fonts should not be embedded without checking the individual license.

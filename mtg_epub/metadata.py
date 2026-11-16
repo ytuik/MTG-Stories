@@ -2,63 +2,100 @@ from __future__ import annotations
 
 import json
 import re
+import warnings
 from datetime import datetime, timezone
 from pathlib import Path
 
+from . import REPO_ROOT
 from .models import StoryMetadata
+from .slugs import slugify
 
 # Raiz do workspace (um nível acima do pacote)
-WORKSPACE_ROOT = Path(__file__).resolve().parents[1]
+WORKSPACE_ROOT = REPO_ROOT
 SET_NAMES_FILE = WORKSPACE_ROOT / "set-names.json"
 _NUMERIC_PREFIX_RE = re.compile(r"^\d+[-_\s]*")
 _set_names_cache: dict[str, str] | None = None
+
+
+def _warn(message: str) -> None:
+    warnings.warn(message, RuntimeWarning, stacklevel=3)
 
 
 def _load_set_names() -> dict[str, str]:
     global _set_names_cache
     if _set_names_cache is not None:
         return _set_names_cache
-    if SET_NAMES_FILE.exists():
+    file_exists = SET_NAMES_FILE.exists()
+    if file_exists:
         try:
-            _set_names_cache = json.loads(SET_NAMES_FILE.read_text(encoding="utf-8"))
+            data = json.loads(SET_NAMES_FILE.read_text(encoding="utf-8"))
+            if not isinstance(data, dict):
+                raise ValueError("o JSON não é um objeto chave -> nome")
+            _set_names_cache = data
             return _set_names_cache
-        except (OSError, json.JSONDecodeError):
-            pass
+        except (OSError, ValueError) as error:  # JSONDecodeError e UnicodeDecodeError são ValueError
+            _warn(f"{SET_NAMES_FILE} ilegível ou corrompido ({error}); nomes serão regenerados das pastas do acervo")
     # Carrega dinamicamente a partir das pastas do repositório
     try:
-        from .sluggyfy import collect_set_names
+        from .renamer import collect_set_names
         _set_names_cache = collect_set_names(WORKSPACE_ROOT)
-        SET_NAMES_FILE.write_text(json.dumps(_set_names_cache, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    except Exception:
+    except (OSError, ImportError) as error:
+        _warn(f"não foi possível gerar os nomes de coleções ({error}); usando nomes derivados dos slugs")
         _set_names_cache = {}
+        return _set_names_cache
+    # Só grava quando o arquivo não existia: nunca sobrescreve um arquivo corrompido (preserva para diagnóstico).
+    if not file_exists:
+        try:
+            SET_NAMES_FILE.write_text(json.dumps(_set_names_cache, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        except OSError as error:
+            _warn(f"não foi possível gravar {SET_NAMES_FILE}: {error}")
     return _set_names_cache
 
 
-def _readable_set_name(slug: str) -> str:
+def readable_set_name(folder_or_slug: str) -> str:
+    """Nome legível do set a partir do nome da pasta ou do slug.
+
+    Usa set-names.json (busca exata, pelo slug e sem diferenciar maiúsculas);
+    se não achar, cai num fallback determinístico derivado do próprio nome.
+    """
+    name = _NUMERIC_PREFIX_RE.sub("", folder_or_slug).strip(" -_")
     names = _load_set_names()
-    if slug in names:
-        return names[slug]
-    from .sluggyfy import slugify
-    clean_slug = slugify(slug)
+    if name in names:
+        return names[name]
+    clean_slug = slugify(name)
     if clean_slug in names:
         return names[clean_slug]
-    for k, v in names.items():
-        if k.casefold() == clean_slug.casefold():
-            return v
-    # Fallback limpo sem poluir o terminal com avisos
-    return slug.replace("-", " ").replace("_", " ").strip().title()
+    for key, value in names.items():
+        if key.casefold() == clean_slug.casefold():
+            return value
+    # Fallback: nome com espaços já é legível; slug vira Title Case
+    if " " in name:
+        return name
+    return name.replace("-", " ").replace("_", " ").strip().title()
 
 
-def readable_set_name_from_folder(folder_name: str) -> str:
-    raw_name = _NUMERIC_PREFIX_RE.sub("", folder_name).strip(" -_")
-    if " " in raw_name and not raw_name.startswith("planeswalkers"):
-        return raw_name
-    return _readable_set_name(raw_name)
+# Literal de string do Typst: entre aspas, com escapes como \" e \\
+_TYPST_STRING = r'"((?:[^"\\]|\\.)*)"'
+_TYPST_ESCAPE_RE = re.compile(r"\\(?:u\{([0-9a-fA-F]+)\}|(.))", re.DOTALL)
+_TYPST_SIMPLE_ESCAPES = {"n": "\n", "t": "\t", "r": "\r"}
+
+
+def _unescape_typst(value: str) -> str:
+    def repl(match: re.Match) -> str:
+        if match.group(1):
+            try:
+                return chr(int(match.group(1), 16))
+            except (ValueError, OverflowError):
+                return match.group(0)
+        char = match.group(2)
+        return _TYPST_SIMPLE_ESCAPES.get(char, char)
+
+    return _TYPST_ESCAPE_RE.sub(repl, value)
 
 
 def _string_value(content: str, key: str) -> str | None:
-    match = re.search(rf"\b{re.escape(key)}\s*:\s*\"([^\"]*)\"", content)
-    return match.group(1).strip() if match else None
+    match = re.search(rf"\b{re.escape(key)}\s*:\s*{_TYPST_STRING}", content)
+    return _unescape_typst(match.group(1)).strip() if match else None
 
 
 def _title_from_conf(content: str) -> str | None:
@@ -69,8 +106,8 @@ def _title_from_conf(content: str) -> str | None:
     opening = content.find("(", start + len(marker))
     if opening < 0:
         return None
-    match = re.match(r"\s*\(\s*\"([^\"]*)\"", content[opening:])
-    return match.group(1).strip() if match else None
+    match = re.match(rf"\s*\(\s*{_TYPST_STRING}", content[opening:])
+    return _unescape_typst(match.group(1)).strip() if match else None
 
 
 def _date_from_content(content: str) -> str | None:
@@ -105,6 +142,14 @@ def _cover_candidates(typ_path: Path) -> list[Path]:
     return sorted(candidates, key=lambda path: path.name.lower())
 
 
+def _safe_int(value: object, typ_path: Path, default: int = 1) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        _warn(f"series_index inválido ({value!r}) para {typ_path.name}; usando {default}")
+        return default
+
+
 def extract_metadata(typ_path: Path, manifest_item: dict | None = None) -> StoryMetadata:
     content = typ_path.read_text(encoding="utf-8", errors="replace")
     manifest_item = manifest_item or {}
@@ -113,7 +158,7 @@ def extract_metadata(typ_path: Path, manifest_item: dict | None = None) -> Story
     clean_name = _NUMERIC_PREFIX_RE.sub("", typ_path.stem).replace("-", " ").strip()
 
     parent_slug = _NUMERIC_PREFIX_RE.sub("", typ_path.parent.name)
-    parent_name = _readable_set_name(parent_slug) if parent_slug else typ_path.parent.name
+    parent_name = readable_set_name(parent_slug) if parent_slug else typ_path.parent.name
     number_match = re.match(r"^(\d+)", typ_path.stem)
 
     title = manifest_item.get("title") or _title_from_conf(content) or clean_name
@@ -122,7 +167,10 @@ def extract_metadata(typ_path: Path, manifest_item: dict | None = None) -> Story
     story_date = manifest_item.get("date") or _date_from_content(content)
     if not story_date:
         story_date = datetime.now(timezone.utc).date().isoformat()
-    series_index = int(manifest_item.get("series_index") or (number_match.group(1) if number_match else 1))
+    series_index = _safe_int(
+        manifest_item.get("series_index") or (number_match.group(1) if number_match else 1),
+        typ_path,
+    )
     cover = manifest_item.get("cover_image")
     cover_candidates = _cover_candidates(typ_path)
     cover_path = Path(cover) if cover else (cover_candidates[0] if cover_candidates else None)
@@ -137,4 +185,45 @@ def extract_metadata(typ_path: Path, manifest_item: dict | None = None) -> Story
         source_file=typ_path,
         cover_image=cover_path,
         story_id=manifest_item.get("id"),
+    )
+
+def omnibus_metadata(first: StoryMetadata, source_file: Path) -> StoryMetadata:
+    """Metadados do EPUB omnibus de um set, a partir do metadado do primeiro episódio."""
+    return StoryMetadata(
+        title=f"{first.set_name} (Complete Stories)",
+        set_name=first.set_name,
+        author="Wizards of the Coast",
+        date=first.date,
+        series=first.series,
+        series_index=1,
+        source_file=source_file,
+        cover_image=first.cover_image,
+    )
+
+
+def collection_metadata(
+    set_name: str,
+    items: list[StoryMetadata],
+    sources: list[Path],
+    series_index: int,
+    first_episode: StoryMetadata | None = None,
+) -> StoryMetadata:
+    """Metadados de um livro da coleção Magic Stories (autores únicos, capa e data do 1º episódio)."""
+    authors: list[str] = []
+    for item in items:
+        if item.author not in authors:
+            authors.append(item.author)
+    if first_episode is not None:
+        cover_image = first_episode.cover_image
+    else:
+        cover_image = next((m.cover_image for m in items if m.cover_image), None)
+    return StoryMetadata(
+        title=set_name,
+        set_name=set_name,
+        author=", ".join(authors),
+        date=first_episode.date if first_episode else "",
+        series="Magic Stories Collection",
+        series_index=series_index,
+        source_file=sources[0],
+        cover_image=cover_image,
     )

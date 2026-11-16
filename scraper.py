@@ -11,11 +11,12 @@ import os
 import sys
 import re
 import json
+import time
 from pathlib import Path
 from datetime import datetime, timezone
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from tenacity import retry, stop_after_attempt, wait_exponential
 from dateutil import parser as date_parser
 
@@ -31,6 +32,9 @@ STORIES_DIR = ROOT_DIR / "stories"
 GUIDES_DIR = ROOT_DIR / "planeswalkers_guides"
 MANIFEST_FILE = ROOT_DIR / "scraped_manifest.json"
 MISSING_MD_FILE = ROOT_DIR / "MISSING_STORIES.md"
+
+# Intervalo (segundos) entre requisições, para não sobrecarregar o servidor
+REQUEST_DELAY_SECONDS = 1.0
 
 # ==========================================
 # CATÁLOGO E METADADOS
@@ -95,11 +99,50 @@ UNSCRAPABLE_MEDIA = [
 http_session = requests.Session()
 http_session.headers.update(HEADERS)
 
+_INVALID_FILENAME_CHARS = re.compile(r'[<>"/\\|?*\x00-\x1f]')
+
+
 def sanitize_filename(name: str) -> str:
-    from slugify import slugify as py_slugify
-    p = Path(name)
-    stem_slug = py_slugify(p.stem, separator="-", lowercase=True)
-    return f"{stem_slug}{p.suffix.lower()}" if p.suffix else stem_slug
+    """Nome compatível com Windows no padrão do acervo: ':' vira '-', mantém
+    espaços, maiúsculas, vírgulas e apóstrofos; remove os caracteres inválidos."""
+    name = name.replace(":", "-")
+    name = _INVALID_FILENAME_CHARS.sub("", name)
+    name = re.sub(r"\s+", " ", name).strip().rstrip(". ")
+    return name or "Untitled"
+
+
+def story_filename(story_num: str, title: str) -> str:
+    """Nome-base (sem extensão) no padrão do acervo: 'NNN_Título original'."""
+    return f"{story_num}_{sanitize_filename(title)}"
+
+
+def typst_string(s: str) -> str:
+    """Escapa texto para uso dentro de uma string Typst "..."."""
+    return str(s).replace("\\", "\\\\").replace('"', '\\"')
+
+
+_TYPST_MARKUP_CHARS = re.compile(r"([\\#*_@<$`\[\]~])")
+
+
+def escape_typst_text(s: str) -> str:
+    """Escapa caracteres de marcação Typst em texto corrido."""
+    s = _TYPST_MARKUP_CHARS.sub(r"\\\1", s)
+    # '//' e '/*' abrem comentários no Typst: escapa a '/' que antecede '/' ou '*'
+    return _TYPST_COMMENT_SLASH.sub(r"\\/", s)
+
+
+_TYPST_COMMENT_SLASH = re.compile(r"/(?=[/*])")
+_PARAGRAPH_MARKER = re.compile(r"^(?:([=\-+/])|(\d+)\.)(?=\s)")
+
+
+def escape_paragraph_start(text: str) -> str:
+    """Escapa marcadores que, no início do parágrafo, virariam título/lista/termo."""
+    match = _PARAGRAPH_MARKER.match(text)
+    if not match:
+        return text
+    if match.group(1):
+        return "\\" + text
+    return f"{match.group(2)}\\." + text[match.end():]
 
 
 def load_manifest() -> dict:
@@ -126,7 +169,10 @@ def update_manifest(manifest: dict, result: dict) -> None:
     item_id = result.get("id")
     if not item_id:
         return
-    existing = manifest.setdefault("scraped_items", {}).get(item_id, {})
+    existing = manifest.setdefault("scraped_items", {}).get(item_id)
+    if result.get("status") == "skipped" and existing is not None:
+        return  # um item pulado não sobrescreve o registro de uma execução anterior
+    existing = existing or {}
     existing.update(result)
     manifest["scraped_items"][item_id] = existing
     save_manifest(manifest)
@@ -147,7 +193,8 @@ def download_image(url: str, dest_path: Path) -> bool:
     if url.startswith("//"):
         url = "https:" + url
     dest_path.parent.mkdir(parents=True, exist_ok=True)
-    
+    time.sleep(REQUEST_DELAY_SECONDS)
+
     response = http_session.get(url, stream=True, timeout=20)
     response.raise_for_status()
     
@@ -155,8 +202,12 @@ def download_image(url: str, dest_path: Path) -> bool:
         for chunk in response.iter_content(chunk_size=8192):
             f.write(chunk)
     try:
-        from mtg_epub.image_compressor import compress_image
-        compress_image(dest_path)
+        from mtg_epub.image_compressor import (
+            DEFAULT_MAX_DIM, DEFAULT_QUALITY, _compress, record_compressed,
+        )
+        _changed, ok = _compress(dest_path, None, DEFAULT_MAX_DIM, DEFAULT_QUALITY)
+        if ok:
+            record_compressed(dest_path)
     except Exception as e:
         print(f"[Aviso] Otimização de imagem ignorada para {dest_path.name}: {e}")
     return True
@@ -189,9 +240,16 @@ def convert_bs4_to_typst(element) -> str:
     for tag in element.find_all(['iframe', 'script', 'style']):
         tag.decompose()
         
+    # Escapa a marcação Typst apenas nos nós de texto originais; a marcação
+    # intencional (links/ênfase) é inserida depois.
+    for node in list(element.find_all(string=True)):
+        if type(node) is NavigableString:
+            flat = re.sub(r"[\r\n]+", " ", str(node))
+            node.replace_with(NavigableString(escape_typst_text(flat)))
+
     # Converte Links
     for a in element.find_all('a'):
-        href = a.get('href', '')
+        href = typst_string(a.get('href', ''))
         text = a.get_text(strip=True)
         if text:
             a.replace_with(f'#link("{href}")[{text}]')
@@ -205,8 +263,7 @@ def convert_bs4_to_typst(element) -> str:
         i.replace_with(f'_{i.get_text(strip=True)}_')
         
     text = element.get_text()
-    text = text.replace('$', r'\$')
-    return re.sub(r'[ \t]+', ' ', text).strip()
+    return escape_paragraph_start(re.sub(r'[ \t]+', ' ', text).strip())
 
 def parse_article_html(html: str, default_metadata: dict = None) -> dict:
     meta = default_metadata.copy() if default_metadata else {}
@@ -244,7 +301,7 @@ def parse_article_html(html: str, default_metadata: dict = None) -> dict:
                 elements.append({
                     "type": "image",
                     "src": img.get('src'),
-                    "caption": caption_match.group(1).strip() if caption_match else ""
+                    "caption": escape_typst_text(caption_match.group(1).strip()) if caption_match else ""
                 })
             else:
                 p_text = convert_bs4_to_typst(tag)
@@ -281,9 +338,10 @@ def parse_article_html(html: str, default_metadata: dict = None) -> dict:
 # ==========================================
 def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str) -> None:
     meta = parsed["metadata"]
-    title = meta.get("clean_title", "Untitled Story")
-    set_name = meta.get("set_name", "Unknown Set")
-    author = meta.get("author", "Unknown Author")
+    title = typst_string(meta.get("clean_title", "Untitled Story"))
+    set_name = typst_string(meta.get("set_name", "Unknown Set"))
+    author = typst_string(meta.get("author", "Unknown Author"))
+    set_name_text = escape_typst_text(meta.get("set_name", "Unknown Set"))
     day, month, year = parse_date_string(meta.get("date", "2026-09-01"))
     
     typ_lines = [
@@ -307,7 +365,7 @@ def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str
         try:
             download_image(parsed["hero_image"], image_folder_abs / img_name)
             rel_img = f"{image_dir_rel}/{img_name}"
-            typ_lines.append(f'#figure(image("{rel_img}", width: 100%), caption: [Art from {set_name}], supplement: none, numbering: none)\n')
+            typ_lines.append(f'#figure(image("{typst_string(rel_img)}", width: 100%), caption: [Art from {set_name_text}], supplement: none, numbering: none)\n')
             img_counter += 1
         except Exception as e:
             print(f"[Erro] Capa Hero ignorada: {e}")
@@ -333,7 +391,7 @@ def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str
                 rel_img = f"{image_dir_rel}/{img_name}"
                 cap = el.get("caption", "").strip()
                 cap_code = f'caption: [{cap}]' if cap else 'caption: none'
-                typ_lines.append(f'#figure(image("{rel_img}", width: 100%), {cap_code}, supplement: none, numbering: none)\n')
+                typ_lines.append(f'#figure(image("{typst_string(rel_img)}", width: 100%), {cap_code}, supplement: none, numbering: none)\n')
                 img_counter += 1
             except Exception as e:
                 print(f"[Aviso] Falha ao baixar imagem do corpo ({el['src']}): {e}")
@@ -342,20 +400,51 @@ def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str
     output_typ_path.write_text("\n".join(typ_lines), encoding="utf-8")
     print(f"[OK] História gerada: {output_typ_path.name}")
 
-def scrape_single_item(item: dict) -> dict:
+def _target_path(item: dict, title: str) -> Path:
+    set_folder = sanitize_filename(item.get("set_folder", f"Unknown - {item.get('set_name', 'Unknown')}"))
+    story_num = item.get("story_number", "001")
+    return STORIES_DIR / set_folder / f"{story_filename(story_num, title)}.typ"
+
+
+def _manifest_path(target_typ: Path) -> str:
+    try:
+        return target_typ.relative_to(ROOT_DIR).as_posix()
+    except ValueError:
+        return target_typ.as_posix()
+
+
+def _skipped_result(item_id: str, target_typ: Path) -> dict:
+    print(f"[Pulado] Já existe: {target_typ.name} (use --force para sobrescrever)")
+    return {
+        "id": item_id,
+        "status": "skipped",
+        "file_name": target_typ.name,
+        "output_file": _manifest_path(target_typ),
+    }
+
+
+def scrape_single_item(item: dict, force: bool = False) -> dict:
     item_id = item.get("id", sanitize_filename(item.get("title", "custom")))
     print(f"\n--- Processando: {item.get('title', item_id)} ---")
-    
+
+    # Idempotência: se o título já é conhecido pelo catálogo, evita até a requisição
+    if not force and item.get("clean_title"):
+        known_target = _target_path(item, item["clean_title"])
+        if known_target.exists():
+            return _skipped_result(item_id, known_target)
+
     url = item.get("url")
     fetched_from = url
     try:
         print(f"Buscando URL: {url}")
+        time.sleep(REQUEST_DELAY_SECONDS)
         html_content = fetch_html(url)
     except Exception as e:
         print(f"[Aviso] Falha primária: {e}")
         if item.get("mtglore_url"):
             resolved_url = resolve_wizards_url_from_mtglore(item["mtglore_url"])
             try:
+                time.sleep(REQUEST_DELAY_SECONDS)
                 html_content = fetch_html(resolved_url)
                 fetched_from = resolved_url
             except Exception as e2:
@@ -365,27 +454,28 @@ def scrape_single_item(item: dict) -> dict:
             return {"id": item_id, "status": "failed", "error": str(e), "source_url": url}
 
     parsed = parse_article_html(html_content, default_metadata=item)
-    
-    set_folder = sanitize_filename(item.get("set_folder", f"Unknown - {item.get('set_name', 'Unknown')}"))
-    story_num = item.get("story_number", "001")
-    file_basename = f"{story_num}-{sanitize_filename(parsed['metadata'].get('clean_title', 'Story'))}"
-    target_typ = STORIES_DIR / set_folder / f"{file_basename}.typ"
-    
-    generate_story_typst(parsed, target_typ, file_basename)
-    try:
-        manifest_path = target_typ.relative_to(ROOT_DIR).as_posix()
-    except ValueError:
-        manifest_path = target_typ.as_posix()
+
+    title = parsed["metadata"].get("clean_title")
+    if not title:
+        return {"id": item_id, "status": "failed", "error": "Título não encontrado no HTML", "source_url": fetched_from}
+    if not any(el["type"] in ("paragraph", "image") for el in parsed["elements"]):
+        return {"id": item_id, "status": "failed", "error": "Corpo do artigo vazio após o parse", "source_url": fetched_from}
+
+    target_typ = _target_path(item, title)
+    if target_typ.exists() and not force:
+        return _skipped_result(item_id, target_typ)
+
+    generate_story_typst(parsed, target_typ, target_typ.stem)
 
     return {
         "id": item_id,
-        "title": parsed["metadata"].get("clean_title"),
+        "title": title,
         "author": parsed["metadata"].get("author"),
         "date": parsed["metadata"].get("date"),
         "set_name": parsed["metadata"].get("set_name"),
         "status": "scraped",
         "file_name": target_typ.name,
-        "output_file": manifest_path,
+        "output_file": _manifest_path(target_typ),
         "source_url": fetched_from,
         "scraped_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -398,6 +488,7 @@ def main():
     parser = argparse.ArgumentParser(description="MTG Stories Scraper")
     parser.add_argument("--all", action="store_true")
     parser.add_argument("--rf", action="store_true", help="Scrapea somente Reality Fracture")
+    parser.add_argument("--force", action="store_true", help="Sobrescreve .typ já existentes")
     args = parser.parse_args()
 
     targets = [item for item in CATALOG_MISSING if not args.rf or item.get("set_name") == "Reality Fracture"]
@@ -406,7 +497,7 @@ def main():
     
     for item in targets:
         if item.get("type") == "story":
-            result = scrape_single_item(item)
+            result = scrape_single_item(item, force=args.force)
             results.append(result)
             update_manifest(manifest, result)
 
