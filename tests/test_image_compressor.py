@@ -111,6 +111,26 @@ class TestImageCompressor(unittest.TestCase):
         data = json.loads(cache.read_text(encoding="utf-8")) if cache.exists() else {}
         self.assertEqual(data, {})
 
+    def test_cache_saved_periodically_and_on_interrupt(self):
+        sub = self.dir_path / "stories"
+        sub.mkdir()
+        for n in range(3):
+            Image.new("RGB", (1800, 1200), color="blue").save(sub / f"0{n}.jpg", "JPEG")
+        cache = self.dir_path / "cache.json"
+        real = image_compressor._compress
+        calls = []
+
+        def boom(*args, **kwargs):
+            calls.append(1)
+            if len(calls) == 3:
+                raise KeyboardInterrupt
+            return real(*args, **kwargs)
+
+        with mock.patch.object(image_compressor, "CACHE_SAVE_EVERY", 1),                 mock.patch.object(image_compressor, "_compress", boom):
+            with self.assertRaises(KeyboardInterrupt):
+                batch_compress_directories([sub], verbose=False, cache_path=cache)
+        self.assertEqual(len(json.loads(cache.read_text(encoding="utf-8"))), 2)
+
     def test_record_compressed_prevents_recompression(self):
         sub = self.dir_path / "stories"
         sub.mkdir()

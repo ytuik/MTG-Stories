@@ -102,6 +102,12 @@ def _process_images(
     return soup.body.decode_contents(), warnings
 
 
+class BuildWarnings(list):
+    """Lista de avisos do build; `degraded` indica fallback sem imagens."""
+
+    degraded: bool = False
+
+
 def build_epub(
     metadata: BookMetadata,
     chapters: list[ChapterSource],
@@ -156,11 +162,12 @@ def build_epub(
 
     # 3. Processar e adicionar os Capítulos
     epub_chapters = []
-    build_warnings: list[str] = []
+    build_warnings = BuildWarnings()
     image_registry: dict[str, str] = {}
     for index, chapter in enumerate(chapters, start=1):
         compiled: CompiledChapter = compile_chapter_html(chapter.typ_path, root)
         build_warnings.extend(compiled.warnings)
+        build_warnings.degraded = build_warnings.degraded or compiled.degraded
         body_html, image_warnings = _process_images(
             compiled.body_html, book, image_registry, chapter.typ_path.name, max_image_size, with_images,
         )

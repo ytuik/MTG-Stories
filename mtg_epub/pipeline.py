@@ -193,7 +193,9 @@ class EpubPipeline:
             cache_key = str(output.resolve())
             with self._cache_lock:
                 cached = self.cache.get(cache_key)
-            if not force and output.exists() and cached == fingerprint:
+            degraded = isinstance(cached, dict) and bool(cached.get("degraded"))
+            cached_fp = cached.get("fingerprint") if isinstance(cached, dict) else cached
+            if not force and output.exists() and not degraded and cached_fp == fingerprint:
                 return ConversionResult(source, output, True, "skipped", time.perf_counter() - started, skipped=True)
 
             with tempfile.TemporaryDirectory(prefix="mtg-epub-") as temp_name:
@@ -227,7 +229,7 @@ class EpubPipeline:
                 output.parent.mkdir(parents=True, exist_ok=True)
                 tmp_output = output.with_name(f"{output.stem}.{uuid.uuid4().hex[:8]}.tmp.epub")
                 try:
-                    build_warnings = list(build_epub(
+                    built = build_epub(
                         metadata=book_meta,
                         chapters=chapters,
                         root=typst_root(input_files),
@@ -236,7 +238,9 @@ class EpubPipeline:
                         fonts=embedded_fonts,
                         max_image_size=self.max_image_size,
                         with_images=self.with_images,
-                    ) or [])
+                    )
+                    build_warnings = list(built or [])
+                    degraded_build = bool(getattr(built, "degraded", False))
 
                     if self.validate:
                         problems = validate_epub(tmp_output)
@@ -251,17 +255,18 @@ class EpubPipeline:
                     tmp_output.unlink(missing_ok=True)
 
             warnings = list(build_warnings)
-            # Com avisos (ex.: fallback sem imagens) não gravamos o fingerprint:
-            # a próxima execução tenta de novo.
-            if not warnings:
-                with self._cache_lock:
-                    self.cache[cache_key] = fingerprint
-                    try:
-                        self._save_cache()
-                    except OSError as error:
-                        message = f"não foi possível gravar o cache {self.cache_path}: {error}"
-                        print(f"[pipeline][Aviso] {message}", file=sys.stderr)
-                        warnings.append(message)
+            # Só o fallback sem imagens marca o EPUB como degradado (outros avisos só são exibidos):
+            # a próxima execução (e o status) tratam como desatualizado e tentam de novo.
+            with self._cache_lock:
+                self.cache[cache_key] = (
+                    {"fingerprint": fingerprint, "degraded": True} if degraded_build else fingerprint
+                )
+                try:
+                    self._save_cache()
+                except OSError as error:
+                    message = f"não foi possível gravar o cache {self.cache_path}: {error}"
+                    print(f"[pipeline][Aviso] {message}", file=sys.stderr)
+                    warnings.append(message)
             return ConversionResult(
                 source, output, True, "generated", time.perf_counter() - started,
                 warnings=warnings,

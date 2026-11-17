@@ -21,6 +21,7 @@ except ImportError:
 
 SUPPORTED_EXTENSIONS = frozenset({".jpg", ".jpeg", ".png", ".webp"})
 DEFAULT_CACHE_PATH = REPO_ROOT / ".image-compress-cache.json"
+CACHE_SAVE_EVERY = 25  # imagens processadas entre gravações parciais do cache
 DEFAULT_MAX_DIM = 1400
 DEFAULT_QUALITY = 80
 
@@ -259,21 +260,29 @@ def batch_compress_directories(
 
     iterator = tqdm(unique_images, desc="Comprimindo imagens", unit="img") if (tqdm and verbose) else unique_images
 
-    for img_path in iterator:
-        key = _cache_key(img_path, cache_base)
-        if _is_cached(cache, key, img_path, max_dim, quality):
-            skipped_count += 1
-            continue
-        orig_size = img_path.stat().st_size
-        changed, ok = _compress(img_path, None, max_dim, quality)
-        if changed:
-            compressed_count += 1
-            new_size = img_path.stat().st_size
-            total_saved_bytes += max(0, orig_size - new_size)
-        if ok:
-            cache[key] = _cache_entry(img_path, max_dim, quality)
-
-    _save_cache(cache_path, cache)
+    processed = 0
+    try:
+        for img_path in iterator:
+            key = _cache_key(img_path, cache_base)
+            if _is_cached(cache, key, img_path, max_dim, quality):
+                skipped_count += 1
+                continue
+            orig_size = img_path.stat().st_size
+            changed, ok = _compress(img_path, None, max_dim, quality)
+            if changed:
+                compressed_count += 1
+                new_size = img_path.stat().st_size
+                total_saved_bytes += max(0, orig_size - new_size)
+            if ok:
+                cache[key] = _cache_entry(img_path, max_dim, quality)
+            processed += 1
+            if processed % CACHE_SAVE_EVERY == 0:
+                _save_cache(cache_path, cache)
+    finally:  # Ctrl+C ou exceção não perdem o progresso
+        try:
+            _save_cache(cache_path, cache)
+        except OSError as error:
+            print(f"[Compressor][Aviso] não foi possível gravar o cache {cache_path}: {error}", file=sys.stderr)
 
     if verbose:
         saved_mb = total_saved_bytes / (1024 * 1024)

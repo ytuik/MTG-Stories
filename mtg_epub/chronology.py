@@ -26,7 +26,8 @@ import unicodedata
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
-from . import REPO_ROOT
+from . import REPO_ROOT, TEXT_ONLY_SUFFIX
+from .typst_themes import _write_if_changed
 
 TIMELINE_API = (
     "https://mtg.fandom.com/api.php?action=parse&page=Timeline/Sourced"
@@ -381,10 +382,14 @@ def write_wrappers(items: list[ChronologyItem], out_dir: Path | None = None) -> 
     """Gera um wrapper Typst por volume em stories/chronological/; apaga só os .typ e PDFs antigos da pasta."""
     out_dir = out_dir or REPO_ROOT / "stories" / WRAPPERS_DIRNAME
     out_dir.mkdir(parents=True, exist_ok=True)
-    for old in (*out_dir.glob("*.typ"), *out_dir.glob("*.pdf")):  # PDFs órfãos de volumes extintos
-        old.unlink()
+    vols = volumes(items)
+    stems = {f"{vol.number:02d} - {_safe_filename(vol.name)}" for vol in vols}
+    for old in (*out_dir.glob("*.typ"), *out_dir.glob("*.pdf")):  # órfãos de volumes extintos
+        stem = old.stem.removesuffix(TEXT_ONLY_SUFFIX) if old.suffix == ".pdf" else old.stem
+        if stem not in stems:
+            old.unlink()
     written: list[Path] = []
-    for vol in volumes(items):
+    for vol in vols:
         lines = [
             '#import "@local/mtgset:0.1.0": conf',
             f'#show: doc => conf("{_typst_string(vol.name)}", doc)',
@@ -395,7 +400,7 @@ def write_wrappers(items: list[ChronologyItem], out_dir: Path | None = None) -> 
             rel = "../" + item.path.removeprefix("stories/")
             lines.append(f'#include "{_typst_string(rel)}"')
         target = out_dir / f"{vol.number:02d} - {_safe_filename(vol.name)}.typ"
-        target.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        _write_if_changed(target, ("\n".join(lines) + "\n").encode("utf-8"))
         written.append(target)
     return written
 
@@ -429,6 +434,21 @@ def load_chronology(path: Path = CHRONOLOGY_FILE) -> list[ChronologyItem]:
     return [ChronologyItem(**item) for item in data["stories"]]
 
 
+def _regression_problem(entries: list, timeline_count: int, path: Path) -> str | None:
+    """Motivo para não sobrescrever o arquivo existente, ou None se a nova timeline parece saudável."""
+    if not entries:
+        return "a timeline veio com 0 entradas (página alterada ou download quebrado?)"
+    if not path.exists():
+        return None
+    try:
+        old = sum(1 for i in load_chronology(path) if i.placement == "timeline")
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    if old and timeline_count < old * 0.8:
+        return f"histórias posicionadas pela timeline caíram de {old} para {timeline_count} (mais de 20%)"
+    return None
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     src = parser.add_mutually_exclusive_group(required=True)
@@ -436,6 +456,7 @@ def main(argv: list[str] | None = None) -> int:
     src.add_argument("--update", action="store_true", help="baixa a timeline da MTG Wiki")
     src.add_argument("--html", type=Path, help="HTML (ou JSON da API) salvo localmente")
     parser.add_argument("--output", type=Path, default=CHRONOLOGY_FILE)
+    parser.add_argument("--force", action="store_true", help="grava mesmo que a timeline venha vazia ou perca >20%% das histórias posicionadas")
     args = parser.parse_args(argv)
 
     if args.wrappers:
@@ -456,9 +477,13 @@ def main(argv: list[str] | None = None) -> int:
     stories = load_archive()
     items = build_chronology(entries, stories)
     missing = missing_from_archive(entries, stories)
-    write_chronology(items, missing, args.output)
-
     counts = {k: sum(1 for i in items if i.placement == k) for k in ("timeline", "set-neighbor", "publication")}
+    if not args.force:
+        problem = _regression_problem(entries, counts["timeline"], args.output)
+        if problem:
+            print(f"[ERRO] {problem}; nada foi gravado (use --force para gravar mesmo assim)", file=sys.stderr)
+            return 1
+    write_chronology(items, missing, args.output)
     print(f"Timeline: {len(entries)} entradas | acervo: {len(stories)} histórias")
     print(f"  pela timeline: {counts['timeline']} | junto do set: {counts['set-neighbor']} | no fim: {counts['publication']}")
     print(f"  na timeline e ausentes do acervo: {len(missing)}")

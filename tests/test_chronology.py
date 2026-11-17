@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -321,3 +322,61 @@ def test_write_wrappers_removes_orphan_pdfs(tmp_path):
     chronology.write_wrappers([item(1, "a", "Undated")], out)
     assert not list(out.glob("*.pdf"))
     assert (out / "keep.txt").exists()
+
+
+def test_write_wrappers_keeps_current_pdfs_and_unchanged_typ(tmp_path):
+    from mtg_epub import TEXT_ONLY_SUFFIX
+
+    out = tmp_path / "stories" / "chronological"
+    out.mkdir(parents=True)
+    items = [item(1, "a", "Undated")]
+    typ = chronology.write_wrappers(items, out)[0]
+    pdf_ok = out / f"{typ.stem}.pdf"
+    pdf_text = out / f"{typ.stem}{TEXT_ONLY_SUFFIX}.pdf"
+    pdf_old = out / f"99 - Extinto{TEXT_ONLY_SUFFIX}.pdf"
+    for p in (pdf_ok, pdf_text, pdf_old):
+        p.write_bytes(b"%PDF")
+    (out / "98 - Extinto.typ").write_text("x", encoding="utf-8")
+    mtime = typ.stat().st_mtime_ns
+
+    chronology.write_wrappers(items, out)
+
+    assert pdf_ok.exists() and pdf_text.exists()
+    assert not pdf_old.exists() and not (out / "98 - Extinto.typ").exists()
+    assert typ.stat().st_mtime_ns == mtime
+
+
+def _run_update(tmp_path, monkeypatch, entries, *extra):
+    out = tmp_path / "chronology.json"
+    monkeypatch.setattr(chronology, "fetch_timeline_html", lambda: "<html/>")
+    monkeypatch.setattr(chronology, "parse_timeline", lambda html: entries)
+    monkeypatch.setattr(chronology, "load_archive", lambda: [])
+    monkeypatch.setattr(chronology, "build_chronology", lambda e, s: [])
+    monkeypatch.setattr(chronology, "missing_from_archive", lambda e, s: [])
+    return out, chronology.main(["--update", "--output", str(out), *extra])
+
+
+def test_update_aborts_on_empty_timeline(tmp_path, monkeypatch, capsys):
+    out = tmp_path / "chronology.json"
+    out.write_text("bom", encoding="utf-8")
+    _, code = _run_update(tmp_path, monkeypatch, [])
+    assert code == 1
+    assert out.read_text(encoding="utf-8") == "bom"
+    assert "0 entradas" in capsys.readouterr().err
+    _, code = _run_update(tmp_path, monkeypatch, [], "--force")
+    assert code == 0 and json.loads(out.read_text(encoding="utf-8"))["stories"] == []
+
+
+def test_update_aborts_when_timeline_placements_drop(tmp_path, monkeypatch, capsys):
+    out = tmp_path / "chronology.json"
+    chronology.write_chronology([item(i, f"s{i}", "Undated") for i in range(10)], [], out)
+    before = out.read_text(encoding="utf-8")
+    monkeypatch.setattr(chronology, "fetch_timeline_html", lambda: "<html/>")
+    monkeypatch.setattr(chronology, "parse_timeline", lambda html: ["e"])
+    monkeypatch.setattr(chronology, "load_archive", lambda: [])
+    monkeypatch.setattr(chronology, "build_chronology", lambda e, s: [item(i, f"s{i}", "Undated") for i in range(7)])
+    monkeypatch.setattr(chronology, "missing_from_archive", lambda e, s: [])
+    assert chronology.main(["--update", "--output", str(out)]) == 1
+    assert out.read_text(encoding="utf-8") == before
+    assert "caíram de 10 para 7" in capsys.readouterr().err
+    assert chronology.main(["--update", "--output", str(out), "--force"]) == 0

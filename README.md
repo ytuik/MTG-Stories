@@ -41,6 +41,8 @@ python typ2epub.py --set Bloomburrow --epubcheck
 python typ2epub.py --validate "epubs/Bloomburrow.epub"
 ```
 
+With `--no-images` every EPUB gets the ` - text only` suffix (like the PDFs), so it never overwrites the illustrated EPUB; an EPUB that fell back to no images is flagged as degraded in the cache, shown as stale by `status` and retried on the next run.
+
 The converter writes a JSON report and an incremental cache in the output directory. Failed conversions are reported at the end and return exit code `1`. EPUBs also receive structural validation for the `mimetype`, container, OPF, navigation and absolute paths.
 
 The implementation is split into `mtg_epub/`: metadata and manifest handling, balanced Typst sanitization, Typst-to-HTML conversion, image handling, cache and EPUB validation.
@@ -73,7 +75,7 @@ python scraper.py --rf         # only Reality Fracture
 python scraper.py --force      # overwrite existing .typ files
 ```
 
-By default, stories whose `.typ` file already exists are skipped; pass `--force` to scrape them again and overwrite the files. The `--all` flag is currently a no-op.
+By default, stories whose `.typ` file already exists are skipped; pass `--force` to scrape them again and overwrite the files.
 
 With `--rebuild`, every newly scraped story gets its PDF, the PDF of its set book and the EPUBs (story + set omnibus) right away. `--rebuild-only` scrapes nothing and only rebuilds what is missing or out of date. Rebuild failures are listed at the end and return exit code `1`, but the scrape and the manifest are kept.
 

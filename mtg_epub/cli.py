@@ -12,7 +12,8 @@ from tqdm import tqdm
 
 import dataclasses
 
-from . import REPO_ROOT, chronology
+from . import REPO_ROOT, TEXT_ONLY_SUFFIX, chronology
+from .image_compressor import DEFAULT_MAX_DIM
 from .manifest import load_manifest, manifest_item_for
 from .metadata import collection_metadata, extract_metadata, omnibus_metadata, readable_set_name
 from .models import StoryMetadata
@@ -89,8 +90,8 @@ def build_parser() -> argparse.ArgumentParser:
     source.add_argument("--chronological", action="store_true", help="Gera um EPUB por volume na ordem cronológica (data/chronology.json)")
     source.add_argument("--collection", action="store_true", help="Gera a coleção Magic Stories, um EPUB por set")
     parser.add_argument("--compress-images", action="store_true", help="Comprime imagens do acervo com Pillow para otimizar tamanho em e-readers")
-    parser.add_argument("--max-image-size", type=int, default=1400, help="Maior lado, em px, das imagens do EPUB (padrão: 1400)")
-    parser.add_argument("--no-images", action="store_true", help="Gera o EPUB sem imagens (remove as figuras)")
+    parser.add_argument("--max-image-size", type=int, default=DEFAULT_MAX_DIM, help=f"Maior lado, em px, das imagens do EPUB (padrão: {DEFAULT_MAX_DIM})")
+    parser.add_argument("--no-images", action="store_true", help=f"Gera o EPUB sem imagens (remove as figuras); os arquivos levam o sufixo '{TEXT_ONLY_SUFFIX}'")
     parser.add_argument("--combine", action="store_true", help="Gera também um EPUB omnibus")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--stories-dir", type=Path, default=DEFAULT_STORIES_DIR)
@@ -239,7 +240,7 @@ def _collection_tasks(
     return tasks
 
 
-def _chronological_tasks(items: list, manifest: dict, output_dir: Path) -> list[Task]:
+def _chronological_tasks(items: list, manifest: dict, output_dir: Path, suffix: str = "") -> list[Task]:
     """Uma tarefa por volume cronológico, reaproveitando collection_metadata."""
     tasks: list[Task] = []
     for vol in chronology.volumes(items):
@@ -262,7 +263,7 @@ def _chronological_tasks(items: list, manifest: dict, output_dir: Path) -> list[
             title=f"MTG Story Chronological {vol.number:02d}: {vol.name}",
             series="MTG Story — Chronological",
         )
-        name = f"{vol.number:02d} - {chronology._safe_filename(vol.name)}.epub"
+        name = f"{vol.number:02d} - {chronology._safe_filename(vol.name)}{suffix}.epub"
         tasks.append((sources, output_dir / name, metadata, chapter_titles))
     return tasks
 
@@ -293,6 +294,7 @@ def _epubcheck_unavailable(jar: Path) -> str | None:
 
 def _build_tasks(args: argparse.Namespace, manifest: dict) -> tuple[list[Task], Path]:
     """Monta as tarefas de conversão e o caminho do relatório para o modo escolhido."""
+    suffix = TEXT_ONLY_SUFFIX if args.no_images else ""
     if args.collection:
         collection_dir = args.output_dir / "Magic Stories Collection"
         tasks = _collection_tasks(
@@ -302,24 +304,24 @@ def _build_tasks(args: argparse.Namespace, manifest: dict) -> tuple[list[Task], 
 
     if args.chronological:
         chrono_dir = args.output_dir / "chronological"
-        tasks = _chronological_tasks(chronology.load_chronology(chronology.CHRONOLOGY_FILE), manifest, chrono_dir)
+        tasks = _chronological_tasks(chronology.load_chronology(chronology.CHRONOLOGY_FILE), manifest, chrono_dir, suffix)
         return tasks, args.report or chrono_dir / "chronological-report.json"
 
     report = args.report or args.output_dir / "conversion-report.json"
     tasks: list[Task] = []
     if args.file:
         source = args.file.resolve()
-        tasks.append(([source], args.output_dir / source.with_suffix(".epub").name, _metadata(source, manifest), None))
+        tasks.append(([source], args.output_dir / f"{source.stem}{suffix}.epub", _metadata(source, manifest), None))
         return tasks, report
 
     for set_folder in _target_sets(args):
         sources = collect_typst_files(set_folder)
         for source in sources:
-            output = args.output_dir / set_folder.name / source.with_suffix(".epub").name
+            output = args.output_dir / set_folder.name / f"{source.stem}{suffix}.epub"
             tasks.append(([source], output, _metadata(source, manifest), None))
         if args.combine and sources:
             metadata = omnibus_metadata(_metadata(sources[0], manifest), sources[0])
-            tasks.append((sources, args.output_dir / set_folder.name / f"{set_folder.name} - Omnibus.epub", metadata, None))
+            tasks.append((sources, args.output_dir / set_folder.name / f"{set_folder.name} - Omnibus{suffix}.epub", metadata, None))
     return tasks, report
 
 
@@ -379,11 +381,19 @@ def _report_results(report: Path, results: list) -> int:
     for result in results:
         if not result.success:
             print(f"[ERRO] {result.status}: {result.output} - {result.error}")
+        for warning in getattr(result, "warnings", None) or []:
+            print(f"[AVISO] {result.output}: {warning}")
 
     failures = sum(not result.success for result in results)
     print(f"\nResumo: {len(results) - failures} sucesso(s), {failures} falha(s)")
     print(f"Relatório detalhado: {report}")
     return 1 if failures else 0
+
+
+def _compress_images(args: argparse.Namespace) -> None:
+    from .image_compressor import batch_compress_directories
+    print("[Otimização] Iniciando compressão de imagens do acervo...")
+    batch_compress_directories([args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR])
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -400,13 +410,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[OK] EPUB válido: {args.validate}")
         return 0
 
-    if args.compress_images and not (args.file or args.set_name or args.all or args.collection or args.chronological):
-        from .image_compressor import batch_compress_directories
-        print("[Otimização] Iniciando compressão de imagens do acervo...")
-        batch_compress_directories([args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR])
+    has_target = bool(args.file or args.set_name or args.all or args.collection or args.chronological)
+    if args.compress_images and not has_target:
+        _compress_images(args)
         return 0
 
-    if not (args.file or args.set_name or args.all or args.collection or args.chronological):
+    if not has_target:
         build_parser().error("forneça --file, --set, --all, --collection, --chronological ou --compress-images")
 
     if args.chronological and not chronology.CHRONOLOGY_FILE.exists():
@@ -425,9 +434,7 @@ def main(argv: list[str] | None = None) -> int:
             return 2
 
     if args.compress_images:
-        from .image_compressor import batch_compress_directories
-        print("[Otimização] Iniciando compressão de imagens do acervo...")
-        batch_compress_directories([args.stories_dir, DEFAULT_GUIDES_DIR, DEFAULT_CARD_LORE_DIR])
+        _compress_images(args)
 
     try:
         manifest = load_manifest(args.manifest)

@@ -20,13 +20,14 @@ import sys
 from pathlib import Path
 
 from . import pdf
+from .image_compressor import DEFAULT_MAX_DIM
 
 OK, MISSING, STALE = "ok", "missing", "stale"
 
 MD_START = "<!-- status:auto:start -->"
 MD_END = "<!-- status:auto:end -->"
 STATUS_JSON = "status.json"
-EPUB_MAX_IMAGE_SIZE = 1400  # mesmo padrão de --max-image-size no cli
+EPUB_MAX_IMAGE_SIZE = DEFAULT_MAX_DIM  # mesmo padrão de --max-image-size no cli
 
 # Campos de pendência de build (contam para --strict)
 BUILD_FIELDS = ("no_pdf", "stale_pdf", "no_epub", "stale_epub")
@@ -113,6 +114,14 @@ def _epub_fingerprint(source: Path, manifest: dict, pipeline) -> str:
     return pipeline.compute_fingerprint([source], metadata)
 
 
+def cache_entry_fingerprint(entry) -> str | None:
+    return entry.get("fingerprint") if isinstance(entry, dict) else entry
+
+
+def cache_entry_degraded(entry) -> bool:
+    return isinstance(entry, dict) and bool(entry.get("degraded"))
+
+
 class EpubChecker:
     def __init__(self, epubs_dir: Path, manifest_path: Path):
         self.epubs_dir = epubs_dir
@@ -135,9 +144,12 @@ class EpubChecker:
             return MISSING
         if self.pipeline is None:
             return _by_mtime(source, output)
-        recorded = self.pipeline.cache.get(str(output.resolve()))
-        if recorded is None:
+        entry = self.pipeline.cache.get(str(output.resolve()))
+        if entry is None:
             return _by_mtime(source, output)
+        if cache_entry_degraded(entry):
+            return STALE  # EPUB gerado em fallback sem imagens: refazer
+        recorded = cache_entry_fingerprint(entry)
         try:
             return OK if _epub_fingerprint(source, self.manifest, self.pipeline) == recorded else STALE
         except Exception:  # noqa: BLE001

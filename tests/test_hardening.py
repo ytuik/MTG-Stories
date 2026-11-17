@@ -240,3 +240,79 @@ def test_missing_fonts_dir_warns(tmp_path):
     from mtg_epub.themes import THEMES, prepare_theme_fonts
     with pytest.warns(RuntimeWarning, match="fontes"):
         assert prepare_theme_fonts(THEMES["gothic"], tmp_path / "nao-existe", tmp_path) == []
+
+
+# --- EPUB degradado / sufixo text only ------------------------------------
+
+def test_degraded_epub_is_cached_as_degraded_and_retried(tmp_path, monkeypatch):
+    from mtg_epub import status
+
+    typ, meta = _story(tmp_path)
+    output = tmp_path / "out" / "a.epub"
+    warnings = ["imagem x.png ausente; EPUB sem imagens"]
+
+    def _build(metadata, chapters, root, output_path, css_content, fonts=None, **_):
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_bytes(b"epub")
+        from mtg_epub.epub_builder import BuildWarnings
+        built = BuildWarnings(warnings)
+        built.degraded = bool(warnings)
+        return built
+
+    monkeypatch.setattr(pipeline_module, "build_epub", _build)
+    pipe = EpubPipeline(tmp_path / "out", fonts_dir=None, validate=False)
+    result = pipe.convert([typ], output, meta)
+    assert result.warnings == warnings
+    entry = pipe.cache[str(output.resolve())]
+    assert entry["degraded"] is True and entry["fingerprint"]
+    assert status.cache_entry_degraded(entry)
+
+    assert pipe.convert([typ], output, meta).status == "generated"  # não vira "skipped"
+    warnings.clear()
+    assert pipe.convert([typ], output, meta).status == "generated"
+    assert isinstance(pipe.cache[str(output.resolve())], str)
+    assert pipe.convert([typ], output, meta).status == "skipped"
+
+
+def test_non_degraded_warning_does_not_mark_degraded(tmp_path, monkeypatch):
+    typ, meta = _story(tmp_path)
+    output = tmp_path / "out" / "a.epub"
+
+    def _build(metadata, chapters, root, output_path, css_content, fonts=None, **_):
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_bytes(b"epub")
+        return ["aviso qualquer"]
+
+    monkeypatch.setattr(pipeline_module, "build_epub", _build)
+    pipe = EpubPipeline(tmp_path / "out", fonts_dir=None, validate=False)
+    assert pipe.convert([typ], output, meta).warnings == ["aviso qualquer"]
+    assert isinstance(pipe.cache[str(output.resolve())], str)
+
+
+def test_epub_checker_classifies_degraded_entry_as_stale(tmp_path):
+    from mtg_epub import status
+    typ, meta = _story(tmp_path)
+    checker = status.EpubChecker(tmp_path / "out", tmp_path / "m.json")
+    output = status.epub_output_path(typ, tmp_path / "out")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_bytes(b"epub")
+    checker.pipeline.cache[str(output.resolve())] = {"fingerprint": "x", "degraded": True}
+    assert checker.classify(typ) == status.STALE
+
+
+def test_no_images_epub_names_have_text_only_suffix(tmp_path):
+    from mtg_epub import TEXT_ONLY_SUFFIX
+
+    story = tmp_path / "stories" / "001 - A" / "001_X.typ"
+    story.parent.mkdir(parents=True)
+    story.write_text("Hello", encoding="utf-8")
+    manifest = {}
+    for flags, suffix in (([], ""), (["--no-images"], TEXT_ONLY_SUFFIX)):
+        args = cli.build_parser().parse_args(
+            ["--set", "001", "--combine", "--stories-dir", str(tmp_path / "stories"),
+             "--output-dir", str(tmp_path / "out"), *flags]
+        )
+        tasks, _ = cli._build_tasks(args, manifest)
+        assert sorted(t[1].name for t in tasks) == sorted(
+            [f"001_X{suffix}.epub", f"001 - A - Omnibus{suffix}.epub"]
+        )

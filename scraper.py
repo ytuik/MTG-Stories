@@ -8,6 +8,7 @@ e Tenacity para tolerância a falhas de rede (retries automáticos).
 """
 
 import os
+import shutil
 import sys
 import re
 import json
@@ -17,7 +18,7 @@ from datetime import datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup, NavigableString
-from tenacity import retry, stop_after_attempt, wait_exponential
+from tenacity import retry, retry_if_not_exception_type, stop_after_attempt, wait_exponential
 from dateutil import parser as date_parser
 
 HEADERS = {
@@ -29,9 +30,7 @@ HEADERS = {
 # Resolução dinâmica de caminhos (Remove o Path Hardcoded)
 ROOT_DIR = Path(__file__).resolve().parent
 STORIES_DIR = ROOT_DIR / "stories"
-GUIDES_DIR = ROOT_DIR / "planeswalkers_guides"
 MANIFEST_FILE = ROOT_DIR / "scraped_manifest.json"
-MISSING_MD_FILE = ROOT_DIR / "MISSING_STORIES.md"
 
 # Intervalo (segundos) entre requisições, para não sobrecarregar o servidor
 REQUEST_DELAY_SECONDS = 1.0
@@ -153,9 +152,12 @@ def load_manifest() -> dict:
         data.setdefault("scraped_items", {})
         data.setdefault("unscrapable_media", UNSCRAPABLE_MEDIA)
         return data
-    except (OSError, json.JSONDecodeError) as error:
-        print(f"[Aviso] Manifesto inválido; um novo será criado: {error}")
-        return {"last_run": None, "scraped_items": {}, "unscrapable_media": UNSCRAPABLE_MEDIA}
+    except (OSError, ValueError, AttributeError) as error:  # JSONDecodeError/UnicodeDecodeError são ValueError
+        raise SystemExit(
+            f"[Erro] Manifesto inválido ou ilegível: {MANIFEST_FILE} ({error}). "
+            "Corrija o arquivo ou mova-o para outro lugar antes de rodar de novo; "
+            "ele não será sobrescrito para não perder o histórico."
+        )
 
 
 def save_manifest(manifest: dict) -> None:
@@ -173,6 +175,15 @@ def update_manifest(manifest: dict, result: dict) -> None:
     if result.get("status") == "skipped" and existing is not None:
         return  # um item pulado não sobrescreve o registro de uma execução anterior
     existing = existing or {}
+    if existing.get("status") == "partial" and result.get("status") == "failed":
+        # a nova tentativa falhou: o conto continua "partial" (e será tentado de novo)
+        existing["last_error"] = result.get("error")
+        manifest["scraped_items"][item_id] = existing
+        save_manifest(manifest)
+        return
+    for stale in ("failed_images", "last_error"):
+        if stale not in result:
+            existing.pop(stale, None)  # só uma execução completa limpa o estado de "partial"
     existing.update(result)
     manifest["scraped_items"][item_id] = existing
     save_manifest(manifest)
@@ -187,7 +198,8 @@ def fetch_html(url: str) -> str:
     response.raise_for_status()
     return response.text
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=5))
+@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=2, max=5),
+       retry=retry_if_not_exception_type(ValueError))
 def download_image(url: str, dest_path: Path) -> bool:
     """Baixa imagem direto para o disco resolvendo URLs relativas."""
     if url.startswith("//"):
@@ -197,10 +209,17 @@ def download_image(url: str, dest_path: Path) -> bool:
 
     response = http_session.get(url, stream=True, timeout=20)
     response.raise_for_status()
+    content_type = response.headers.get("Content-Type", "")
+    if content_type.lower().startswith("text/"):  # página de erro HTML, não imagem
+        response.close()
+        raise ValueError(f"resposta não é uma imagem (Content-Type: {content_type})")
     
     with open(dest_path, "wb") as f:
         for chunk in response.iter_content(chunk_size=8192):
             f.write(chunk)
+    if dest_path.stat().st_size == 0:
+        dest_path.unlink(missing_ok=True)
+        raise ValueError("resposta de imagem vazia")
     try:
         from mtg_epub.image_compressor import (
             DEFAULT_MAX_DIM, DEFAULT_QUALITY, _compress, record_compressed,
@@ -224,12 +243,12 @@ def resolve_wizards_url_from_mtglore(mtglore_url: str) -> str:
     return mtglore_url
 
 def parse_date_string(date_str: str) -> tuple[int, int, int]:
-    """Parseamento inteligente de datas usando dateutil."""
+    """Parseamento de datas usando dateutil; levanta ValueError se não der para interpretar."""
     try:
         dt = date_parser.parse(date_str)
-        return dt.day, dt.month, dt.year
-    except Exception:
-        return 1, 1, 2026
+    except (ValueError, TypeError, OverflowError) as error:
+        raise ValueError(f"data inválida ou ausente: {date_str!r}") from error
+    return dt.day, dt.month, dt.year
 
 # ==========================================
 # PROCESSAMENTO DE DOM E TYPST
@@ -336,13 +355,14 @@ def parse_article_html(html: str, default_metadata: dict = None) -> dict:
 # ==========================================
 # ESCRITA DE ARQUIVOS (Mantida a estrutura original)
 # ==========================================
-def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str) -> None:
+def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str) -> list[str]:
+    """Escreve o .typ e devolve as URLs de imagens que falharam ao baixar."""
     meta = parsed["metadata"]
     title = typst_string(meta.get("clean_title", "Untitled Story"))
     set_name = typst_string(meta.get("set_name", "Unknown Set"))
-    author = typst_string(meta.get("author", "Unknown Author"))
+    author = typst_string(meta["author"])
     set_name_text = escape_typst_text(meta.get("set_name", "Unknown Set"))
-    day, month, year = parse_date_string(meta.get("date", "2026-09-01"))
+    day, month, year = parse_date_string(meta.get("date"))
     
     typ_lines = [
         '#import "@local/mtgstory:0.2.0": conf',
@@ -356,6 +376,7 @@ def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str
         ''
     ]
     
+    failed_images: list[str] = []
     img_counter = 1
     image_folder_abs = output_typ_path.parent / image_dir_rel
     
@@ -369,6 +390,7 @@ def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str
             img_counter += 1
         except Exception as e:
             print(f"[Erro] Capa Hero ignorada: {e}")
+            failed_images.append(parsed["hero_image"])
 
     for el in parsed["elements"]:
         el_type = el["type"]
@@ -395,10 +417,17 @@ def generate_story_typst(parsed: dict, output_typ_path: Path, image_dir_rel: str
                 img_counter += 1
             except Exception as e:
                 print(f"[Aviso] Falha ao baixar imagem do corpo ({el['src']}): {e}")
+                failed_images.append(el["src"])
 
     output_typ_path.parent.mkdir(parents=True, exist_ok=True)
-    output_typ_path.write_text("\n".join(typ_lines), encoding="utf-8")
+    temporary = output_typ_path.with_name(f"{output_typ_path.stem}.tmp.typ")
+    try:
+        temporary.write_text("\n".join(typ_lines), encoding="utf-8")
+        os.replace(temporary, output_typ_path)
+    finally:
+        temporary.unlink(missing_ok=True)
     print(f"[OK] História gerada: {output_typ_path.name}")
+    return failed_images
 
 def _target_path(item: dict, title: str) -> Path:
     set_folder = sanitize_filename(item.get("set_folder", f"Unknown - {item.get('set_name', 'Unknown')}"))
@@ -423,11 +452,46 @@ def _skipped_result(item_id: str, target_typ: Path) -> dict:
     }
 
 
-def scrape_single_item(item: dict, force: bool = False) -> dict:
-    item_id = item.get("id", sanitize_filename(item.get("title", "custom")))
+def _retry_partial(parsed: dict, target_typ: Path, previous_failed: list[str]):
+    """Refaz um conto "partial" numa pasta temporária; só substitui o .typ e as imagens se a
+    nova tentativa não tiver mais falhas que a anterior. Devolve as imagens que falharam, ou um
+    dict de resultado (status "partial") quando os arquivos antigos foram mantidos."""
+    staging = target_typ.parent / f"{target_typ.stem}.retry.tmp"
+    shutil.rmtree(staging, ignore_errors=True)
+    try:
+        failed_images = generate_story_typst(parsed, staging / target_typ.name, target_typ.stem)
+        if len(failed_images) > len(previous_failed):
+            print(f"[Aviso] Nova tentativa piorou ({len(failed_images)} falhas contra "
+                  f"{len(previous_failed)}); arquivos antigos mantidos: {target_typ.name}")
+            return {
+                "status": "partial",
+                "failed_images": list(previous_failed),
+                "last_error": f"nova tentativa piorou ({len(failed_images)} imagens com falha contra "
+                              f"{len(previous_failed)}); arquivos anteriores mantidos",
+                "scraped_at": datetime.now(timezone.utc).isoformat(),
+            }
+        old_images = target_typ.parent / target_typ.stem
+        new_images = staging / target_typ.stem
+        shutil.rmtree(old_images, ignore_errors=True)
+        if new_images.exists():
+            os.replace(new_images, old_images)
+        os.replace(staging / target_typ.name, target_typ)
+        return failed_images
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
+
+
+def _item_id(item: dict) -> str:
+    return item.get("id", sanitize_filename(item.get("title", "custom")))
+
+
+def scrape_single_item(item: dict, force: bool = False, retry_partial: bool = False,
+                       previous_failed: list[str] | None = None) -> dict:
+    item_id = _item_id(item)
     print(f"\n--- Processando: {item.get('title', item_id)} ---")
 
     # Idempotência: se o título já é conhecido pelo catálogo, evita até a requisição
+    force = force or retry_partial  # conto "partial" (imagens faltando) é raspado de novo
     if not force and item.get("clean_title"):
         known_target = _target_path(item, item["clean_title"])
         if known_target.exists():
@@ -461,24 +525,42 @@ def scrape_single_item(item: dict, force: bool = False) -> dict:
     if not any(el["type"] in ("paragraph", "image") for el in parsed["elements"]):
         return {"id": item_id, "status": "failed", "error": "Corpo do artigo vazio após o parse", "source_url": fetched_from}
 
+    metadata = parsed["metadata"]
+    if not str(metadata.get("author") or "").strip():
+        return {"id": item_id, "status": "failed", "error": "Autor não encontrado", "source_url": fetched_from}
+    try:
+        parse_date_string(metadata.get("date"))
+    except ValueError as error:
+        return {"id": item_id, "status": "failed", "error": str(error), "source_url": fetched_from}
+
     target_typ = _target_path(item, title)
     if target_typ.exists() and not force:
         return _skipped_result(item_id, target_typ)
 
-    generate_story_typst(parsed, target_typ, target_typ.stem)
+    if retry_partial and previous_failed is not None and target_typ.exists():
+        outcome = _retry_partial(parsed, target_typ, previous_failed)
+        if isinstance(outcome, dict):  # a tentativa piorou: arquivos antigos mantidos
+            outcome["id"] = item_id
+            return outcome
+        failed_images = outcome
+    else:
+        failed_images = generate_story_typst(parsed, target_typ, target_typ.stem)
 
-    return {
+    result = {
         "id": item_id,
         "title": title,
         "author": parsed["metadata"].get("author"),
         "date": parsed["metadata"].get("date"),
         "set_name": parsed["metadata"].get("set_name"),
-        "status": "scraped",
+        "status": "partial" if failed_images else "scraped",
         "file_name": target_typ.name,
         "output_file": _manifest_path(target_typ),
         "source_url": fetched_from,
         "scraped_at": datetime.now(timezone.utc).isoformat(),
     }
+    if failed_images:
+        result["failed_images"] = failed_images
+    return result
 
 # ==========================================
 # REBUILD (PDF + EPUB) DEPOIS DO SCRAPE
@@ -552,7 +634,7 @@ def _set_book_exists(number: str) -> bool:
 
 def rebuild_after_scrape(results: list[dict]) -> list[str]:
     new_files = [ROOT_DIR / r["output_file"] for r in results
-                 if r.get("status") == "scraped" and r.get("output_file")]
+                 if r.get("status") in ("scraped", "partial") and r.get("output_file")]
     new_files = [p for p in new_files if p.is_file()]
     if not new_files:
         print("[Rebuild] Nenhum conto novo; nada a reconstruir.")
@@ -589,7 +671,6 @@ def _report_rebuild_failures(failures: list[str]) -> None:
 def main(argv=None):
     import argparse
     parser = argparse.ArgumentParser(description="MTG Stories Scraper")
-    parser.add_argument("--all", action="store_true")
     parser.add_argument("--rf", action="store_true", help="Scrapea somente Reality Fracture")
     parser.add_argument("--force", action="store_true", help="Sobrescreve .typ já existentes")
     parser.add_argument("--rebuild", action="store_true",
@@ -609,11 +690,19 @@ def main(argv=None):
 
     for item in targets:
         if item.get("type") == "story":
-            result = scrape_single_item(item, force=args.force)
+            previous = manifest["scraped_items"].get(_item_id(item), {})
+            is_partial = previous.get("status") == "partial"
+            result = scrape_single_item(item, force=args.force, retry_partial=is_partial,
+                                        previous_failed=previous.get("failed_images") if is_partial else None)
             results.append(result)
             update_manifest(manifest, result)
 
     print(f"\n[Concluído] {len(results)} item(ns) processado(s). Manifesto atualizado: {MANIFEST_FILE}")
+    partial = [r for r in results if r.get("status") == "partial"]
+    if partial:
+        print("\n[Parciais] Contos salvos com imagens faltando (serão raspados de novo na próxima execução):")
+        for r in partial:
+            print(f"  - {r['id']}: {len(r.get('failed_images', []))} imagem(ns) com falha")
     rebuild_failures = rebuild_after_scrape(results) if args.rebuild else []
     _report_rebuild_failures(rebuild_failures)
     if rebuild_failures or any(result.get("status") == "failed" for result in results):

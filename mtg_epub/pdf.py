@@ -25,10 +25,11 @@ import time
 import uuid
 import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 
-from . import REPO_ROOT
+from . import REPO_ROOT, TEXT_ONLY_SUFFIX
+from .chronology import WRAPPERS_DIRNAME
 
 # Suba este valor sempre que uma mudança neste módulo puder alterar o PDF gerado
 # para a mesma entrada; ele entra no fingerprint do cache.
@@ -39,7 +40,6 @@ PDFA_STANDARD = "a-2b"
 
 CACHE_NAME = ".pdf-cache.json"
 REPORT_NAME = "pdf-report.json"
-TEXT_ONLY_SUFFIX = " - text only"
 FONT_SUFFIXES = {".ttf", ".otf"}
 
 _INCLUDE_RE = re.compile(r'#(?:include|import)\s+"([^"@]+\.typ)"')
@@ -78,7 +78,7 @@ def _story_dirs(set_filter: str | None = None) -> list[Path]:
     needle = set_filter.casefold() if set_filter else None
     return sorted(
         d for d in stories.iterdir()
-        if d.is_dir() and d.name != "chronological" and (needle is None or needle in d.name.casefold())
+        if d.is_dir() and d.name != WRAPPERS_DIRNAME and (needle is None or needle in d.name.casefold())
     )
 
 
@@ -95,7 +95,7 @@ def select_set_books(set_filter: str | None = None) -> list[Path]:
 
 
 def select_chronological() -> list[Path]:
-    return _typs(REPO_ROOT / "stories" / "chronological")
+    return _typs(REPO_ROOT / "stories" / WRAPPERS_DIRNAME)
 
 
 def _select_nested(root_name: str) -> list[Path]:
