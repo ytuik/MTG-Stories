@@ -23,3 +23,6 @@ tools/
 
 # Cache local do compressor de imagens
 .image-compress-cache.json
+
+# Gerado por scripts/build_catalog.py
+site/public/catalog.json
