@@ -35,3 +35,6 @@ stories/**/*.pdf
 planeswalkers_guides/**/*.pdf
 card_lore/**/*.pdf
 build/
+
+# Gerado por scripts/build_catalog.py
+site/public/catalog.json
