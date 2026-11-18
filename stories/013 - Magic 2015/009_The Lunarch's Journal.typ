@@ -19,7 +19,7 @@ It has been years since I have held a quill, but I am compelled to record the te
 
 I am Dovid, once a cathar of the Pale, grievously wounded at the battle of Child's Wall, now comitant to the angels of the Lofts. My memories of the battle are only pieces—the shattered blade of my hanger as I wrenched it from a living corpse; the taste of my own blood as I fell; a silence in which I knew death was certain; and then a blinding light when, at last, Avacyn appeared.
 
-#figure(image("009_The Lunarch"s Journal/01.jpg", width: 100%), caption: [Avacyn, Angel of Hope | Art by Jason Chan], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/01.jpg", width: 100%), caption: [Avacyn, Angel of Hope | Art by Jason Chan], supplement: none, numbering: none)
 
 My right arm was a hideous ruin and I was triaged to the cathedral courtyard, where I lay feverish under a canvas tent, visited by a cleric who became more optimistic each morning he found me still breathing. At first, I was unable to move, but even as the cries of victory echoed against the high stone walls, I simply lacked the will. I would have lain there forever, had she not come for me.
 
@@ -43,7 +43,7 @@ And without pause or ceremony, Avacyn took to wing, silently, like an owl. Gryta
 
 "So, Cathar, do you know that spot, high on the wall where there should be a window?" She gestured with her wing, and I saw it at once: a single arch, bricked over. "Meet me there and I will show you how to enter the Lofts." There was a rush of air, and then she too was in the air far above me.
 
-#figure(image("009_The Lunarch"s Journal/02.jpg", width: 100%), caption: [Seraph of Dawn | Art by Todd Lockwood], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/02.jpg", width: 100%), caption: [Seraph of Dawn | Art by Todd Lockwood], supplement: none, numbering: none)
 
 That is how I became Comitant Dovid.
 
@@ -65,7 +65,7 @@ On that first day, I searched for hours before finding the stairs that led me to
 
 I did as she directed, and she murmured in the angelic tongue, something like an echo, or a coin spun inside a bottle. The bricked window folded into itself silently, and it seemed as natural as the opening of a door.
 
-#figure(image("009_The Lunarch"s Journal/03.jpg", width: 100%), caption: [Seraph Sanctuary | Art by David Palumbo], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/03.jpg", width: 100%), caption: [Seraph Sanctuary | Art by David Palumbo], supplement: none, numbering: none)
 
 "There are many ways to enter the Lofts from inside the cathedral, and all of them will recognize you now." I expected the air to be stale, but it was light and sweet. "Clear the cistern first. I will know when you have finished."
 
@@ -79,7 +79,7 @@ The fragments of Helvault were collected after it split, and the raw silver ore 
 
 Mine is a mortuary sword, with a sculpted basket where the wings of Avacyn's visage reach into the ricasso. Between those wings my sword's name is etched: Eost. I have drawn it only once, during the ceremony where it was presented to me, when Avacyn touched its point. It is as light as air, and sharp enough to halve a river stone, but I doubt I will ever wield it. My arm is near useless, and I am cloistered here.
 
-#figure(image("009_The Lunarch"s Journal/04.jpg", width: 100%), caption: [Elder Cathar | Art by Chris Rahn], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/04.jpg", width: 100%), caption: [Elder Cathar | Art by Chris Rahn], supplement: none, numbering: none)
 
 Eost rests in a case above my desk, but I found my eye had strayed again to the source of my torment. Below my sword, and next to the journal in which I now write is another, remarkably similar, written in a precise and feminine hand. The frontispiece is an exquisite illumination of Avacyn's collar, and on the opposite page is a name: Mikaeus Cecani, Lunarch.
 
@@ -93,7 +93,7 @@ Half submerged in the basin was the body of a man dressed in black, and I knew i
 
 When I wrestled him onto the cool stone, the book was dislodged from inside his coat. I had no way to know what it contained, who had been its author, or why it was there in the possession of a dead man, and I was filled with dread. Something had been interrupted there, some evil plan thwarted, and I was now its witness.
 
-#figure(image("009_The Lunarch"s Journal/05.jpg", width: 100%), caption: [Vault of the Archangel | Art by John Avon], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/05.jpg", width: 100%), caption: [Vault of the Archangel | Art by John Avon], supplement: none, numbering: none)
 
 I had the body sealed in a nameless crypt deep inside the catacombs and returned to my quarters with the book.
 
@@ -105,7 +105,7 @@ The journal was bound with a spell I recognized as of the Nightfall Cathars, and
 
 I wasn't surprised by first revelation: Avacyn had been sealed in the Helvault with the demon Griselbrand, and during that time our power had diminished. This was known only to Mikaeus and the highest Devisers, a secret they kept to prevent unrest in the congregation.
 
-#figure(image("009_The Lunarch"s Journal/06.jpg", width: 100%), caption: [Helvault | Art by Jaime Jones], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/06.jpg", width: 100%), caption: [Helvault | Art by Jaime Jones], supplement: none, numbering: none)
 
 But the passage that pushed me toward apostasy was far worse.
 
@@ -115,7 +115,7 @@ But the passage that pushed me toward apostasy was far worse.
 
 The curse of the vampire that we have been trained to fight was created by humans themselves. I had thought us noble, the race that carried the light against our world's evil. Were we worth defending?
 
-#figure(image("009_The Lunarch"s Journal/07.jpg", width: 100%), caption: [Falkenrath Noble | Art by Slawomir Maniak], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/07.jpg", width: 100%), caption: [Falkenrath Noble | Art by Slawomir Maniak], supplement: none, numbering: none)
 
 I worried over this even as I descended deeper into the secrets of the church Mikaeus had put down. Would I have stopped then if I knew the magnitude of deception I would find?
 
@@ -125,7 +125,7 @@ I worried over this even as I descended deeper into the secrets of the church Mi
 
 #emph[It is a cruel symmetry that our salvation was born of the Markov family, S. Markov, a creature so ancient and powerful that he survives even today. Seeing that our destruction and theirs were inexorably linked, Sorin created Avacyn, a force to rally our remaining angels, a force that we could unite under.]
 
-#figure(image("009_The Lunarch"s Journal/08.jpg", width: 100%), caption: [Sorin, Lord of Innistrad | Art by Chase Stone], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/08.jpg", width: 100%), caption: [Sorin, Lord of Innistrad | Art by Chase Stone], supplement: none, numbering: none)
 
 #emph[A force constructed to hold in check the very vampires who created her.]
 
@@ -137,4 +137,4 @@ The church to which I have dedicated my life, the being that I have loved since 
 
 How strange this world is, and how cruel.
 
-#figure(image("009_The Lunarch"s Journal/09.jpg", width: 100%), caption: [Avacyn, Guardian Angel | Art by Winona Nelson], supplement: none, numbering: none)
+#figure(image("009_The Lunarch's Journal/09.jpg", width: 100%), caption: [Avacyn, Guardian Angel | Art by Winona Nelson], supplement: none, numbering: none)

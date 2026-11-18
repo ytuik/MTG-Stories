@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Phyrexia: All Will Be One", doc)
+#show: doc => conf("Phyrexia: All Will Be One", cover: image("050 - Phyrexia- All Will Be One/001_Cinders/01.jpg"), doc)
 
 #include "./050 - Phyrexia- All Will Be One/001_Cinders.typ"
 #include "./050 - Phyrexia- All Will Be One/002_A Hollow Body.typ"

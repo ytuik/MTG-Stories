@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Kaladesh", doc)
+#show: doc => conf("Kaladesh", cover: image("028 - Kaladesh/001_Homesick/01.jpg"), doc)
 
 #include "./028 - Kaladesh/001_Homesick.typ"
 #include "./028 - Kaladesh/002_A Time for Innovation.typ"

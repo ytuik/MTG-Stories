@@ -21,6 +21,7 @@ except ImportError:
 
 SUPPORTED_EXTENSIONS = frozenset({".jpg", ".jpeg", ".png", ".webp"})
 DEFAULT_CACHE_PATH = REPO_ROOT / ".image-compress-cache.json"
+CACHE_SAVE_EVERY = 25  # imagens processadas entre gravações parciais do cache
 DEFAULT_MAX_DIM = 1400
 DEFAULT_QUALITY = 80
 
@@ -92,6 +93,53 @@ def _has_meaningful_alpha(image: Image.Image) -> bool:
     extrema = alpha.getextrema()
     # Se o valor mínimo de alfa é 255, a imagem é totalmente opaca
     return extrema[0] < 255
+
+
+_ORIGINAL_FORMATS = {
+    "JPEG": ("jpg", "image/jpeg"),
+    "PNG": ("png", "image/png"),
+    "WEBP": ("webp", "image/webp"),
+    "GIF": ("gif", "image/gif"),
+}
+
+
+def compress_image_bytes(
+    data: bytes,
+    max_dim: int = DEFAULT_MAX_DIM,
+    quality: int = DEFAULT_QUALITY,
+) -> tuple[bytes, str, str]:
+    """Versão pura de `_compress`: recebe bytes e devolve (bytes, extensão, mime).
+
+    Reduz para no máximo `max_dim` no maior lado. Mantém PNG quando há alpha
+    relevante (`_has_meaningful_alpha`); o resto vira JPEG. Levanta exceção se a
+    imagem não puder ser decodificada.
+    """
+    with Image.open(io.BytesIO(data)) as opened:
+        original_format = (opened.format or "").upper()
+        img = ImageOps.exif_transpose(opened)
+        img.load()
+        if img.mode in ("P", "PA") and "transparency" in img.info:
+            img = img.convert("RGBA")
+        elif img.mode not in ("RGB", "RGBA", "L", "LA"):
+            img = img.convert("RGBA" if "A" in img.getbands() else "RGB")
+        resized = img.width > max_dim or img.height > max_dim
+        if resized:
+            img = img.copy()
+            img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
+        buffer = io.BytesIO()
+        if _has_meaningful_alpha(img):
+            img.save(buffer, format="PNG", optimize=True)
+            result = (buffer.getvalue(), "png", "image/png")
+        else:
+            if img.mode != "RGB":
+                img = img.convert("RGB")
+            img.save(buffer, format="JPEG", quality=quality, optimize=True, progressive=False)
+            result = (buffer.getvalue(), "jpg", "image/jpeg")
+        # Sem resize e maior que o original: mantém os bytes originais.
+        original = _ORIGINAL_FORMATS.get(original_format)
+        if not resized and original is not None and len(result[0]) > len(data):
+            return data, original[0], original[1]
+        return result
 
 
 def compress_image(
@@ -212,21 +260,29 @@ def batch_compress_directories(
 
     iterator = tqdm(unique_images, desc="Comprimindo imagens", unit="img") if (tqdm and verbose) else unique_images
 
-    for img_path in iterator:
-        key = _cache_key(img_path, cache_base)
-        if _is_cached(cache, key, img_path, max_dim, quality):
-            skipped_count += 1
-            continue
-        orig_size = img_path.stat().st_size
-        changed, ok = _compress(img_path, None, max_dim, quality)
-        if changed:
-            compressed_count += 1
-            new_size = img_path.stat().st_size
-            total_saved_bytes += max(0, orig_size - new_size)
-        if ok:
-            cache[key] = _cache_entry(img_path, max_dim, quality)
-
-    _save_cache(cache_path, cache)
+    processed = 0
+    try:
+        for img_path in iterator:
+            key = _cache_key(img_path, cache_base)
+            if _is_cached(cache, key, img_path, max_dim, quality):
+                skipped_count += 1
+                continue
+            orig_size = img_path.stat().st_size
+            changed, ok = _compress(img_path, None, max_dim, quality)
+            if changed:
+                compressed_count += 1
+                new_size = img_path.stat().st_size
+                total_saved_bytes += max(0, orig_size - new_size)
+            if ok:
+                cache[key] = _cache_entry(img_path, max_dim, quality)
+            processed += 1
+            if processed % CACHE_SAVE_EVERY == 0:
+                _save_cache(cache_path, cache)
+    finally:  # Ctrl+C ou exceção não perdem o progresso
+        try:
+            _save_cache(cache_path, cache)
+        except OSError as error:
+            print(f"[Compressor][Aviso] não foi possível gravar o cache {cache_path}: {error}", file=sys.stderr)
 
     if verbose:
         saved_mb = total_saved_bytes / (1024 * 1024)

@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("War of the Spark", doc)
+#show: doc => conf("War of the Spark", cover: image("038 - War of the Spark/001_Old Friends and New/01.jpg"), doc)
 
 #include "./038 - War of the Spark/001_Old Friends and New.typ"
 #include "./038 - War of the Spark/002_The Path to Opulent.typ"

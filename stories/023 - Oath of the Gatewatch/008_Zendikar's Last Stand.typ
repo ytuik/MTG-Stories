@@ -19,7 +19,7 @@ Chandra slashed the air with arms ablaze, drawing the attention of a hundred-foo
 
 Chandra brought up the rear of one of two groups of Zendikari, the one assigned to Ulamog. As the crowd of kor, vampires, goblins, elves, and other allies marched toward the meeting point, they kept their eyes on the titan over their shoulders. She couldn't blame them. The plan involved being as noticeably, tantalizingly alive as possible, in front of a being made to ingest life.
 
-#figure(image("008_Zendikar"s Last Stand/01.jpg", width: 100%), caption: [Relief Captain | Art by Anastasia Ovchinnikova], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/01.jpg", width: 100%), caption: [Relief Captain | Art by Anastasia Ovchinnikova], supplement: none, numbering: none)
 
 In the distance, Chandra could see Gideon at the front of the other half of the bait army, coming from Kozilek's direction. His sural flashed in the sun, a focal point for the Zendikari who followed him. Chandra wondered whether Kozilek even saw Gideon's weapon, or just saw the morsels of energy who followed it.
 
@@ -41,13 +41,13 @@ The Eldrazi swarm would intersect with the pyromancer's flank. At a tilt of the 
 
 "#emph[Contained] ," she thought back to Jace.
 
-#figure(image("008_Zendikar"s Last Stand/02.jpg", width: 100%), caption: [Overwhelming Denial | Art by Jama Jurabaev], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/02.jpg", width: 100%), caption: [Overwhelming Denial | Art by Jama Jurabaev], supplement: none, numbering: none)
 
 Kiora looked up at one of the landmasses that floated over the continent, an airborne island that shed a continuous waterfall of mist. A shadow passed over the landmass, and Kiora checked over her shoulder—it was cast by Kozilek, his massive bulk stealing sunlight as he approached. She understood the nature of this so-called titan now. It was no personified god, but a distortion phenomenon that was intruding from the Blind Eternities. It was nothing but a sick hoax playing out in the fabric of the world. Not a trickster, but a trick.
 
 The luring plan was working so far, but then, that was the easy part. The mind mage and elf had the crucial job—to gather Zendikar's leylines without the use of hedrons, and to bind the titans with them so that the leylines themselves would drain the colossi away. It was makeshift magic, unrehearsed and dangerously intangible.
 
-#figure(image("008_Zendikar"s Last Stand/03.jpg", width: 100%), caption: [Kozilek, the Great Distortion | Art by Aleksi Briclot], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/03.jpg", width: 100%), caption: [Kozilek, the Great Distortion | Art by Aleksi Briclot], supplement: none, numbering: none)
 
 Even worse, the very act of pulling an Eldrazi titan fully onto the plane was unprecedented. The other Planeswalkers had no idea of the magnitude of these cosmic forces of the Multiverse, or of the damage they could cause. Even the elf, who claimed to have a personal connection with Zendikar, could not possibly grasp the impact it could have on the world. One guess stood between victory and ruin.
 
@@ -63,7 +63,7 @@ Nissa was the key to everything, and Chandra knew it. The two bait armies merged
 
 "#emph[Chandra, Gideon—that's far enough. Disperse the army. The titans are in position!] "
 
-#figure(image("008_Zendikar"s Last Stand/04.jpg", width: 100%), caption: [Witness the End | Art by Igor Kieryluk], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/04.jpg", width: 100%), caption: [Witness the End | Art by Igor Kieryluk], supplement: none, numbering: none)
 
 Chandra thrust her fist into the air, sending a firebolt sizzling into the sky, where it crackled and exploded high overhead. When the Zendikari saw the signal, they began to scatter. Chandra ran alongside the others, throwing more flares into the sky for good measure. Gideon caught up with her, and they ran together up the side of the basin as the ground began to glow with soothing green light.
 
@@ -81,7 +81,7 @@ A great wind picked up and the sky dimmed. Kiora could see the mind mage watchin
 
 All at once, the pattern fell into place. A tripartite glyph a hundred feet wide appeared on the floor of the valley in fierce green fire. Miles-long loops of pure mana blossomed from the glyph, lashed themselves around the titans, and pulled.
 
-#figure(image("008_Zendikar"s Last Stand/05.jpg", width: 100%), caption: [Bonds of Mortality | Art by Chris Rallis], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/05.jpg", width: 100%), caption: [Bonds of Mortality | Art by Chris Rallis], supplement: none, numbering: none)
 
 Kozilek and Ulamog tried to lurch away, to wrench themselves free from the land—and they did not just lurch back, Kiora noted, but #emph[up] . The entangled titans drew themselves up to their full heights, and for a long moment, as winds lashed the landscape, it looked as though they would simply pull free of the leylines. The slack in the loops of mana disappeared as they pulled higher and higher.
 
@@ -123,7 +123,7 @@ Chandra ran into the new Eldrazi throng, slashing with her forearms and cutting 
 
 She could see Gideon's sural sparkling and hear him commanding the Zendikari. There were battle roars as soldiers rushed forward to push back this new force of Eldrazi, and screams as the soldiers were torn apart.
 
-#figure(image("008_Zendikar"s Last Stand/06.jpg", width: 100%), caption: [Flaying Tendrils | Art by Slawomir Maniak], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/06.jpg", width: 100%), caption: [Flaying Tendrils | Art by Slawomir Maniak], supplement: none, numbering: none)
 
 Behind her, she heard Nissa cry out.
 
@@ -147,7 +147,7 @@ Kiora looked up at the tendril-dangling membrane the titans had become—and she
 
 But at the same time, the land of Zendikar was breaking as well, and far more rapidly. The air was a storm of broken gales. The sea was swirling into waterspouts. Kiora knew that the land under their feet would be the next to dissolve.
 
-#figure(image("008_Zendikar"s Last Stand/07.jpg", width: 100%), caption: [Grip of the Roil | Art by Volkan Baga], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/07.jpg", width: 100%), caption: [Grip of the Roil | Art by Volkan Baga], supplement: none, numbering: none)
 
 Kiora gripped the bident, feeling its power grow in her hands. She sensed the sea rising, gathering, answering her call. But she could sense its depletion at the same time. Zendikar was being set against the titans in a contest of consumption—and the titans were designed to consume.
 
@@ -181,7 +181,7 @@ Chandra held out one hand, and it became white-hot fire. "Not if we make one spe
 
 As Kiora saw the floating landmass begin to tip and sink out of the air, her heart sank with it. It tumbled down, spinning its waterfall in a spiral, and collided with the chaotic sea, breaking into an explosion of whitewater. Kiora scanned the sky, and saw that other floating landmasses were also falling all around her. They fell in slow motion, rolling in asymmetrical somersaults, ramming into the ground and blasting up cataclysmic plumes of dirt.
 
-#figure(image("008_Zendikar"s Last Stand/08.jpg", width: 100%), caption: [Looming Spires | Art by Florian de Gesincourt], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/08.jpg", width: 100%), caption: [Looming Spires | Art by Florian de Gesincourt], supplement: none, numbering: none)
 
 #emph[We have failed] , thought Kiora.
 
@@ -223,7 +223,7 @@ A broken landform spiraled in toward the outcropping, slamming into the basin ne
 
 The merfolk Kiora was breathing heavily. "You will drop the spell, elf," she said. She raised the bident high, and Chandra saw a tower of waves thundering up from the Halimar. "You shall set them free. And if you won't do so #emph[willingly] ..."
 
-#figure(image("008_Zendikar"s Last Stand/09.jpg", width: 100%), caption: [Sweep Away | Art by Winona Nelson], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/09.jpg", width: 100%), caption: [Sweep Away | Art by Winona Nelson], supplement: none, numbering: none)
 
 A wall of water three miles wide rose into the air. It swirled and twined into a single mass, a floating, shimmering shape shot through with sea plants and coral and fish. It was a seawater globe, hovering overhead. Kiora had emptied the entire Halimar Sea, and was holding it through the strength of her will. Her gaze was fixed on the outcropping above Chandra, on the source of the spell—on Nissa.
 
@@ -271,7 +271,7 @@ Her hands burned white-hot. She looked up at the glowing green vines, the leylin
 
 Chandra unleashed the spell. Fire streamed into the sky—
 
-#figure(image("008_Zendikar"s Last Stand/10.jpg", width: 100%), caption: [Fall of the Titans | Art by Chris Rallis], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/10.jpg", width: 100%), caption: [Fall of the Titans | Art by Chris Rallis], supplement: none, numbering: none)
 
 —and instantly she knew it wasn't right.
 
@@ -287,7 +287,7 @@ Chandra felt a hand resting softly on her shoulder.
 
 And then she felt the mana of an entire world streaming into her.
 
-#figure(image("008_Zendikar"s Last Stand/11.jpg", width: 100%), caption: [Mana Confluence | Art by Howard Lyon], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/11.jpg", width: 100%), caption: [Mana Confluence | Art by Howard Lyon], supplement: none, numbering: none)
 
 The leylines. Nissa had been the focus for all of Zendikar's fury, and now, with Nissa's touch, that fury poured into Chandra instead.
 
@@ -309,7 +309,7 @@ There was thunder, and a hellish blast of heat, and an awful noise of the sky ri
 #line(length: 100%, stroke: rgb(90%, 90%, 90%))
 #v(0.35em)
 
-#figure(image("008_Zendikar"s Last Stand/12.jpg", width: 100%), caption: [Wastes | Art by Jason Felix], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/12.jpg", width: 100%), caption: [Wastes | Art by Jason Felix], supplement: none, numbering: none)
 
 Kiora couldn't see anything through the smoke. She pressed her gills shut, but she could still taste ash. Fires burned in the haze and puddles steamed. Flakes of ash fell, curling in little loops out of the gray above. She thought of the pale dust that Ulamog left behind when it consumed the land—was that what she was seeing? She wandered through the dense, opaque air in a weird silence, tripping over corpses of Eldrazi creatures and Zendikari alike.
 
@@ -339,6 +339,6 @@ Heads were shaken, or nodded.
 
 Bandages were produced. Healing hands touched the wounded. Impromptu search parties were organized. Rescuers gathered around sinkholes or seawater-filled trenches. A few straggling Eldrazi were discovered and dispatched.
 
-#figure(image("008_Zendikar"s Last Stand/13.jpg", width: 100%), caption: [Affa Protector | Art by Izzy], supplement: none, numbering: none)
+#figure(image("008_Zendikar's Last Stand/13.jpg", width: 100%), caption: [Affa Protector | Art by Izzy], supplement: none, numbering: none)
 
 Kiora put the bident on her back. She looked across the streaked, stained faces of the allies and turned toward the opposite horizon. She put the ruins of Sea Gate at her back and put her feet into motion—left and then right, left and then right. And she didn't stop walking for a long time.

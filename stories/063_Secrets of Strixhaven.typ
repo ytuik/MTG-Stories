@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Secrets of Strixhaven", doc)
+#show: doc => conf("Secrets of Strixhaven", cover: image("063 - Secrets of Strixhaven/001_Episode 1- Penmanship Practice/01.jpg"), doc)
 
 #include "063 - Secrets of Strixhaven/001_Episode 1- Penmanship Practice.typ"
 #include "063 - Secrets of Strixhaven/002_Episode 2- Travels and Travails.typ"

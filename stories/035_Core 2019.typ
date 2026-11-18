@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Core 2019", doc)
+#show: doc => conf("Core 2019", cover: image("035 - Core 2019/001_Chronicle of Bolas- The Twins/01.jpg"), doc)
 
 #include "./035 - Core 2019/001_Chronicle of Bolas- The Twins.typ"
 #include "./035 - Core 2019/002_Chronicle of Bolas- The First Lesson.typ"

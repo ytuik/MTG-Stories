@@ -100,6 +100,8 @@ def theme_for_set(set_name: str) -> Theme | None:
         return THEMES["origins"]
     if "pride across the multiverse" in name:
         return THEMES["pride"]
+    if name == "chronological":
+        return THEMES["anthology"]
     if any(token in name for token in ("modern masters", "commander", "magic 2013", "magic 2014", "magic 2015", "core 2019", "duel decks", "eternal masters")):
         return THEMES["anthology"]
     return None

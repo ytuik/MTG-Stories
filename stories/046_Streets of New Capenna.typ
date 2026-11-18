@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Streets of New Capenna", doc)
+#show: doc => conf("Streets of New Capenna", cover: image("046 - Streets of New Capenna/001_Episode 1- Homecoming/01.jpg"), doc)
 
 #include "./046 - Streets of New Capenna/001_Episode 1- Homecoming.typ"
 #include "./046 - Streets of New Capenna/002_The Contract Breaker.typ"

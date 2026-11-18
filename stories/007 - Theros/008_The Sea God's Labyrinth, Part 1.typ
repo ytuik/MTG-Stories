@@ -11,7 +11,7 @@
 
 Ihave travelled seven days south of my home, a small city on the outskirts of Meletis, at first following the coastline of the Siren Sea, but gradually veering inland for the past two days. I left the last remains of civilization yesterday, when the road ended at the small village of Phaela. I traded four pieces of copper for a bag of dried meat and two loaves of dense black bread. From there, I walked a footpath southwest into the hills. As the sun set, I crested a grassy hill and came upon the great labyrinth.
 
-#figure(image("008_The Sea God"s Labyrinth, Part 1/01.jpg", width: 100%), caption: [Plains | Art by Steven Belledin], supplement: none, numbering: none)
+#figure(image("008_The Sea God's Labyrinth, Part 1/01.jpg", width: 100%), caption: [Plains | Art by Steven Belledin], supplement: none, numbering: none)
 
 The maze stands arrayed before me, completely filling the dell to the south, and stretching across the plains as far as my eyes can make out. An ancient road leads to the entrance of the labyrinth, laid unerringly straight, stretching to the west. The entrance itself is a stone arch of fine work, well maintained, but by whom, I could not say. The roadway is broken in places, with grasses growing up between the stones. A high hedge stretches both north and south of the stone entranceway. As it approaches the base of the hill it turns to the east and follows the line of hills to the horizon.
 
@@ -74,7 +74,7 @@ Now I must continue on. It is still mostly dark inside the canyon walls of the l
 
 I have followed my map the entire day. It led me past a stream of sweet water that cut across the path. I drank with abandon and refilled my water skins. I startled a hare as I turned a corner and thought to have it for my dinner, but it squeezed under the hedge and was gone before I could draw my bow. So tonight, again, I eat bread, cheese, and a bit of dried meat and fruit. I will be more alert in the future. Supplementing my rations could be the difference between life and death. Once I reach the end of my map, the going will be much slower.
 
-#figure(image("008_The Sea God"s Labyrinth, Part 1/04.jpg", width: 100%), caption: [Surveyor’s Scope | Art by Daniel Ljunggren], supplement: none, numbering: none)
+#figure(image("008_The Sea God's Labyrinth, Part 1/04.jpg", width: 100%), caption: [Surveyor’s Scope | Art by Daniel Ljunggren], supplement: none, numbering: none)
 
 Once again I face the terror of trying to sleep, exposed on the ground. This night, I have found a dead end off of a side path where I will camp. I am not sure if this is a good strategy. I may be less likely to be found by anything nefarious, but if I am, I will have nowhere to run.
 
@@ -100,7 +100,7 @@ I scrabbled through the collapsed hedge, worming my way to the other side, branc
 
 I had lost the creature, whatever it was. Perhaps it was too large to fit through the collapsed hedge.
 
-#figure(image("008_The Sea God"s Labyrinth, Part 1/05.jpg", width: 100%), caption: [Nylea's Emissary | Art by Sam Burley], supplement: none, numbering: none)
+#figure(image("008_The Sea God's Labyrinth, Part 1/05.jpg", width: 100%), caption: [Nylea's Emissary | Art by Sam Burley], supplement: none, numbering: none)
 
 After calming down I took stock of myself and that's when I discovered that I had not only lost the beast, I had also lost my quiver of arrows and bags of dried fruit and meat.
 
@@ -128,7 +128,7 @@ Sunlight! Praise the gods. I'm still alive. Sweet fresh air, sweet smell of gree
 
 My hand shakes at the thought of recounting the horrors of that underground maze. The smell was death itself. The masonry walls dripped with slimy water. Cobwebs, and worse, covered my hands and face, dripped down my back, entered my nose and mouth. Skeletal corpses of men, beasts, and strange creatures littered the horrific tomb. Rats, centipedes, worms and every kind of creeping thing covered the floors, skittering and oozing over my feet. How I wished I had high boots instead of these sandals down there in the dark. The only light, the fragile, tiny flame of my candle, hoarded like the most precious jewel. Every minute of light like a clock counting down to my doom as the candle burned lower and lower. And when I blew it out to rest, even worse, as all the foul creatures of darkness brushed against me, and crawled all over me in the infinite blackness. I could do naught but wave my long knife in front of my body hoping to keep them at bay.
 
-#figure(image("008_The Sea God"s Labyrinth, Part 1/06.jpg", width: 100%), caption: [Lost in a Labyrinth | Art by Winona Nelson], supplement: none, numbering: none)
+#figure(image("008_The Sea God's Labyrinth, Part 1/06.jpg", width: 100%), caption: [Lost in a Labyrinth | Art by Winona Nelson], supplement: none, numbering: none)
 
 At times I prayed for the gods to take me. I even considered doing the deed myself. Yet I pressed on and eventually came to another stone staircase leading up and, finally, outside. I was afraid I had become turned around in the dark and had exited the same way I entered, but once outside, I knew that was not true. I am unsure how many days I was underground, but judging by the amount I ate and drank it was one or two.
 

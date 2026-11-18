@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Edge of Eternities", doc)
+#show: doc => conf("Edge of Eternities", cover: image("061 - Edge of Eternities/001_Episode 1/01.jpg"), doc)
 
 #include "061 - Edge of Eternities/001_Episode 1.typ"
 #include "061 - Edge of Eternities/002_Grasp in the Dark.typ"

@@ -16,6 +16,7 @@ jobs:
             mtg_epub
             tests
             typst_packages
+            fonts
             scraper.py
             typ2epub.py
             pytest.ini

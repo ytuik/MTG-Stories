@@ -21,7 +21,7 @@ The Oracle of Kruphix was a beautiful woman with long, black hair. She was looki
 
 The oracle turned to face her, and smiled.
 
-#figure(image("006_Kruphix"s Insight/01.jpg", width: 100%), caption: [Prophet of Kruphix | Art by Winona Nelson], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/01.jpg", width: 100%), caption: [Prophet of Kruphix | Art by Winona Nelson], supplement: none, numbering: none)
 
 "Hello, Diantha."
 
@@ -69,7 +69,7 @@ The oracle turned to stare out the window again, eyes fixed on the distant horiz
 
 From her perch within the great branches of Kruphix's Temple, Kydele saw it all happen. She braced herself against the living wood with her living hands, and against the starry night with the two misty, insubstantial arms that Kruphix had given her when she awakened as his oracle.
 
-#figure(image("006_Kruphix"s Insight/02.jpg", width: 100%), caption: [Temple of Mystery | Art by Noah Bradley], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/02.jpg", width: 100%), caption: [Temple of Mystery | Art by Noah Bradley], supplement: none, numbering: none)
 
 Kydele saw when Xenagos became a god, roaring across the pristine surface of Nyx like a wildfire. She saw the arrival of the human Elspeth Tirel and her leonin companion, Ajani. She saw them walk through Kruphix's body, a portal to Nyx, and step into the sky. She saw Elspeth use the blade called Godsend to cut Xenagos from the sky.
 
@@ -97,7 +97,7 @@ It was not, uncharacteristically for the god of mysteries, a question.
 
 Kydele turned to face the starry, four-armed outline of Kruphix on the horizon.
 
-#figure(image("006_Kruphix"s Insight/03.jpg", width: 100%), caption: [Kruphix's Insight | Art by Igor Kieryluk], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/03.jpg", width: 100%), caption: [Kruphix's Insight | Art by Igor Kieryluk], supplement: none, numbering: none)
 
 "It seems I'm not the only one," said Kydele.
 
@@ -131,7 +131,7 @@ Kruphix regarded her for a long moment before he spoke, inscrutable.
 
 #emph[I am the oldest] , said Kruphix. #emph[But even I do not predate mortal belief. The first time a mortal of Theros looked up into the night sky and said "I wonder...," some part of me came into existence. I am the unknown, the unknowable. I am what sits beyond the far horizon.]
 
-#figure(image("006_Kruphix"s Insight/04.jpg", width: 100%), caption: [Kruphix, God of Horizons | Art by Daarken], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/04.jpg", width: 100%), caption: [Kruphix, God of Horizons | Art by Daarken], supplement: none, numbering: none)
 
 #emph[I watched as the others took shape. Death came next, ultimate and inescapable. Then sun and sea, forest and forge. After that, more abstract domains emerged—warfare, deception, insight, love.]
 
@@ -193,7 +193,7 @@ If an oracle of Kruphix flinched from the truth, what did she have left?
 
 #emph[Do not be] , said Kruphix. #emph[Knowledge is cruel. It will break your heart and test your allegiances. Are you certain you want this curse?]
 
-#figure(image("006_Kruphix"s Insight/05.jpg", width: 100%), caption: [Dictate of Kruphix | Art by Daarken], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/05.jpg", width: 100%), caption: [Dictate of Kruphix | Art by Daarken], supplement: none, numbering: none)
 
 Kydele took the time to consider. She knew things no other mortals dreamed of. She had gazed down into Nyx so often it had become commonplace, had watched Kruphix etch the names of the gods onto his great tree to bar them from Theros. Knowledge was power.
 
@@ -235,7 +235,7 @@ Kydele thought for a moment about everything she had heard and seen from her per
 
 #emph[And so] , he continued, #emph[was Xenagos.]
 
-#figure(image("006_Kruphix"s Insight/06.jpg", width: 100%), caption: [Xenagos, the Reveler | Art by Jason Chan], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/06.jpg", width: 100%), caption: [Xenagos, the Reveler | Art by Jason Chan], supplement: none, numbering: none)
 
 Kydele nodded.
 
@@ -267,15 +267,15 @@ There it was. The dark, ragged edge around which they'd been tiptoeing.
 
 #emph[The merfolk Kiora] , said Kruphix, #emph[came here from a world whose existence was threatened by something called the Eldrazi. They are vast and terrible, the equal of any god. And they eat worlds, My Oracle. Strip the flesh from the bones of the earth and leave a dead husk, moving on to the next.]
 
-#figure(image("006_Kruphix"s Insight/07.jpg", width: 100%), caption: [It That Betrays | Art by Tomasz Jedruszek], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/07.jpg", width: 100%), caption: [It That Betrays | Art by Tomasz Jedruszek], supplement: none, numbering: none)
 
 #emph[The leonin Ajani has faced an immensely powerful foe, a fellow world-walker and a dragon. He is unfathomably ancient, even to me. He seeks infinite power and immortal life. His plots span worlds and centuries, and he will spare nothing and no one who stands in his way.]
 
-#figure(image("006_Kruphix"s Insight/08.jpg", width: 100%), caption: [Cruel Ultimatum | Art by Todd Lockwood], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/08.jpg", width: 100%), caption: [Cruel Ultimatum | Art by Todd Lockwood], supplement: none, numbering: none)
 
 #emph[And the human Elspeth...she came here from a place called Phyrexia, an entire world of flayed skin and twisted metal, ruled over by vicious, monstrous beings who style themselves gods. It is an affront to nature, a dark parody of life that corrupts all it touches and touches everything in time. And it has already made its way from one world to others.]
 
-#figure(image("006_Kruphix"s Insight/09.jpg", width: 100%), caption: [Rout | Art by Igor Kieryluk], supplement: none, numbering: none)
+#figure(image("006_Kruphix's Insight/09.jpg", width: 100%), caption: [Rout | Art by Igor Kieryluk], supplement: none, numbering: none)
 
 Kruphix looked out into Nyx, night staring into night.
 

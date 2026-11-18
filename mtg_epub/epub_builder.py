@@ -7,12 +7,17 @@ HTML com regex; só monta a estrutura do livro (capítulos, capa, navegação).
 """
 from __future__ import annotations
 
+import base64
+import hashlib
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from xml.sax.saxutils import escape as xml_escape
 
+from bs4 import BeautifulSoup
 from ebooklib import epub
 
+from .image_compressor import DEFAULT_MAX_DIM, compress_image_bytes
 from .typst_html import CompiledChapter, compile_chapter_html
 
 
@@ -43,13 +48,75 @@ def _font_mime_type(path: Path) -> str:
     return "application/octet-stream"
 
 
+_DATA_URI_RE = re.compile(r"^data:(image/[\w.+-]+)\s*;\s*base64,(.*)$", re.IGNORECASE | re.DOTALL)
+
+
+def _process_images(
+    body_html: str,
+    book: epub.EpubBook,
+    registry: dict[str, str],
+    chapter_name: str,
+    max_image_size: int,
+    with_images: bool,
+) -> tuple[str, list[str]]:
+    """Troca `<img src="data:...">` por arquivos em images/ (comprimidos e deduplicados).
+
+    `registry` mapeia sha1 do conteudo original -> caminho no EPUB, compartilhado por todo
+    o livro. Falha na decodificacao mantem o data URI e devolve um aviso.
+    Com `with_images=False`, remove as figuras e imagens."""
+    if not with_images:
+        soup = BeautifulSoup(body_html, "lxml")
+        for img in soup.find_all("img"):
+            if img.parent is None:
+                continue
+            (img.find_parent("figure") or img).decompose()
+        return (soup.body.decode_contents() if soup.body is not None else ""), []
+
+    if "data:image" not in body_html:
+        return body_html, []
+
+    warnings: list[str] = []
+    soup = BeautifulSoup(body_html, "lxml")
+    for img in soup.find_all("img"):
+        match = _DATA_URI_RE.match((img.get("src") or "").strip())
+        if not match:
+            continue
+        mime, payload = match.group(1).lower(), match.group(2)
+        try:
+            raw = base64.b64decode(re.sub(r"\s+", "", payload), validate=True)
+            digest = hashlib.sha1(raw).hexdigest()[:16]
+            path = registry.get(digest)
+            if path is None:
+                if mime == "image/svg+xml":
+                    data, ext, out_mime = raw, "svg", "image/svg+xml"
+                else:
+                    data, ext, out_mime = compress_image_bytes(raw, max_dim=max_image_size)
+                path = f"images/{digest}.{ext}"
+                book.add_item(epub.EpubImage(
+                    uid=f"img_{digest}", file_name=path, media_type=out_mime, content=data,
+                ))
+                registry[digest] = path
+            img["src"] = path
+        except Exception as error:  # noqa: BLE001
+            warnings.append(f"{chapter_name}: imagem embutida nao pode ser extraida ({error}); mantido data URI")
+    return soup.body.decode_contents(), warnings
+
+
+class BuildWarnings(list):
+    """Lista de avisos do build; `degraded` indica fallback sem imagens."""
+
+    degraded: bool = False
+
+
 def build_epub(
     metadata: BookMetadata,
     chapters: list[ChapterSource],
     root: Path,
     output_path: Path,
     css_content: str,
-    fonts: list[Path] | None = None
+    fonts: list[Path] | None = None,
+    max_image_size: int = DEFAULT_MAX_DIM,
+    with_images: bool = True,
 ) -> list[str]:
     """Monta o EPUB e devolve os avisos (ex.: capítulos compilados sem imagens)."""
     book = epub.EpubBook()
@@ -95,10 +162,16 @@ def build_epub(
 
     # 3. Processar e adicionar os Capítulos
     epub_chapters = []
-    build_warnings: list[str] = []
+    build_warnings = BuildWarnings()
+    image_registry: dict[str, str] = {}
     for index, chapter in enumerate(chapters, start=1):
         compiled: CompiledChapter = compile_chapter_html(chapter.typ_path, root)
         build_warnings.extend(compiled.warnings)
+        build_warnings.degraded = build_warnings.degraded or compiled.degraded
+        body_html, image_warnings = _process_images(
+            compiled.body_html, book, image_registry, chapter.typ_path.name, max_image_size, with_images,
+        )
+        build_warnings.extend(image_warnings)
 
         item = epub.EpubHtml(
             title=chapter.chapter_title,
@@ -109,7 +182,7 @@ def build_epub(
         item.content = (
             f"<html><body>"
             f"<h1>{xml_escape(chapter.chapter_title)}</h1>\n"
-            f"{compiled.body_html}"
+            f"{body_html}"
             f"</body></html>"
         )
         

@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Bloomburrow", doc)
+#show: doc => conf("Bloomburrow", cover: image("057 - Bloomburrow/001_Episode 1- Calamity Comes to Valley/01.jpg"), doc)
 
 #include "057 - Bloomburrow/001_Episode 1- Calamity Comes to Valley.typ"
 #include "057 - Bloomburrow/002_Episode 2- An Expected Party.typ"

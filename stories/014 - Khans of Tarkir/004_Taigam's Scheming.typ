@@ -15,7 +15,7 @@
 
 The Marang River flowed through Sultai territory, deep into the jungle and around many of their most illustrious palaces. Along the river, far from these palaces, were less regal settlements—homes of farmers and fishermen, built on raised wooden stilts and platforms. Although the marshy jungle was inhospitable to most, some had found the means to make a living, but only enough to scrape by. Their stomachs were as empty as their purses, and the small town of Kishla was in debt to the Sultai. They couldn't remember if it was for taxes or outright extortion, but they knew that Sidisi's Hand was there to collect. What the town could call its leadership was a small group of men and women who only were forced to get together and congregate when dealing with the Sultai.
 
-#figure(image("004_Taigam"s Scheming/01.jpg", width: 100%), caption: [Treasure Cruise | Art by Cynthia Sheppard], supplement: none, numbering: none)
+#figure(image("004_Taigam's Scheming/01.jpg", width: 100%), caption: [Treasure Cruise | Art by Cynthia Sheppard], supplement: none, numbering: none)
 
 The vessel pulled up to the dock. It moved slowly, and the village leaders could see the ropes from the ship's bow leading into the water. The water there was shallow enough they could see the undead sibsig servants pulling the ship, some of their heads partially above the waterline. Many of them had once lived in the village they were visiting. One of the younger leaders retched off the side of the dock. The others kept their composure, having dealt with the Sultai in the past. In contrast to the sibsig, the vessel itself was opulent and covered in gold. A light breeze brought the smell of perfume and spices to the leaders. A human Sultai enforcer lowered the gangplank for the leaders to enter the ship and head belowdecks.
 
@@ -61,7 +61,7 @@ Taigam had always craved #emph[more] . As a young man, he never knew what that m
 
  
 
-#figure(image("004_Taigam"s Scheming/02.jpg", width: 100%), caption: [Taigam's Scheming | Art by Svetlin Velinov], supplement: none, numbering: none)
+#figure(image("004_Taigam's Scheming/02.jpg", width: 100%), caption: [Taigam's Scheming | Art by Svetlin Velinov], supplement: none, numbering: none)
 
 He didn't set out to join another clan. In fact, he had elected to follow the Way of the Wandering Warrior—or so he told Narset and the other monks he had trained with. He hoped to uncover different disciplines of magic, possibly learn different forms of fighting. Taigam travelled to Purugir, the trading post near the Salt Road, hoping to find work as either a teacher or bodyguard. He had always heard of the Sultai as decadent monsters, and although he was inclined to agree, seeing some of their nobles pass through Purugir had sparked his interest. They had rich clothes and exquisite taste. But Taigam sparked their interest as well—a Jeskai looking for work was peculiar.
 
@@ -121,7 +121,7 @@ Outside, on the river, the sibsig stood in the water, tethered to Taigam's boat.
 
 As the guard sent by Taigam was exiting the ship to enact his task, half a dozen small daggers riddled his body and he fell over, dead, before he realized what had happened. The figures ran up the tethers, ready to perform their task.
 
-#figure(image("004_Taigam"s Scheming/03.jpg", width: 100%), caption: [Leaping Master | Art by Anastasia Ovchinnikova], supplement: none, numbering: none)
+#figure(image("004_Taigam's Scheming/03.jpg", width: 100%), caption: [Leaping Master | Art by Anastasia Ovchinnikova], supplement: none, numbering: none)
 
  
 
@@ -143,7 +143,7 @@ Taigam moved to stand. He was able to dodge the first fist, but the second caugh
 
 Ebirri emerged from the shadows. One of the remaining monks threw daggers at Taigam, but the rakshasa growled in their direction and they fell to the ground as though hitting an invisible wall. Although Ebirri usually hunched over, the feline demon then stood tall, nearly hitting his head on the ceiling. Taigam pulled himself from the floor and saw a chance to free himself from the demon in the confusion. As the rakshasa willed dark magic, purple mist emanated from his eyes toward one of the monks. Taigam drew a dagger from his ankle and rushed toward the demon. Although the assassins were there to kill him, Taigam knew the greatest threat to his life had always been the rakshasa.
 
-#figure(image("004_Taigam"s Scheming/04.jpg", width: 100%), caption: [Rakshasa Vizier | Art by Nils Hamm], supplement: none, numbering: none)
+#figure(image("004_Taigam's Scheming/04.jpg", width: 100%), caption: [Rakshasa Vizier | Art by Nils Hamm], supplement: none, numbering: none)
 
 The remaining monk grabbed Taigam's arm, but the Sultai spun away, tossing his dagger to his other hand and striking at the rakshasa. The dagger stuck in Ebirri's side, interrupting his concentration, and the monk who was hovering in the air, strangled by smoke, fell to the ground. Ebirri roared and backhanded both Taigam and the monk who held him. They both slammed into the wall, but the monk was not deterred. He punched Taigam in the throat, interrupting Taigam's breathing. The rakshasa grabbed the monk by his clothes and pulled him back, then grabbed his head. Ebirri crushed it, exploding brain and skull all over the cabin. The uninjured monk had recovered, but Ebirri continued his spell and choked the life from the monk with his dark magic.
 

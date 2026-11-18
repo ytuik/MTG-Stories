@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Wilds of Eldraine", doc)
+#show: doc => conf("Wilds of Eldraine", cover: image("053 - Wilds of Eldraine/001_Episode 1- Pure of Heart/01.jpg"), doc)
 
 #include "./053 - Wilds of Eldraine/001_Episode 1- Pure of Heart.typ"
 #include "./053 - Wilds of Eldraine/002_Episode 2- Wandering Knight, Budding Hero.typ"

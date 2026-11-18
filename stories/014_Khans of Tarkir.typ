@@ -1,10 +1,10 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Khans of Tarkir", doc)
+#show: doc => conf("Khans of Tarkir", cover: image("014 - Khans of Tarkir/001_The Madness of Sarkhan/01.jpg"), doc)
 
 #include "./014 - Khans of Tarkir/001_The Madness of Sarkhan.typ"
 #include "./014 - Khans of Tarkir/002_Awakening the Bear.typ"
-#include "./014 - Khans of Tarkir/003_Sorin"s Revelation.typ"
-#include "./014 - Khans of Tarkir/004_Taigam"s Scheming.typ"
+#include "./014 - Khans of Tarkir/003_Sorin's Revelation.typ"
+#include "./014 - Khans of Tarkir/004_Taigam's Scheming.typ"
 #include "./014 - Khans of Tarkir/005_Way of the Mantis.typ"
 #include "./014 - Khans of Tarkir/006_The Chensal Twins.typ"
 #include "./014 - Khans of Tarkir/007_Enlightened.typ"

@@ -14,6 +14,7 @@ from pathlib import Path
 from zipfile import ZIP_STORED, ZipFile
 
 from . import PIPELINE_VERSION, REPO_ROOT
+from .image_compressor import DEFAULT_MAX_DIM
 from .epub_builder import BookMetadata, ChapterSource, build_epub
 from .metadata import extract_metadata
 from .models import ConversionResult, StoryMetadata
@@ -58,6 +59,8 @@ class EpubPipeline:
         epubcheck: Path | None = None,
         fonts_dir: Path | None = DEFAULT_FONTS_DIR,
         validate: bool = True,
+        max_image_size: int = DEFAULT_MAX_DIM,
+        with_images: bool = True,
     ):
         self.output_dir = output_dir
         self.cache_path = cache_path or output_dir / ".epub-cache.json"
@@ -65,6 +68,8 @@ class EpubPipeline:
         self.epubcheck = epubcheck
         self.fonts_dir = fonts_dir
         self.validate = validate
+        self.max_image_size = max_image_size
+        self.with_images = with_images
         self._cache_lock = threading.Lock()
         self.cache = self._load_cache()
 
@@ -150,9 +155,24 @@ class EpubPipeline:
             "metadata": metadata.as_json(),
             "cover": self._file_signature(metadata.cover_image),
             "chapter_titles": chapter_titles,
+            "max_image_size": self.max_image_size,
+            "with_images": self.with_images,
             "images": self._images_signature(input_files),
         }
         return "typst-html|" + json.dumps(payload, sort_keys=True, ensure_ascii=False)
+
+    def compute_fingerprint(
+        self,
+        input_files: list[Path],
+        metadata: StoryMetadata,
+        chapter_titles: list[str] | None = None,
+    ) -> str:
+        """Fingerprint de cache de uma conversão; usado por ``convert`` e por ``status``."""
+        theme = theme_for_set(metadata.set_name)
+        css_content = EPUB_CSS + "\n" + load_theme_css(theme)
+        return self._fingerprint(
+            input_files, self._options_signature(input_files, theme, css_content, metadata, chapter_titles)
+        )
 
     def convert(
         self,
@@ -169,13 +189,13 @@ class EpubPipeline:
             theme = theme_for_set(metadata.set_name)
             css_content = EPUB_CSS + "\n" + load_theme_css(theme)
 
-            fingerprint = self._fingerprint(
-                input_files, self._options_signature(input_files, theme, css_content, metadata, chapter_titles)
-            )
+            fingerprint = self.compute_fingerprint(input_files, metadata, chapter_titles)
             cache_key = str(output.resolve())
             with self._cache_lock:
                 cached = self.cache.get(cache_key)
-            if not force and output.exists() and cached == fingerprint:
+            degraded = isinstance(cached, dict) and bool(cached.get("degraded"))
+            cached_fp = cached.get("fingerprint") if isinstance(cached, dict) else cached
+            if not force and output.exists() and not degraded and cached_fp == fingerprint:
                 return ConversionResult(source, output, True, "skipped", time.perf_counter() - started, skipped=True)
 
             with tempfile.TemporaryDirectory(prefix="mtg-epub-") as temp_name:
@@ -209,14 +229,18 @@ class EpubPipeline:
                 output.parent.mkdir(parents=True, exist_ok=True)
                 tmp_output = output.with_name(f"{output.stem}.{uuid.uuid4().hex[:8]}.tmp.epub")
                 try:
-                    build_warnings = list(build_epub(
+                    built = build_epub(
                         metadata=book_meta,
                         chapters=chapters,
                         root=typst_root(input_files),
                         output_path=tmp_output,
                         css_content=css_content,
                         fonts=embedded_fonts,
-                    ) or [])
+                        max_image_size=self.max_image_size,
+                        with_images=self.with_images,
+                    )
+                    build_warnings = list(built or [])
+                    degraded_build = bool(getattr(built, "degraded", False))
 
                     if self.validate:
                         problems = validate_epub(tmp_output)
@@ -231,17 +255,18 @@ class EpubPipeline:
                     tmp_output.unlink(missing_ok=True)
 
             warnings = list(build_warnings)
-            # Com avisos (ex.: fallback sem imagens) não gravamos o fingerprint:
-            # a próxima execução tenta de novo.
-            if not warnings:
-                with self._cache_lock:
-                    self.cache[cache_key] = fingerprint
-                    try:
-                        self._save_cache()
-                    except OSError as error:
-                        message = f"não foi possível gravar o cache {self.cache_path}: {error}"
-                        print(f"[pipeline][Aviso] {message}", file=sys.stderr)
-                        warnings.append(message)
+            # Só o fallback sem imagens marca o EPUB como degradado (outros avisos só são exibidos):
+            # a próxima execução (e o status) tratam como desatualizado e tentam de novo.
+            with self._cache_lock:
+                self.cache[cache_key] = (
+                    {"fingerprint": fingerprint, "degraded": True} if degraded_build else fingerprint
+                )
+                try:
+                    self._save_cache()
+                except OSError as error:
+                    message = f"não foi possível gravar o cache {self.cache_path}: {error}"
+                    print(f"[pipeline][Aviso] {message}", file=sys.stderr)
+                    warnings.append(message)
             return ConversionResult(
                 source, output, True, "generated", time.perf_counter() - started,
                 warnings=warnings,

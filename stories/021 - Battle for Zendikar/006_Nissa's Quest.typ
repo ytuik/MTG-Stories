@@ -15,7 +15,7 @@
 
 It happened more at twilight than any other time. A long, dark shape would move. A branch would stretch or bend. Nissa would catch it out of the corner of her eye and she would be sure—for just that moment, just that heartbeat—that it was Ashaya, the elemental manifestation of Zendikar's soul, come back just as she knew it would.
 
-#figure(image("006_Nissa"s Quest/01.jpg", width: 100%), caption: [Ashaya, the Awoken World | Art by Raymond Swanland], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/01.jpg", width: 100%), caption: [Ashaya, the Awoken World | Art by Raymond Swanland], supplement: none, numbering: none)
 
 But then she would turn her head. Why did she always have to turn her head? And she would see that it was just a tree, just the wind, just the long shadows cast by the setting sun. Her breathing would return to normal, her heart would fall into rhythm again, and she would be left alone, sitting cross-legged on the hard ground, in the exact place on the bluff that she had been standing when Zendikar had been torn away from her.
 
@@ -33,7 +33,7 @@ But neither Jace nor Gideon seemed to understand, nor did anyone else—though J
 
 Nissa didn't blame Gideon or Jace, or any of the others. They didn't see things as she did. When they looked at Zendikar, they saw trees, rocks, brambles, beasts, rivers, and mountains. But they saw each of these things as distinct and disconnected elements. They didn't perceive the underlying bond. They were blind to the powerful leylines that connected every living thing on the world like a network of arteries, pumping power and promise from one beating heart to the next. They were deaf to the voice of the world that whispered and shouted and laughed and sometimes even cried out in pain. They could not see how truly alive Zendikar was . . . or used to be.
 
-#figure(image("006_Nissa"s Quest/02.jpg", width: 100%), caption: [Zendikar's Roil | Art by Sam Burley], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/02.jpg", width: 100%), caption: [Zendikar's Roil | Art by Sam Burley], supplement: none, numbering: none)
 
 It wasn't anymore.
 
@@ -73,7 +73,7 @@ Instinctively, she jumped to her feet and drew her sword.
 
 "Run!" the goblin cried. It was barreling toward her, moving at a surprising speed considering one of its back legs appeared to be broken—or maybe even partially amputated, Nissa couldn't tell. "Run, now!"
 
-#figure(image("006_Nissa"s Quest/03.jpg", width: 100%), caption: [Chasm Guide | Art by Johannes Voss], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/03.jpg", width: 100%), caption: [Chasm Guide | Art by Johannes Voss], supplement: none, numbering: none)
 
 Nissa sidestepped as the goblin blew by her.
 
@@ -101,7 +101,7 @@ The steel hit the bony plate of the first Eldrazi, and Nissa powered straight th
 
 A beat later she pivoted and carried her momentum with her through her sword and into the head of a second Eldrazi.
 
-#figure(image("006_Nissa"s Quest/04.jpg", width: 100%), caption: [Sword of the Animist | Art by Daniel Ljunggren], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/04.jpg", width: 100%), caption: [Sword of the Animist | Art by Daniel Ljunggren], supplement: none, numbering: none)
 
 Nissa hated these creatures.
 
@@ -117,7 +117,7 @@ One managed to latch onto her own leg. It scampered up, pulling on the fabric of
 
 She didn't have time to watch the monster drip down the trunk; there were dozens more.
 
-#figure(image("006_Nissa"s Quest/05.jpg", width: 100%), caption: [Swarm Surge | Art by Svetlin Velinov], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/05.jpg", width: 100%), caption: [Swarm Surge | Art by Svetlin Velinov], supplement: none, numbering: none)
 
 If Ashaya had been there, the elemental would have stomped on them with one massive foot, taking out the whole swarm with a single thrust.
 
@@ -187,7 +187,7 @@ A ranger. Nissa hadn't considered herself a ranger for what felt like a very lon
 
 "Gideon's lucky to have someone like you out patrolling," the kor said as he traced the goblin's path. "So is Pili. Don't think she would have handled that swarm with quite the same . . . finesse as you did." He smiled, his glowing hedron tattoos lighting his sharp features. "I'm Munda, one of Gideon's squad leaders. Usually you wouldn't find me chasing around stray goblins, but tonight I drew the short straw."
 
-#figure(image("006_Nissa"s Quest/06.jpg", width: 100%), caption: [Munda, Ambush Leader | Art by Johannes Voss], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/06.jpg", width: 100%), caption: [Munda, Ambush Leader | Art by Johannes Voss], supplement: none, numbering: none)
 
 "Oh." Nissa said. The kor, Munda, was slightly off course again. The trail was harder to follow here. They were walking across hard, rocky ground now, which was significantly less revealing than soft dirt or leaves. "To your left."
 
@@ -281,7 +281,7 @@ There was a place. A safe place, a powerful place. A place that Zendikar could h
 
 Khalni Heart.
 
-#figure(image("006_Nissa"s Quest/07.jpg", width: 100%), caption: [Khalni Heart Expedition | Art by Jason Chan], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/07.jpg", width: 100%), caption: [Khalni Heart Expedition | Art by Jason Chan], supplement: none, numbering: none)
 
 The expression of Zendikar's mana. The spot where all the leylines converged. If something had happened, if the titan had threatened the world's soul, that's where it would have run to. That's where it would be hiding.
 
@@ -305,4 +305,4 @@ The difference was that back then she had been running away because she was scar
 
 Trembling, Nissa let go of the Vastwood; she stopped fighting the tugging, and the tingling at her edges worked its way inward. When it reached her center, Nissa planeswalked away—back home, back to Bala Ged, to find Zendikar.
 
-#figure(image("006_Nissa"s Quest/08.jpg", width: 100%), caption: [Nissa's Expedition | Art by Dan Scott], supplement: none, numbering: none)
+#figure(image("006_Nissa's Quest/08.jpg", width: 100%), caption: [Nissa's Expedition | Art by Dan Scott], supplement: none, numbering: none)

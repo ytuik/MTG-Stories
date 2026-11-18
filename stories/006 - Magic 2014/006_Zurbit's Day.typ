@@ -11,7 +11,7 @@
 
 Relno looked nervously at the floor and fidgeted with his staff. It was all he could do to keep from melting into a puddle of insecurity and self-doubt. He needed her backing; he hated having to ask, because he could see the way she looked at him. "Withering" was a good word for the look she gave him—a withering look.
 
-#figure(image("006_Zurbit"s Day/01.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("006_Zurbit's Day/01.jpg", width: 100%), caption: [], supplement: none, numbering: none)
 
 But she needed #emph[him] . #emph[He]  was the one with the brains. #emph[He]  was the one whose genius made her family wealthy and powerful. Why, without him they would be simple miscreants, thugs... troglodytes.
 
@@ -51,7 +51,7 @@ Zurbit couldn't believe his eye.
 
 The bookshelves were bare, papers were everywhere, flasks and beakers lay broken, puddles of seawater pooled along the floor. It was an utter disaster.
 
-#figure(image("006_Zurbit"s Day/02.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("006_Zurbit's Day/02.jpg", width: 100%), caption: [], supplement: none, numbering: none)
 
 Zurbit gasped. #emph[Merfolk] . How did they get in? He always locked the doors and barred the—
 
@@ -79,7 +79,7 @@ He grabbed a flask; a piece of parchment; pen and ink; and a thin vial of sparkl
 
 Zurbit set out onto the waves in a small rowboat. Another smaller boat was towed behind them. Pip looked over the side, a paw at the ready for the scintillating fish that darted and dashed below the surface. Zurbit rowed with a purpose, hoping they wouldn't get spotted by a seacoast drake or something worse under the waves.
 
-#figure(image("006_Zurbit"s Day/03.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("006_Zurbit's Day/03.jpg", width: 100%), caption: [], supplement: none, numbering: none)
 
 They reached the reef. Zurbit tossed the small anchor overboard and watched as the hooks caught on the coral below. He muttered to himself as he took out the pen, ink, and parchment, and hastily scrawled a message.
 
@@ -93,7 +93,7 @@ He stuffed the message into a flask and made sure that it could be read. Then he
 
 Now it was time to wait and see.
 
-#figure(image("006_Zurbit"s Day/04.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("006_Zurbit's Day/04.jpg", width: 100%), caption: [], supplement: none, numbering: none)
 
 A merfolk surfaced, looked at Zurbit, and growled something like"Nnn-ahrrr." The merfolk's eyes were cold and smug as it submerged under the waves with a final hiss of contempt.
 
@@ -107,7 +107,7 @@ Pip looked at Zurbit, hoping for more of the tasty treat, but Zurbit just picked
 
 "You'll know what to do, boy," Zurbit said as Pip drifted away. Then he began to row with all his might, as Pip grew to the size of a small whale. "You'll know what to do!" Zurbit's laughter echoed across the turbulent waves.
 
-#figure(image("006_Zurbit"s Day/05.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("006_Zurbit's Day/05.jpg", width: 100%), caption: [], supplement: none, numbering: none)
 
 #v(0.35em)
 #line(length: 100%, stroke: rgb(90%, 90%, 90%))
@@ -121,4 +121,4 @@ He took off his cloak and rushed over to the table, where he began to pull the b
 
 "Nothing, Master." Zurbit said matter-of-factly. He then smiled with satisfaction. "Just letting in a little sea air."
 
-#figure(image("006_Zurbit"s Day/06.jpg", width: 100%), caption: [], supplement: none, numbering: none)
+#figure(image("006_Zurbit's Day/06.jpg", width: 100%), caption: [], supplement: none, numbering: none)

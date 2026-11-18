@@ -13,7 +13,7 @@
 
 The labyrinth seems to be decomposing around me. The ground has become muddy and bog-like. I have had to wade through standing water in places and the going has been both slow and tense. The bogs are full of poisonous and venomous creatures. The sound of frogs has been my constant companion all day, and I narrowly escaped what would surely have been a painful death at the fangs of a large serpent as I waded through a knee-deep swamp. Having my long knife already in hand was my only saving grace.
 
-#figure(image("009_The Sea God"s Labyrinth, Part 2/01.jpg", width: 100%), caption: [Erebos's Emissary | Art by Sam Burley], supplement: none, numbering: none)
+#figure(image("009_The Sea God's Labyrinth, Part 2/01.jpg", width: 100%), caption: [Erebos's Emissary | Art by Sam Burley], supplement: none, numbering: none)
 
 The labyrinth itself has become overgrown and broken, with many holes in the wall left by fallen, rotting trees. Obstacles are everywhere. I have had to step carefully to avoid quicksand, poisonous plants, and snakes. I am thankful for my pole.
 
@@ -31,7 +31,7 @@ Thank Thassa for the enchanted dagger I used to forge my arrowhead! The arrow I 
 
 Today, after eating the last of my cheese and bread, I turned the corner of the maze, and there before me stood a hart, grazing on leaves. I nocked my homemade arrow and shot without hesitation. My shot was true. I followed the blood trail of the wounded animal for a few minutes until I found it laying in the path, breathing rapidly, eyes glazed. I killed it with my knife and field dressed it.
 
-#figure(image("009_The Sea God"s Labyrinth, Part 2/02.jpg", width: 100%), caption: [Burnished Hart | Art by Yeong-Hao Han], supplement: none, numbering: none)
+#figure(image("009_The Sea God's Labyrinth, Part 2/02.jpg", width: 100%), caption: [Burnished Hart | Art by Yeong-Hao Han], supplement: none, numbering: none)
 
 It is far too big to take with me, so I butchered as much as I could carry and moved on quickly, for fear of the carcass attracting unwanted attention. Luckily, I was able to retrieve my arrow as well. This arrow is a blessing. One that I am deeply thankful for.
 
@@ -61,7 +61,7 @@ Although I hope to find a way around the dreaded underground...
 
 My hand is shaking so much I can hardly keep ink on my quill. I believe I have passed the labyrinth's ultimate test—I have slayed a minotaur.
 
-#figure(image("009_The Sea God"s Labyrinth, Part 2/03.jpg", width: 100%), caption: [Minotaur Skullcleaver | Art by Phill Simmer], supplement: none, numbering: none)
+#figure(image("009_The Sea God's Labyrinth, Part 2/03.jpg", width: 100%), caption: [Minotaur Skullcleaver | Art by Phill Simmer], supplement: none, numbering: none)
 
 I came upon it, or rather, it came upon me, in a particularly twisted section of walls. The beast was horrible. Gigantic. Braying and snorting. Wielding a great axe—such that the weight of it alone could have cleaved my entire body. It was so close; I instinctively drew my long knife, although by all rights I should have been paralyzed with fear.
 
@@ -95,7 +95,7 @@ I cannot say what will happen next, but I know I must dive into the depths—a f
 #line(length: 100%, stroke: rgb(90%, 90%, 90%))
 #v(0.35em)
 
-#figure(image("009_The Sea God"s Labyrinth, Part 2/04.jpg", width: 100%), caption: [Island | Art by Raoul Vitale], supplement: none, numbering: none)
+#figure(image("009_The Sea God's Labyrinth, Part 2/04.jpg", width: 100%), caption: [Island | Art by Raoul Vitale], supplement: none, numbering: none)
 
 I know not the day, nor my whereabouts. I awoke on a beach this morning, washed up from somewhere beneath the depths. My body is covered in glowing geometric patterns.
 
@@ -109,7 +109,7 @@ She reached out to me with a spindly finger and drew a pattern of light over my 
 
 I have parlayed with Thassa herself, and she has spat me back on dry land, naked and renewed.
 
-#figure(image("009_The Sea God"s Labyrinth, Part 2/05.jpg", width: 100%), caption: [Bident of Thassa | Art by Yeong-Hao Han], supplement: none, numbering: none)
+#figure(image("009_The Sea God's Labyrinth, Part 2/05.jpg", width: 100%), caption: [Bident of Thassa | Art by Yeong-Hao Han], supplement: none, numbering: none)
 
 I now realize that retrieving Dekella was always a fool's errand. Who were we to think we could possess it? How did we imagine we could wield it? Why did we put our hope in an object when it is we, ourselves, who must shape our fates?
 

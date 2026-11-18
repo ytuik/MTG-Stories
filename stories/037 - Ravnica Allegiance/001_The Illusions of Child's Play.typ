@@ -31,7 +31,7 @@ I pretend to browse, ogling the dolls strung up by their necks. Even her generic
 
 "Can I help you?" she asks, eyes as dark as midnight and the red paint from last night's parties still clinging to half of her face.
 
-#figure(image("001_The Illusions of Child"s Play/01.jpg", width: 100%), caption: [Art by: Randy Vargas], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/01.jpg", width: 100%), caption: [Art by: Randy Vargas], supplement: none, numbering: none)
 
 "I. Um. Uhhh~" I shove the doll and charcoal stick at her. "I'd like to buy these."
 
@@ -45,7 +45,7 @@ She snatches the doll and stick from me. "Nuh-uh. You've been coming in here eve
 
 I nod, but then notice someone else has come into the store and has taken her attention. The smoky-sweet stench of void matter overwhelms me and shadows twist and mutate like they have forgotten how to behave. I turn to see a netherbeast—an interesting collection of blue-black limbs stretching out from a torso with a gnarled backbone prominent in both the front and the back. There's no head to speak of, but I can tell it's staring at me.
 
-#figure(image("001_The Illusions of Child"s Play/02.jpg", width: 100%), caption: [Art by: Simon Dominic], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/02.jpg", width: 100%), caption: [Art by: Simon Dominic], supplement: none, numbering: none)
 
 "I'm not done with you," she says to me before going off to tend to her customer. She loads each of its arms up with burlap sacks sitting on the counter.
 
@@ -79,7 +79,7 @@ Maybe she can't risk sending him away, but I've got nothing to lose. I pull a sh
 
 Quickly, I sketch a picture of the man. My drawing skills are crude, but I can feel the magic bleeding from the parchment, tying the illustration and person together with invisible threads. The image begins to dance upon the page, motions mirroring the ones the man is making. I tap on the glass, and he turns around. I press the drawing to the window. He must not know about blight parchment because he doesn't react to the drawing. It's weak magic, mostly used by children to torment their siblings and sometimes their parents when they've failed to get their way. Just a minute or two of agonizing, mind-searing pain before the effects dissipate completely. Child's play.
 
-#figure(image("001_The Illusions of Child"s Play/03.png", width: 100%), caption: [Art by: Wesley Burt], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/03.png", width: 100%), caption: [Art by: Wesley Burt], supplement: none, numbering: none)
 
 The man watches as I tear the paper in half lengthwise, a jagged rip parting the drawing in two. He grabs his head with both hands, screaming at the top of his lungs. By the time the tear hits his navel, he's dizzy and delirious, and he lopes off into the distance.
 
@@ -113,7 +113,7 @@ My smile broadens. "Olrich and me, we're like family. There's no way he'll say n
 
 "I'll call in a favor. I'll get you an audience at Rix Maadi!" I shout after him. He stops. Turns. Olrich's biggest dream is to perform in our Guildhall, but getting an act on stage there is all but impossible if your fans don't number in the thousands. He launches himself into my arms so we're eye to eye. Now I have his attention. "It's been a couple centuries since I performed there, but I still know a lot of the troupe. I can get you center stage at the Festival Grounds! Imagine the sweltering heat. The smell of fresh sulfur in your lungs. Please~"
 
-#figure(image("001_The Illusions of Child"s Play/04.jpg", width: 100%), caption: [Art by: Deruchenko Alexander], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/04.jpg", width: 100%), caption: [Art by: Deruchenko Alexander], supplement: none, numbering: none)
 
 "Fine. But she stays in the far corner. And you'd better get me an audience in front of Rakdos himself!"
 
@@ -187,7 +187,7 @@ I help Zita carry her bags back to her shop. It should be safe now with Ragefest
 
 "I guess," I say, kicking gravel with my hooves. We continue on our way, but a vice parade catches us. Meticulously decorated floats maneuver through the street, carried by massive demons that put my own girth to shame. Jesters move about the spiked wrought-iron pain wheels and torture cages, carefree and oblivious to the promise of death from a single misstep.
 
-#figure(image("001_The Illusions of Child"s Play/05.jpg", width: 100%), caption: [Art by: Jonas de Ro], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/05.jpg", width: 100%), caption: [Art by: Jonas de Ro], supplement: none, numbering: none)
 
 I make the mistake of staring too long, and one of the jesters locks me in her wily gaze and I feel the need to volunteer. I step up onto the float and make my way up the distorted ladders of the torture cage that border on optical illusions. Spikes await me if I fall, probably poison tipped, because louder screams bring louder cheers, and Ragefest is no time for restraint. But I'm not their ordinary volunteer. I've lived and breathed torture cages for centuries. I execute a double flip and tuck, catching one bar, then the next, swinging from hold to hold as I propel myself higher. The skeletal iron structure becomes more precarious the further up I go. The welding's shoddier, the metal's flimsier, but I put all of that out of my mind and concentrate on the show. For the finale, a one-handed handstand on top of the flaming firepit, then I dismount back into the audience to cheers all around.
 
@@ -219,7 +219,7 @@ I wince, "But~!" And like that, Zita is gone out of my life. This time completel
 
 Everyone knows Udzec can't be breached from the outside, but Olrich claims to know someone who works within~or at least she #emph[used ] to work within. From the looks of things, her fall from the dignity of Azorius had been a steep one. This close to the docks, her hovel is indistinguishable from the fish shacks surrounding it. Thick incense wafting from the cracks in the siding keeps the worst of the reek at bay.
 
-#figure(image("001_The Illusions of Child"s Play/06.jpg", width: 100%), caption: [Art by: Adam Paquette], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/06.jpg", width: 100%), caption: [Art by: Adam Paquette], supplement: none, numbering: none)
 
 #emph[Scry Me a River] , the sign reads, a weather-worn wooden plank that hangs lower on one side.
 
@@ -265,7 +265,7 @@ Runes spin outside Udzec, an enormous pillar jutting up into the sky. We get the
 
 The line slows to a halt. Olrich and I look at each other, then open up the box and stare at the contents: half a bottle of whiskey, a child's romper with autumn leaves on the bib and matching swaddling blanket, and a wrought iron amulet inset with a large amber stone bearing swirls of black that move like nether shadows. Bloodfray magic~I've seen it enough times during the last night of Ragefest. The Master of Ceremonies scales a five-story torture cage and cracks open the stone, unleashing a fiery burst of bloodfray magic on the crowd below, causing instant riots and mayhem. Always a crowd pleaser. At least for those who survive.
 
-#figure(image("001_The Illusions of Child"s Play/07.jpg", width: 100%), caption: [Art by: Johann Bodin], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/07.jpg", width: 100%), caption: [Art by: Johann Bodin], supplement: none, numbering: none)
 
 "We can't get caught with this here," I say to Olrich. "We'll find ourselves in a cell, too."
 
@@ -325,7 +325,7 @@ I breathe a heavy sigh of relief. "I'm glad to hear that. You hear the horror st
 
 Zita smiles, but her eyes remain distant. "Not at Udzec for sure. I'll serve my time in peace, taking it day by day so the future won't start to feel like an illusion."
 
-#figure(image("001_The Illusions of Child"s Play/08.jpg", width: 100%), caption: [Art by: Randy Vargas], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/08.jpg", width: 100%), caption: [Art by: Randy Vargas], supplement: none, numbering: none)
 
 I go rigid. #emph[Illusion] . Our shared safe word. Everything here is #emph[not]  fine. The guards must be forcing the prisoners to speak fondly about their internment—or else. I need to get Zita out of here #emph[now] , but if we let loose the power of bloodfray magic, this whole place will shut down in seconds, with us still inside.
 
@@ -377,7 +377,7 @@ Now, it's merely a frame of iron scaffolding jutting all the way up to the cloud
 
 The quartz block hits the ground with a thud. I take to it with my pickax, breaking off chunks. I'm fast and accurate, now. The first couple days, the soldiers whipped me for breaking stone into irregular shapes and for taking too long. Here, away from the constant scrutiny of nullmages, it's easier to use magic without getting caught, and there are plenty of shaman in our group that can heal broken skin. I've listened to their stories. Petty crimes, mistaken identity, and, in most cases, pre-crimes based on the whims of precognition mages locked up in their white stone towers.
 
-#figure(image("001_The Illusions of Child"s Play/09.jpg", width: 100%), caption: [Art by: Even Amundsen], supplement: none, numbering: none)
+#figure(image("001_The Illusions of Child's Play/09.jpg", width: 100%), caption: [Art by: Even Amundsen], supplement: none, numbering: none)
 
 Olrich ambles up to me on our lunch break, hand behind his back. He presents me with a thin necklace fashioned out of rodent vertebrae and twine. "I know there's not much to celebrate~"
 

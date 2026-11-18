@@ -22,6 +22,7 @@ class CompiledChapter:
     authors: str | None
     body_html: str  # conteúdo interno do <body>
     warnings: list[str] = field(default_factory=list)
+    degraded: bool = False  # True quando caiu no fallback sem imagens
 
 def _matching_close_paren(text: str, opening: int) -> int:
     """Encontra o fechamento seguro de estruturas aninhadas, ignorando strings.
@@ -251,6 +252,7 @@ def compile_chapter_html(source: Path, root: Path) -> CompiledChapter:
     # para não colidir entre workers; sempre removido no finally.
     tmp_path = source.with_name(f"{source.name}.{uuid.uuid4().hex[:8]}{TMP_TYP_SUFFIX}")
     warnings: list[str] = []
+    degraded = False
 
     try:
         tmp_path.write_text(clean_content, encoding="utf-8")
@@ -265,6 +267,7 @@ def compile_chapter_html(source: Path, root: Path) -> CompiledChapter:
                 f"(erro original: {str(err).strip()})"
             )
             warnings.append(message)
+            degraded = True
             print(f"[typst_html][Aviso] {message}", file=sys.stderr)
             tmp_path.write_text(_strip_broken_images(clean_content), encoding="utf-8")
             raw_html = typst.compile(str(tmp_path), format="html", root=str(root))
@@ -286,4 +289,5 @@ def compile_chapter_html(source: Path, root: Path) -> CompiledChapter:
         authors=authors_tag["content"] if authors_tag else None,
         body_html=body.decode_contents(),
         warnings=warnings,
+        degraded=degraded,
     )

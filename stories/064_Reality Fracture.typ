@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Reality Fracture", doc)
+#show: doc => conf("Reality Fracture", cover: image("064 - Reality Fracture/001_Episode 1- Tam, Alive/01.jpg"), doc)
 
 #include "./064 - Reality Fracture/001_Episode 1- Tam, Alive.typ"
 #include "./064 - Reality Fracture/002_Episode 2- Purge Yourself of Doubt.typ"

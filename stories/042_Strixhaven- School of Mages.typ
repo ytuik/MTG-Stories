@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Strixhaven: School of Mages", doc)
+#show: doc => conf("Strixhaven: School of Mages", cover: image("042 - Strixhaven- School of Mages/001_Episode 1- Class Is in Session/01.jpg"), doc)
 
 #include "./042 - Strixhaven- School of Mages/001_Episode 1- Class Is in Session.typ"
 #include "./042 - Strixhaven- School of Mages/002_A Cry of Magic.typ"

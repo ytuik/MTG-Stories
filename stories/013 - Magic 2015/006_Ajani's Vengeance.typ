@@ -79,7 +79,7 @@ A moment after he finished eating, a young female leonin with gray fur entered t
 
 "Good morning," Seza said brightly.
 
-#figure(image("006_Ajani"s Vengeance/01.jpg", width: 100%), caption: [Oreskos Swiftclaw | Art by James Ryman], supplement: none, numbering: none)
+#figure(image("006_Ajani's Vengeance/01.jpg", width: 100%), caption: [Oreskos Swiftclaw | Art by James Ryman], supplement: none, numbering: none)
 
 "To you as well," said Ajani with a smile. He nodded his head toward the empty tray. "Thank you for the breakfast."
 
@@ -101,7 +101,7 @@ They left the tent, and she led him through the burgeoning city for a few minute
 
 The gymnasium itself was somewhat less grand than Ajani was expecting. The humans here often built huge freestanding building complexes in which to exercise. This gymnasium was little more than a curtained-off area that contained wagons of weights and racks of weapons, but it was still more than he would have been able to find in Naya. And at the center of it all was Brimaz, standing tall and strong with his scar-crossed chest bare in the morning light. He was not wearing his crown, but his bearing and the berth that the other leonin gave him made his position clear.
 
-#figure(image("006_Ajani"s Vengeance/02.jpg", width: 100%), caption: [Brimaz, King of Oreskos | Art by Peter Mohrbacher], supplement: none, numbering: none)
+#figure(image("006_Ajani's Vengeance/02.jpg", width: 100%), caption: [Brimaz, King of Oreskos | Art by Peter Mohrbacher], supplement: none, numbering: none)
 
 Seza stopped just inside the curtains. "Brimaz awaits you."
 
@@ -181,7 +181,7 @@ The journey was long, and it was a relief to see Meletis's gleaming walls and bu
 
 "I seek Heliod's temple," he said quietly to the guards when he arrived at the gate. One of them seemed suspicious, but the other was happy to provide him with directions, although he still spoke to Ajani as one might speak to one's pet cat. After twenty minutes of navigating the Meletian streets and the stares of their human occupants, Ajani found himself at the base of the stairs outside the largest temple to Heliod in all of #emph[Theros] .
 
-#figure(image("006_Ajani"s Vengeance/03.jpg", width: 100%), caption: [Temple of Enlightenment | Art by Svetlin Velinov], supplement: none, numbering: none)
+#figure(image("006_Ajani's Vengeance/03.jpg", width: 100%), caption: [Temple of Enlightenment | Art by Svetlin Velinov], supplement: none, numbering: none)
 
 Ajani climbed up the stairs and entered the building. Inside, it was civilized and perfect, every angle between unblemished marble walls constructed exactly, and a bright but sourceless light suffused everything within it. Ajani was the only leonin inside; the other supplicants, perhaps eighty in total, were all human, and their organic, rounded forms seemed out of place within the temple's angular perfection.
 
@@ -257,7 +257,7 @@ Ajani smiled, and shook his head. "I did not before."
 
 He stayed in the city for several days, sharing his message, subsisting only on the kindness and sympathy of those who found his words inspiring. He often slept in the homes of those who listened to him. Twice he slept on the streets, but each time Elspeth's cloak was enough to keep him warm through the night. He found many who rejected his ideas, but a few more each day seemed sympathetic, and perhaps those few returned to their lives with new ideas about the divine forces that live in the skies of #emph[Theros] .
 
-#figure(image("006_Ajani"s Vengeance/04.jpg", width: 100%), caption: [Traveling Philosopher | Art by James Ryman], supplement: none, numbering: none)
+#figure(image("006_Ajani's Vengeance/04.jpg", width: 100%), caption: [Traveling Philosopher | Art by James Ryman], supplement: none, numbering: none)
 
 On his ninth day in the city, while eating breakfast purchased from a street vendor with coins given by his previous night's host, he heard a human speaking loudly on a nearby corner. "The gods have betrayed us," she barked, "and yet we feed them with our belief!" She had a small crowd gathered, and although she was neither as eloquent nor as kind as Ajani had been, it was clear that the message had begun to spread. It was time to go home.
 
@@ -277,7 +277,7 @@ Brimaz spoke. "It is good to see you again."
 
 Ajani stepped forward. "I am ready to tell my story."
 
-#figure(image("006_Ajani"s Vengeance/05.jpg", width: 100%), caption: [Ajani Steadfast | Art by Chris Rahn], supplement: none, numbering: none)
+#figure(image("006_Ajani's Vengeance/05.jpg", width: 100%), caption: [Ajani Steadfast | Art by Chris Rahn], supplement: none, numbering: none)
 
 Brimaz smiled, and sat. The circle around the fire expanded, leaving a space for Ajani.
 

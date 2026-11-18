@@ -14,7 +14,48 @@ from .slugs import slugify
 WORKSPACE_ROOT = REPO_ROOT
 SET_NAMES_FILE = WORKSPACE_ROOT / "set-names.json"
 _NUMERIC_PREFIX_RE = re.compile(r"^\d+[-_\s]*")
+_GUIDE_PREFIX_RE = re.compile(r"^planeswalkers?-guide-to-", re.IGNORECASE)
 _set_names_cache: dict[str, str] | None = None
+
+
+def _readable_from_raw(folder_name: str) -> str:
+    """Nome legível a partir do nome da pasta:
+      "Planeswalker's Guide to Ulgrotha" -> "Ulgrotha"
+      "021 - Battle for Zendikar"        -> "Battle for Zendikar"
+    """
+    cleaned = _NUMERIC_PREFIX_RE.sub("", folder_name).strip(" -_")
+    cleaned = cleaned.replace("'", "").replace("\u2019", "")
+    cleaned = _GUIDE_PREFIX_RE.sub("", cleaned).strip(" -_")
+    return cleaned.strip()
+
+
+def collect_set_names(root: Path) -> dict[str, str]:
+    """Mapeia slug do set -> nome legível, a partir das pastas do acervo."""
+    result: dict[str, str] = {}
+
+    stories_base = root / "stories"
+    if stories_base.exists():
+        for folder in stories_base.iterdir():
+            if not folder.is_dir():
+                continue
+            readable = _readable_from_raw(folder.name)
+            slug = slugify(readable)
+            if slug:
+                result[slug] = readable
+
+    for top in ("planeswalkers_guides", "card_lore"):
+        base = root / top
+        if not base.exists():
+            continue
+        for folder in base.iterdir():
+            if not folder.is_dir():
+                continue
+            readable = _readable_from_raw(folder.name)
+            slug = slugify(readable)
+            if slug:
+                result.setdefault(slug, readable)
+
+    return result
 
 
 def _warn(message: str) -> None:
@@ -37,7 +78,6 @@ def _load_set_names() -> dict[str, str]:
             _warn(f"{SET_NAMES_FILE} ilegível ou corrompido ({error}); nomes serão regenerados das pastas do acervo")
     # Carrega dinamicamente a partir das pastas do repositório
     try:
-        from .renamer import collect_set_names
         _set_names_cache = collect_set_names(WORKSPACE_ROOT)
     except (OSError, ImportError) as error:
         _warn(f"não foi possível gerar os nomes de coleções ({error}); usando nomes derivados dos slugs")

@@ -39,7 +39,7 @@ After a timeless moment, Barrin's wife put her face in front of his and said, "H
 
 Barrin was no Boros wojek, but after that odd and somewhat unnerving encounter, he wanted to know more about the young man in the blue cloak, and he was determined to get some answers. His wife, Nila, noticed that Barrin had "that look" in his eyes and she knew something was stuck in his craw. Barrin was a determined man. His whole family was a determined lot, but Barrin was especially hardheaded. His wife called them "the dromads" when referring to her in-laws, and she lumped Barrin in with them as well. Stubborn and ornery.
 
-#figure(image("003_Barrin"s Tall Tale/01.jpg", width: 100%), caption: [Dromad Purebred | Art by Carl Critchlow], supplement: none, numbering: none)
+#figure(image("003_Barrin's Tall Tale/01.jpg", width: 100%), caption: [Dromad Purebred | Art by Carl Critchlow], supplement: none, numbering: none)
 
 "I'm going to find out what he's up to, blasted snoop. I can't believe I told him everything about that stone. I hadn't even had a drop of bumbat all day and I was blathering on like Old Scrumpy at the tavern." Barrin was in a fine mood. His illusion of control over all his affairs had been shaken and that brought out the fight in him.
 
@@ -77,7 +77,7 @@ The alley wound and twisted and Barrin thought about going back when he heard a 
 
 "Exactly," the man in the cloak said, not turning to face Barrin.
 
-#figure(image("003_Barrin"s Tall Tale/02.jpg", width: 100%), caption: [Art by Jaime Jones], supplement: none, numbering: none)
+#figure(image("003_Barrin's Tall Tale/02.jpg", width: 100%), caption: [Art by Jaime Jones], supplement: none, numbering: none)
 
 Barrin had completely forgotten his #emph[pendrek]  and his bluster. He could only look at the crackling image of the Tenth District and this mage who pondered it. The other end of the bright red line originated at—
 
@@ -99,7 +99,7 @@ The hooded man turned his head and looked at him. "The cornerstone by your shop 
 
 "Who are you, then?" Barrin pointed his pendrek, but some instinct told him it was like pointing a stick at a Boros blaze commando.
 
-#figure(image("003_Barrin"s Tall Tale/03.jpg", width: 100%), caption: [Art by James Ryman], supplement: none, numbering: none)
+#figure(image("003_Barrin's Tall Tale/03.jpg", width: 100%), caption: [Art by James Ryman], supplement: none, numbering: none)
 
 "My name is Jace Beleren," the mage said from under the hood of his cloak. Then, from within the shadow of the cowl, the mage's eyes glowed a baleful blue, lighting his grin. "And you are not going to remember a single moment of this, my foolish friend."
 
@@ -113,4 +113,4 @@ Barrin woke the next day.
 
 "Was I out with Scrump?" Barrin couldn't remember a thing. "Guess I must've been. But one thing's for sure, I'm never drinking bumbat again."
 
-#figure(image("003_Barrin"s Tall Tale/04.jpg", height: 25%), caption: [], supplement: none, numbering: none)
+#figure(image("003_Barrin's Tall Tale/04.jpg", height: 25%), caption: [], supplement: none, numbering: none)

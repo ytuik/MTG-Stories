@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Aetherdrift", doc)
+#show: doc => conf("Aetherdrift", cover: image("059 - Aetherdrift/001_Episode 1- The Dashing and the Desperate/01.png"), doc)
 
 #include "059 - Aetherdrift/001_Episode 1- The Dashing and the Desperate.typ"
 #include "059 - Aetherdrift/002_Hour of Restoration.typ"

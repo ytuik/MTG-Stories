@@ -1,5 +1,5 @@
 #import "@local/mtgset:0.1.0": conf
-#show: doc => conf("Ixalan", doc)
+#show: doc => conf("Ixalan", cover: image("032 - Ixalan/001_Jace, Alone/01.jpg"), doc)
 
 #include "./032 - Ixalan/001_Jace, Alone.typ"
 #include "./032 - Ixalan/002_A Question of Confidence.typ"

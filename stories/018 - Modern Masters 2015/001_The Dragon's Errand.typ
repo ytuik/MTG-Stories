@@ -9,7 +9,7 @@
 
 #emph[Long ago, on the plane of Kamigawa, a goblin named Kiki-Jiki finds himself in a tight spot…]
 
-#figure(image("001_The Dragon"s Errand/01.png", height: 40%), caption: [], supplement: none, numbering: none)
+#figure(image("001_The Dragon's Errand/01.png", height: 40%), caption: [], supplement: none, numbering: none)
 
 #emph[This story originally ran in 2004 as one of the ] Kamigawa block legend vignettes#emph[.]
 
@@ -19,7 +19,7 @@
 
 "You've caused me a great deal of trouble, creature." Meloku paced in a circle around the airy chamber, his feet tracing the swirls of smoky jade that spiderwebbed across the marble floor. He rubbed his temples with long, delicate fingers. As ambassador of the soratami, he had presided at many inquisitions—one needed information to make informed decisions, after all—but few of them were quite so…irritating. He expected little more of these land-dwellers than theft and other petty crime, but here, in his very chambers! The insolence was more than a personal affront; it was a thumbing of the nose at all the people of the sky, a biting of the fingers at the pale glory of the moon, an insult, an outrage….
 
-#figure(image("001_The Dragon"s Errand/02.jpg", width: 100%), caption: [Meloku the Clouded Mirror | Art by Scott M. Fischer], supplement: none, numbering: none)
+#figure(image("001_The Dragon's Errand/02.jpg", width: 100%), caption: [Meloku the Clouded Mirror | Art by Scott M. Fischer], supplement: none, numbering: none)
 
 Meloku sighed and looked up at his prisoner where he hung in the middle of the chamber from the bottom of a long, inverted spire protruding like a stalactite of white marble from the vaulted ceiling. A silvery cord ran between spire and prisoner—the only thing holding him up. Ten feet below was a perfectly circular hole in the middle of the floor. Below that were nothing but wispy clouds and a 2,000-foot drop through empty space to the waves of the ocean far, far below. He waved his arms a bit and immediately began to spin in a slow circle. Though standing next to Meloku he would only come up to the soratami's waist, the akki was large for his race, and that cord looked far too slender to hold him for long. He immediately regretted having eaten all those ripe #emph[biwa]  off the tree in the courtyard on his way in. They had looked so good, so golden-sweet. Why, he could hear them calling to him…. A bead of sweat formed between the ridged plates of his forehead and trickled down between his eyes to the tip of his pointed nose, where it hung pendulously for what seemed like an eternity before dropping down, down through the hole in the floor where it was whipped away into nothingness by the high winds that brushed the underbelly of the floating cloud palace. The akki swallowed.
 
@@ -41,7 +41,7 @@ He had come to a flattish sort of place. He scanned the ground, his eyes darting
 
 #emph[Little scaly fish-with-legs, searching with eager claws in water hungry for light. Turn back, little fish. You are not the only one who hungers.]
 
-#figure(image("001_The Dragon"s Errand/03.jpg", width: 100%), caption: [Kiki-Jiki, Mirror Breaker | Art by Steven Belledin], supplement: none, numbering: none)
+#figure(image("001_The Dragon's Errand/03.jpg", width: 100%), caption: [Kiki-Jiki, Mirror Breaker | Art by Steven Belledin], supplement: none, numbering: none)
 
 Kiki-Jiki opened his eyes and took stock of his situation. He was in a very dark, mostly dry place—ah, a cave—which was good, and there was a large fish caught wriggling under the rim of his shell. This could be brained on a rock and eaten, which was also good. However, he had a sinking suspicion that the only way out of this place was the way he had come, and that was bad. He could feel the chill spray coming off the horribly cold subterranean river rushing through a crack in the wall not an arm's length away from him, only to disappear through some fissure further off down the cave. Yes, the river brought him here, or so he had to assume from his general wetness and the fish; for he found he couldn't remember anything very clearly about the last five minutes. He had been digging—he remembered that. And then there was some falling bits, and some thrashing around bits, and then a lot of cold and dark and wet bits, and then…a voice.
 
@@ -61,7 +61,7 @@ Kiki-Jiki bolted upright. Something was really wrong, and he had a pretty big su
 
 #emph[Open your eyes, little fish. See the one who will end you. See me.]
 
-#figure(image("001_The Dragon"s Errand/04.jpg", width: 100%), caption: [Moonring Mirror | Art by Christopher Rush], supplement: none, numbering: none)
+#figure(image("001_The Dragon's Errand/04.jpg", width: 100%), caption: [Moonring Mirror | Art by Christopher Rush], supplement: none, numbering: none)
 
 Kiki-Jiki gasped. He wasn't standing on nothingness any more. He was standing in the very middle of another cave, somewhat larger than the first one and more or less circular. He couldn't see a ceiling here at all, and there was something strange about the walls. They looked like they were made out of glinting, bluish panels, each as large as he was and fit snugly up against the next. There must have been fifty of them. And by each panel…wait. He wasn't alone. There, in front of each panel, stood horrible, stunted creatures. He whirled around and yes, they were standing along the wall behind him, too! They stared at him with bloodshot eyes peering from both sides of horrid, pointy noses. Oh, they were ugly! Kiki-Jiki fell to his knees and lifted his hands to show he was unarmed and, as one, the foul things fell to the ground and lifted their hands in a mockery of his surrender! They would eat him for sure, they were evil, they were vile, they were…akki? Kiki-Jiki scratched his head. The fifty akki scratched theirs. He stood on one leg and hopped in a circle; the fifty imitated his every move. Mirrors! He was in a room filled with mirrors!
 
@@ -93,7 +93,7 @@ That voice! If only it would leave him alone. Let him die with some dignity. Oka
 
 The sun was shining. White clouds flitted by. And birds…there were birds wheeling against the blue sky. Kiki-Jiki was on a boat, swaying in an ocean. So calm, so peaceful. No cave, no mirror-scales, no voice in his head. He smiled. He felt the boat rise on the swell of a wave and a puffy white cloud floated close. So soft, so nice. "Hello cloud…" The cloud shot down and passed beneath him. By the Ancient Hardshell! He wasn't on any boat! He was flying! He looked down and saw his face looking back up from a mirror-bright blue scale. He was riding on the ryu's back! He remembered now—the voice saying it needed him to retrieve something that was stolen, a pearl of great value, kept in a floating palace in the sky…
 
-#figure(image("001_The Dragon"s Errand/05.jpg", width: 100%), caption: [Soratami Cloud Chariot | Art by Franz Vohwinkel], supplement: none, numbering: none)
+#figure(image("001_The Dragon's Errand/05.jpg", width: 100%), caption: [Soratami Cloud Chariot | Art by Franz Vohwinkel], supplement: none, numbering: none)
 
 Then Kiki-Jiki looked up and saw it looming in the distance: an incredible palace that seemed to grow up out of the clouds. Its spires were dazzling in the sun. He could see great arches and courtyards, and here and there vehicles that looked like chariots were skating on the wind currents, back and forth between the main palace and outlying clouds with smaller towers and pagodas on them. These were the halls of the soratami, the people of the moon, a tall, cold race that floated on the air and cared little for the people on the ground, and least of all for the akki. He had heard stories about Zo-Zu the Punisher leading the bravest of the akki on stone-throwing practice near where the soratami chariots were known to fly. And in the charred remains he had seen the results of their powerful #emph[muh…muh…]
 
@@ -119,7 +119,7 @@ Kiki-Jiki wolfed down his fifth #emph[biwa]  from the heavily laden fruit tree i
 
 Kiki-Jiki heard a voice talking, followed by cold laughter as two soratami came floating out of a nearby doorway and past his hiding place. They were tall and slender, and wore long indigo robes inscribed with strange looping symbols and glittering threads of gold. One of them had wide red cuffs on his robe and it seemed that the patterns on his kimono robes twirled and shifted as he moved by. #emph[That must be the ambassador.]  Kiki-Jiki waited for them to disappear into one of the halls behind him before he slipped around the strange statue and through the doorway.
 
-#figure(image("001_The Dragon"s Errand/06.jpg", width: 100%), caption: [Oboro Envoy | Art by Rob Alexander], supplement: none, numbering: none)
+#figure(image("001_The Dragon's Errand/06.jpg", width: 100%), caption: [Oboro Envoy | Art by Rob Alexander], supplement: none, numbering: none)
 
 He had entered a room far more richly decorated than any he had seen since arriving at the palace. Pillars of glowing green jade stood around the chamber, contrasting pleasantly with the swirling whites and grays of the marble walls. In alcoves on either side of the room stood elegant candelabra carved out of white bone. They were empty but cast flickering light from flames that floated a few inches above where each candle should have been. On the far wall, in the center of a thick tapestry with golden brocade lining a giant woven moon seemed to float above the fabric, casting its own pale light on the back half of the room. It seemed to Kiki-Jiki that the shadow on the moon moved even as he stood there watching it. More magic. His eyes traveled downwards over the silk, further down below the silvery tassels that formed the horizon over which the moon rose, and there, limned in the wan tapestry-moonlight, was a great pearl on a pedestal of iron. The #emph[ryu's]  pearl.
 
@@ -169,7 +169,7 @@ Kiki-Jiki wasn't sure what "ephemeral" meant, but it sounded like some kind of m
 
 "Wait," Kiki-Jiki yelled, scratching between the bony plates on his forehead. "You mean I can make more reflections, whenever I want? I don't need those mirrors?" The ryu said nothing, but he thought he could feel a strange vibration through the great blue scales. A rumbling, like…laughter! The #emph[ryu]  was laughing! In a rush of motion, they looped up around a cloud and shot down through the air toward the hills below.
 
-#figure(image("001_The Dragon"s Errand/07.jpg", width: 100%), caption: [Keiga, the Tide Star | Art by Ittoku], supplement: none, numbering: none)
+#figure(image("001_The Dragon's Errand/07.jpg", width: 100%), caption: [Keiga, the Tide Star | Art by Ittoku], supplement: none, numbering: none)
 
 The #emph[ryu]  had promised to take him to an abandoned orchard he knew of, with lots of overburdened fruit trees and fat snails for the taking. There would be a pool of water there, too, thought Kiki-Jiki—a place where he could try out his new-found talents. Kiki-Jiki grinned. Today was turning out to be a pretty good day, after all.
 

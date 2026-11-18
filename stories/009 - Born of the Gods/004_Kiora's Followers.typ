@@ -19,7 +19,7 @@ But there were other things, things the landbound didn't even have words to desc
 
 This plane was pleasant enough. The seas were warm, the mana was rich, and the wildlife was plentiful, even if it was a bit... small. One of the locals had shown her how the drakes here plunged straight from sky to sea and back again, and waxed eloquent about their mastery in moving between realms.
 
-#figure(image("004_Kiora"s Followers/01.gif", width: 100%), caption: [Drake Token | Art by Svetlin Velinov], supplement: none, numbering: none)
+#figure(image("004_Kiora's Followers/01.gif", width: 100%), caption: [Drake Token | Art by Svetlin Velinov], supplement: none, numbering: none)
 
 She'd said nothing. It seemed polite. In any case, he clearly couldn't help her.
 
@@ -49,7 +49,7 @@ In a boat like that, they wouldn't be too far from shore—and, indeed, hazy wit
 
 Kiora swam in the opposite direction, tasting this new place, feeling out its mana. In the distance, some of the local wildlife frolicked at the surface—some kind of fish-horses, with two front hooves and long, scaled tails. She'd heard of such things, even heard of merfolk riding them, but she'd never seen them. Well, now she could say she had. Beyond that, they did not interest her.
 
-#figure(image("004_Kiora"s Followers/02.jpg", width: 100%), caption: [Breaching Hippocamp | Art by Christopher Burdett], supplement: none, numbering: none)
+#figure(image("004_Kiora's Followers/02.jpg", width: 100%), caption: [Breaching Hippocamp | Art by Christopher Burdett], supplement: none, numbering: none)
 
 She moved deeper into dimmer waters, reaching out with all her senses, straining for some trace of the great ones that dwelt in the deepest places on nearly every world. There was nothing—only a vast, deep darkness. She sent out a pulse of mana, calling them, but heard no answer.
 
@@ -67,7 +67,7 @@ The tower of water swept her up, splayed out as it neared the surface, and moved
 
 She ducked under the water and listened. She couldn't see the wave hit the shore she'd glimpsed earlier, but she heard it. The ocean rang like a bell.
 
-#figure(image("004_Kiora"s Followers/03.jpg", width: 100%), caption: [Whelming Wave | Art by Slawomir Maniak], supplement: none, numbering: none)
+#figure(image("004_Kiora's Followers/03.jpg", width: 100%), caption: [Whelming Wave | Art by Slawomir Maniak], supplement: none, numbering: none)
 
 Kiora waited, and listened, and watched.
 
@@ -79,7 +79,7 @@ She heard no further stirrings in the depths, sensed no roiling tide of flesh an
 
 More focus. More mana. A vast dark body took shape beneath her, a leviathan from another world. Planeswalking, wave-making, now summoning—she was pushing herself to the limit. But she wasn't in the mood to wait.
 
-#figure(image("004_Kiora"s Followers/04.gif", width: 100%), caption: [Trench Gorger | Art by Hideaki Takamura], supplement: none, numbering: none)
+#figure(image("004_Kiora's Followers/04.gif", width: 100%), caption: [Trench Gorger | Art by Hideaki Takamura], supplement: none, numbering: none)
 
 The leviathan rose beneath her and she clung to its spines. It breached, and she laughed wildly before it, and she, slammed back into the water. She willed it toward that far-off shore, and it surged forward, tail pumping back and forth. Water and wind rushed past her in turns as the creature's enormous bulk broke the surface, heaved forward, and sunk back down to rise again.
 
@@ -101,7 +101,7 @@ The speaker's eyes widened, and his fellows murmured to each other. She picked o
 
 "You are on #emph[Theros] ," he said. "You are in the mortal world."
 
-#figure(image("004_Kiora"s Followers/05.jpg", width: 100%), caption: [Kiora's Follower | Art by Eric Deschamps], supplement: none, numbering: none)
+#figure(image("004_Kiora's Followers/05.jpg", width: 100%), caption: [Kiora's Follower | Art by Eric Deschamps], supplement: none, numbering: none)
 
 She smiled but said nothing, letting them talk among themselves. There was something strange about this world, and she wasn't about to let on that she didn't understand it.
 
@@ -145,7 +145,7 @@ Kiora smiled.
 
 She silently commanded the leviathan to lower its head, so the water lapped at her feet.
 
-#figure(image("004_Kiora"s Followers/06.jpg", width: 100%), caption: [Kiora, the Crashing Wave | Art by Scott M. Fischer], supplement: none, numbering: none)
+#figure(image("004_Kiora's Followers/06.jpg", width: 100%), caption: [Kiora, the Crashing Wave | Art by Scott M. Fischer], supplement: none, numbering: none)
 
 "You," she said, pointing to the speaker. "Join me."
 

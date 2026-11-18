@@ -15,7 +15,7 @@ And they were going to come back with an appetite.
 
 That's where Fizz came in.
 
-#figure(image("007_Comin" Through!/01.jpg", width: 100%), caption: [Bubbling Cauldron | Art by Eric Deschamps], supplement: none, numbering: none)
+#figure(image("007_Comin' Through!/01.jpg", width: 100%), caption: [Bubbling Cauldron | Art by Eric Deschamps], supplement: none, numbering: none)
 
 Fizz was not, by nature, a fighter. Back in the warren, while her thirty-five (or so) brothers and sisters fought among themselves for scraps of rat and the most flavorful rocks, Fizz had hidden in a corner, stewing armadillos in the shell or frying up some nice crisp toad skeletons.
 
@@ -97,7 +97,7 @@ Fizz took a deep breath.
 
 "HOT SOUP! COMIN' THROUGH!"
 
-#figure(image("007_Comin" Through!/02.jpg", width: 100%), caption: [Hot Soup | Art by David Palumbo], supplement: none, numbering: none)
+#figure(image("007_Comin' Through!/02.jpg", width: 100%), caption: [Hot Soup | Art by David Palumbo], supplement: none, numbering: none)
 
 The goblins scrambled to get out of her way, and she ran onward...
 
@@ -105,7 +105,7 @@ The goblins scrambled to get out of her way, and she ran onward...
 
 She stood up, dusted herself off, and looked around. Behind her, the source of her near-disaster, was a goblin minelayer.
 
-#figure(image("007_Comin" Through!/03.jpg", width: 100%), caption: [Goblin Kaboomist | Art by Kev Walker], supplement: none, numbering: none)
+#figure(image("007_Comin' Through!/03.jpg", width: 100%), caption: [Goblin Kaboomist | Art by Kev Walker], supplement: none, numbering: none)
 
 The minelayer sat in the middle of the trench. He bit his tongue in concentration as he used a trowel—#emph[clang!] —to tamp down loose dirt. The mound of dirt barely covered a...
 
@@ -141,7 +141,7 @@ Fizz rounded a corner and skidded to a halt behind a line of goblins carrying la
 
 "Ember haulers ready!" yelled an unseen sergeant.
 
-#figure(image("007_Comin" Through!/04.jpg", width: 100%), caption: [Ember Hauler | Art by Steve Prescott], supplement: none, numbering: none)
+#figure(image("007_Comin' Through!/04.jpg", width: 100%), caption: [Ember Hauler | Art by Steve Prescott], supplement: none, numbering: none)
 
 #emph[Oh, no.] 
 
@@ -181,7 +181,7 @@ The irregulars surrounded Fizz and her soup pot.
 
 There, at the edge of the crater, stood a dashing figure, sword upraised.
 
-#figure(image("007_Comin" Through!/05.jpg", width: 100%), caption: [Goblin Rabblemaster | Art by Svetlin Velinov], supplement: none, numbering: none)
+#figure(image("007_Comin' Through!/05.jpg", width: 100%), caption: [Goblin Rabblemaster | Art by Svetlin Velinov], supplement: none, numbering: none)
 
 "Think of all o' them sittin' in their warrens, warm and safe, with plenty to eat. Why, they're probably back there thinking to themselves, 'I'm sure glad I ain't fightin' in no war!'"
 
@@ -265,7 +265,7 @@ The goblins shrugged.
 
 After much grousing, some frantic inflating, and only a little bit of frog drool in the soup, the balloon began to rise into the air.
 
-#figure(image("007_Comin" Through!/06.jpg", width: 100%), caption: [Goblin Balloon Brigade | Art by Lars Grant-West], supplement: none, numbering: none)
+#figure(image("007_Comin' Through!/06.jpg", width: 100%), caption: [Goblin Balloon Brigade | Art by Lars Grant-West], supplement: none, numbering: none)
 
 "Get in!" said one of the goblins. The gondola rose just barely off the ground.
 
