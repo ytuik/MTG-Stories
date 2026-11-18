@@ -3,7 +3,11 @@ import unittest
 from pathlib import Path
 from PIL import Image
 
-from mtg_epub.image_compressor import compress_image, batch_compress_directories
+import json
+from unittest import mock
+
+from mtg_epub import image_compressor
+from mtg_epub.image_compressor import compress_image, batch_compress_directories, record_compressed
 
 
 class TestImageCompressor(unittest.TestCase):
@@ -39,13 +43,83 @@ class TestImageCompressor(unittest.TestCase):
         img1 = sub / "01.jpg"
         Image.new("RGB", (1800, 1200), color="blue").save(img1, "JPEG")
 
-        stats = batch_compress_directories([self.dir_path], max_dim=1000, quality=75, verbose=False)
+        stats = batch_compress_directories(
+            [self.dir_path], max_dim=1000, quality=75, verbose=False, cache_path=self.dir_path / "cache.json"
+        )
         self.assertEqual(stats["total"], 1)
         self.assertEqual(stats["compressed"], 1)
         self.assertGreater(stats["saved_bytes"], 0)
 
         with Image.open(img1) as res:
             self.assertLessEqual(max(res.size), 1000)
+
+    def test_second_run_skips_files_already_processed(self):
+        sub = self.dir_path / "stories"
+        sub.mkdir()
+        img = sub / "01.jpg"
+        Image.new("RGB", (1800, 1200), color="blue").save(img, "JPEG")
+        cache = self.dir_path / "cache.json"
+
+        first = batch_compress_directories([sub], max_dim=1000, quality=75, verbose=False, cache_path=cache)
+        after_first = img.read_bytes()
+        second = batch_compress_directories([sub], max_dim=1000, quality=75, verbose=False, cache_path=cache)
+
+        self.assertEqual(first["compressed"], 1)
+        self.assertEqual(second["compressed"], 0)
+        self.assertEqual(second["skipped"], 1)
+        self.assertEqual(img.read_bytes(), after_first)  # sem recodificação, sem perda acumulada
+
+    def test_modified_file_is_processed_again(self):
+        sub = self.dir_path / "stories"
+        sub.mkdir()
+        img = sub / "01.jpg"
+        Image.new("RGB", (1800, 1200), color="blue").save(img, "JPEG")
+        cache = self.dir_path / "cache.json"
+        batch_compress_directories([sub], max_dim=1000, quality=75, verbose=False, cache_path=cache)
+
+        Image.new("RGB", (1800, 1200), color="red").save(img, "JPEG")
+        again = batch_compress_directories([sub], max_dim=1000, quality=75, verbose=False, cache_path=cache)
+
+        self.assertEqual(again["compressed"], 1)
+        self.assertEqual(again["skipped"], 0)
+
+    def test_changed_parameters_reprocess_image(self):
+        sub = self.dir_path / "stories"
+        sub.mkdir()
+        Image.new("RGB", (1800, 1200), color="blue").save(sub / "01.jpg", "JPEG")
+        cache = self.dir_path / "cache.json"
+        batch_compress_directories([sub], max_dim=1000, quality=75, verbose=False, cache_path=cache)
+        again = batch_compress_directories([sub], max_dim=800, quality=75, verbose=False, cache_path=cache)
+        self.assertEqual(again["skipped"], 0)
+
+    def test_legacy_string_cache_entry_is_reprocessed(self):
+        sub = self.dir_path / "stories"
+        sub.mkdir()
+        img = sub / "01.jpg"
+        Image.new("RGB", (1800, 1200), color="blue").save(img, "JPEG")
+        cache = self.dir_path / "cache.json"
+        cache.write_text(json.dumps({"stories/01.jpg": image_compressor._file_sha256(img)}), encoding="utf-8")
+        result = batch_compress_directories([sub], max_dim=1000, quality=75, verbose=False, cache_path=cache)
+        self.assertEqual(result["skipped"], 0)
+
+    def test_failed_compression_is_not_cached(self):
+        sub = self.dir_path / "stories"
+        sub.mkdir()
+        (sub / "01.jpg").write_bytes(b"not an image")
+        cache = self.dir_path / "cache.json"
+        batch_compress_directories([sub], verbose=False, cache_path=cache)
+        data = json.loads(cache.read_text(encoding="utf-8")) if cache.exists() else {}
+        self.assertEqual(data, {})
+
+    def test_record_compressed_prevents_recompression(self):
+        sub = self.dir_path / "stories"
+        sub.mkdir()
+        img = sub / "01.jpg"
+        Image.new("RGB", (1800, 1200), color="blue").save(img, "JPEG")
+        cache = self.dir_path / "cache.json"
+        record_compressed(img, cache_path=cache)
+        result = batch_compress_directories([sub], verbose=False, cache_path=cache)
+        self.assertEqual(result["skipped"], 1)
 
 
 if __name__ == "__main__":

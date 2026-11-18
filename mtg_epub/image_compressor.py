@@ -1,12 +1,17 @@
 """Compressor e otimizador de imagens com Pillow para e-readers."""
 from __future__ import annotations
 
+import hashlib
 import io
+import json
+import os
 import sys
 from pathlib import Path
 from typing import Sequence
 
 from PIL import Image, ImageOps
+
+from . import REPO_ROOT
 
 try:
     from tqdm import tqdm
@@ -15,6 +20,68 @@ except ImportError:
 
 
 SUPPORTED_EXTENSIONS = frozenset({".jpg", ".jpeg", ".png", ".webp"})
+DEFAULT_CACHE_PATH = REPO_ROOT / ".image-compress-cache.json"
+DEFAULT_MAX_DIM = 1400
+DEFAULT_QUALITY = 80
+
+
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _cache_key(path: Path, base: Path) -> str:
+    try:
+        return path.resolve().relative_to(base.resolve()).as_posix()
+    except ValueError:
+        return str(path.resolve())
+
+
+def _load_cache(cache_path: Path) -> dict[str, dict]:
+    try:
+        data = json.loads(cache_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _save_cache(cache_path: Path, cache: dict[str, dict]) -> None:
+    try:
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        tmp_path = cache_path.with_name(cache_path.name + ".tmp")
+        tmp_path.write_text(json.dumps(cache, indent=2, sort_keys=True), encoding="utf-8")
+        os.replace(tmp_path, cache_path)
+    except OSError as exc:
+        print(f"[Compressor][Aviso] Não foi possível gravar o cache {cache_path}: {exc}", file=sys.stderr)
+
+
+def _cache_entry(path: Path, max_dim: int, quality: int) -> dict:
+    return {"sha256": _file_sha256(path), "max_dim": max_dim, "quality": quality}
+
+
+def _is_cached(cache: dict, key: str, path: Path, max_dim: int, quality: int) -> bool:
+    """Entradas no formato antigo (string) contam como inválidas: reprocessa."""
+    entry = cache.get(key)
+    if not isinstance(entry, dict):
+        return False
+    return entry == _cache_entry(path, max_dim, quality)
+
+
+def record_compressed(
+    path: Path,
+    max_dim: int = DEFAULT_MAX_DIM,
+    quality: int = DEFAULT_QUALITY,
+    cache_path: Path | None = None,
+) -> None:
+    """Registra no cache o hash de um arquivo já comprimido, para não recomprimir depois."""
+    path = Path(path)
+    cache_path = Path(cache_path) if cache_path is not None else DEFAULT_CACHE_PATH
+    cache = _load_cache(cache_path)
+    cache[_cache_key(path, cache_path.parent)] = _cache_entry(path, max_dim, quality)
+    _save_cache(cache_path, cache)
 
 
 def _has_meaningful_alpha(image: Image.Image) -> bool:
@@ -30,8 +97,8 @@ def _has_meaningful_alpha(image: Image.Image) -> bool:
 def compress_image(
     input_path: Path,
     output_path: Path | None = None,
-    max_dim: int = 1400,
-    quality: int = 80,
+    max_dim: int = DEFAULT_MAX_DIM,
+    quality: int = DEFAULT_QUALITY,
 ) -> bool:
     """
     Comprime e redimensiona uma imagem mantendo proporção e qualidade para e-readers.
@@ -41,11 +108,21 @@ def compress_image(
     - Converte WebP e imagens sem transparência para JPEG otimizado.
     - Remove metadados EXIF pesados/desnecessários.
     """
+    return _compress(input_path, output_path, max_dim, quality)[0]
+
+
+def _compress(
+    input_path: Path,
+    output_path: Path | None,
+    max_dim: int,
+    quality: int,
+) -> tuple[bool, bool]:
+    """Devolve (alterou, ok). ok=False indica falha (não deve ir para o cache)."""
     input_path = Path(input_path)
     output_path = Path(output_path) if output_path is not None else input_path
 
     if input_path.suffix.lower() not in SUPPORTED_EXTENSIONS:
-        return False
+        return False, True
 
     try:
         with Image.open(input_path) as img:
@@ -88,23 +165,32 @@ def compress_image(
                 temp_output = output_path.with_name(f"{output_path.stem}.tmp{output_path.suffix}")
                 temp_output.write_bytes(compressed_bytes)
                 temp_output.replace(output_path)
-                return True
+                return True, True
 
-            return False
+            return False, True
     except Exception as exc:
         print(f"[Compressor][Aviso] Falha ao comprimir {input_path.name}: {exc}", file=sys.stderr)
-        return False
+        return False, False
 
 
 def batch_compress_directories(
     directories: Sequence[Path],
-    max_dim: int = 1400,
-    quality: int = 80,
+    max_dim: int = DEFAULT_MAX_DIM,
+    quality: int = DEFAULT_QUALITY,
     verbose: bool = True,
+    cache_path: Path | None = None,
 ) -> dict:
     """
     Comprime em lote todas as imagens nas pastas especificadas.
+
+    Recomprimir um JPEG/WebP a cada execução acumula perda de qualidade. Por isso
+    guardamos em `cache_path` (padrão: .image-compress-cache.json na raiz do repo)
+    o sha256 de cada arquivo após o processamento com sucesso, junto de max_dim e
+    quality; se hash e parâmetros baterem, pula. Falhas não entram no cache.
     """
+    cache_path = Path(cache_path) if cache_path is not None else DEFAULT_CACHE_PATH
+    cache_base = cache_path.parent
+    cache = _load_cache(cache_path)
     all_images: list[Path] = []
     for d in directories:
         d = Path(d)
@@ -118,28 +204,38 @@ def batch_compress_directories(
     unique_images = sorted(set(all_images))
     total_files = len(unique_images)
     if total_files == 0:
-        return {"total": 0, "compressed": 0, "saved_bytes": 0}
+        return {"total": 0, "compressed": 0, "skipped": 0, "saved_bytes": 0}
 
     compressed_count = 0
+    skipped_count = 0
     total_saved_bytes = 0
 
     iterator = tqdm(unique_images, desc="Comprimindo imagens", unit="img") if (tqdm and verbose) else unique_images
 
     for img_path in iterator:
+        key = _cache_key(img_path, cache_base)
+        if _is_cached(cache, key, img_path, max_dim, quality):
+            skipped_count += 1
+            continue
         orig_size = img_path.stat().st_size
-        changed = compress_image(img_path, max_dim=max_dim, quality=quality)
+        changed, ok = _compress(img_path, None, max_dim, quality)
         if changed:
             compressed_count += 1
             new_size = img_path.stat().st_size
             total_saved_bytes += max(0, orig_size - new_size)
+        if ok:
+            cache[key] = _cache_entry(img_path, max_dim, quality)
+
+    _save_cache(cache_path, cache)
 
     if verbose:
         saved_mb = total_saved_bytes / (1024 * 1024)
-        print(f"[Compressor] Concluído: {compressed_count}/{total_files} imagens otimizadas. Economia: {saved_mb:.2f} MB")
+        print(f"[Compressor] Concluído: {compressed_count}/{total_files} imagens otimizadas ({skipped_count} já processadas). Economia: {saved_mb:.2f} MB")
 
     return {
         "total": total_files,
         "compressed": compressed_count,
+        "skipped": skipped_count,
         "saved_bytes": total_saved_bytes,
     }
 

@@ -1,0 +1,13 @@
+# Scraper
+requests>=2.31
+beautifulsoup4>=4.12
+tenacity>=8.2
+python-dateutil>=2.8
+python-slugify>=8.0
+
+# Conversor EPUB
+typst>=0.13
+EbookLib>=0.18
+lxml>=5.0
+Pillow>=10.0
+tqdm>=4.66

@@ -18,8 +18,8 @@ Ordem de execução (interna):
   5. grava slug-map.json e set-names.json
 
 Uso:
-  python sluggyfy.py --dry-run
-  python sluggyfy.py
+  python -m mtg_epub.renamer --dry-run
+  python -m mtg_epub.renamer
 """
 from __future__ import annotations
 
@@ -30,6 +30,8 @@ import sys
 import time
 from pathlib import Path
 
+from .slugs import slugify
+
 ROOT_DIRS = ("stories", "planeswalkers_guides", "card_lore")
 SLUG_MAP_FILE = "slug-map.json"
 SET_NAMES_FILE = "set-names.json"
@@ -38,37 +40,9 @@ SET_NAMES_FILE = "set-names.json"
 NUMERIC_PREFIX_RE = re.compile(r"^\d+[-_\s]*")
 # Prefixo dos guias (ex.: "Planeswalker's Guide to X", "Planeswalkers Guide to X")
 GUIDE_PREFIX_RE = re.compile(r"^planeswalkers?-guide-to-", re.IGNORECASE)
-
 # Extensões que NÃO devem ser slugificadas no stem? Nenhuma — todas preservam.
 # Este set existe só para documentar a intenção, caso você queira excluir algumas.
 PRESERVED_SUFFIXES: frozenset[str] = frozenset()
-
-
-# ---------------------------------------------------------------------------
-# Slug
-# ---------------------------------------------------------------------------
-
-def slugify(name: str) -> str:
-    """
-    Converte para [a-z0-9]+ separado por '-', sem '-' nas pontas, usando python-slugify.
-
-    IMPORTANTE: se 'name' é um arquivo com extensão, preserva a extensão.
-      '058 - Duskmourn- House of Horror.typ' -> '058-duskmourn-house-of-horror.typ'
-      '01.jpg'                                -> '01.jpg'
-      '058 - Duskmourn- House of Horror'     -> '058-duskmourn-house-of-horror'  (pasta)
-    """
-    from slugify import slugify as py_slugify
-    p = Path(name)
-    stem = p.stem
-    suffix = p.suffix  # inclui o '.'; vazio se não houver extensão
-
-    clean_stem = stem.replace("'", "").replace("’", "").replace('"', "")
-    slug_stem = py_slugify(clean_stem, separator="-", lowercase=True)
-    if not slug_stem:
-        # Fallback: nome original em minúsculas (evita slug vazio)
-        slug_stem = stem.casefold().strip()
-
-    return f"{slug_stem}{suffix.lower()}" if suffix else slug_stem
 
 
 def _readable_from_raw(folder_name: str) -> str:

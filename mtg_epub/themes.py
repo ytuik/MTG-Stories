@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import shutil
+import warnings
 from dataclasses import dataclass
 from pathlib import Path
 from zipfile import ZipFile
 
+from . import REPO_ROOT
+
 THEMES_DIR = Path(__file__).resolve().parent / "themes"
-DEFAULT_FONTS_DIR = Path(__file__).resolve().parents[1] / "fonts"
+DEFAULT_FONTS_DIR = REPO_ROOT / "fonts"
 
 
 @dataclass(frozen=True)
@@ -108,8 +111,23 @@ def load_theme_css(theme: Theme | None) -> str:
     return (THEMES_DIR / theme.css_file).read_text(encoding="utf-8")
 
 
-def prepare_theme_fonts(theme: Theme | None, fonts_dir: Path | None, temp_dir: Path) -> list[Path]:
+def theme_font_sources(theme: Theme | None, fonts_dir: Path | None) -> list[Path]:
+    """Arquivos de fonte (soltos ou zips) existentes que o tema usa; serve para o fingerprint do cache."""
     if not theme or not fonts_dir or not fonts_dir.exists():
+        return []
+    names = [*theme.font_files, *(archive for _, archive in theme.font_archives)]
+    return [fonts_dir / name for name in names if (fonts_dir / name).exists()]
+
+
+def prepare_theme_fonts(theme: Theme | None, fonts_dir: Path | None, temp_dir: Path) -> list[Path]:
+    if not theme or not fonts_dir:
+        return []
+    if not fonts_dir.exists():
+        warnings.warn(
+            f"Pasta de fontes não encontrada: {fonts_dir}. O tema '{theme.name}' será gerado sem fontes embutidas.",
+            RuntimeWarning,
+            stacklevel=2,
+        )
         return []
     destination = temp_dir / "fonts"
     embedded: list[Path] = []

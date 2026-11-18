@@ -2,7 +2,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 import unittest
 
-from mtg_epub.typstHtml import _apply_typst_polyfills, _matching_close_paren
+from mtg_epub.typst_html import _apply_structural_fixes, _apply_typst_polyfills, _matching_close_paren
 
 
 class TestTypstHtml(unittest.TestCase):
@@ -10,6 +10,11 @@ class TestTypstHtml(unittest.TestCase):
         text = 'conf("test (inside string)", (nested), final)'
         closing = _matching_close_paren(text, 4)
         self.assertEqual(closing, len(text) - 1)
+
+    def test_matching_close_paren_ignores_quotes_inside_content_blocks(self):
+        text = '#figure(image("a.png"), caption: [5" tall (left)]) rest "x)"'
+        closing = _matching_close_paren(text, text.index("("))
+        self.assertEqual(text[closing:], ') rest "x)"')
 
     def test_apply_typst_polyfills_removes_local_imports_and_conf_block(self):
         content = """#import "@local/mtgstory:0.2.0": conf
@@ -41,20 +46,7 @@ The adventure begins here.
         """
         soup = BeautifulSoup(html_input, "html.parser")
 
-        # Reproduz as regras do typstHtml para estruturação
-        for p_tag in soup.find_all("p"):
-            children = p_tag.contents
-            if len(children) == 1 and children[0].name in ["strong", "b"]:
-                h2_tag = soup.new_tag("h2")
-                h2_tag.string = children[0].get_text(strip=True)
-                p_tag.replace_with(h2_tag)
-
-        for polyline in soup.find_all("polyline"):
-            if polyline.parent and polyline.parent.name == "svg":
-                svg_container = polyline.parent
-                if svg_container.parent and svg_container.parent.name == "div":
-                    hr_tag = soup.new_tag("hr")
-                    svg_container.parent.replace_with(hr_tag)
+        _apply_structural_fixes(soup)
 
         body_str = str(soup.body)
         self.assertIn("<h2>Kaito</h2>", body_str)

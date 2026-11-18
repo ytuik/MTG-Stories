@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import date
 from pathlib import Path
 from typing import Any
@@ -34,6 +34,7 @@ class ConversionResult:
     duration_seconds: float = 0.0
     error: str | None = None
     skipped: bool = False
+    warnings: list[str] = field(default_factory=list)
 
     def as_json(self) -> dict[str, Any]:
         return {
@@ -44,4 +45,5 @@ class ConversionResult:
             "duration_seconds": round(self.duration_seconds, 3),
             "error": self.error,
             "skipped": self.skipped,
+            "warnings": self.warnings,
         }
